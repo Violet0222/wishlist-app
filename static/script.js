@@ -6,3 +6,4 @@ const addWish = () => {
     document.getElementById("wish-input").value = "";
 
 }
+
