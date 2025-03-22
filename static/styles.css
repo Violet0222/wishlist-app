@@ -1,0 +1,13 @@
+body {
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    background: #f8f9fa;
+}
+
+button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
