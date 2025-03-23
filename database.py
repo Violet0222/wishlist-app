@@ -14,16 +14,26 @@ sql_statements = [
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );""",
     """CREATE TABLE IF NOT EXISTS wish (
-        id INTEGER PRIMARY KEY,
-        user_id INTEGER NOT NULL,
-        title TEXT(150) NOT NULL,
-        description TEXT,
-        url TEXT(500),
-        price REAL CHECK (price > 0), 
-        reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    );"""
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    title TEXT(150) NOT NULL,
+    description TEXT,
+    url TEXT(500),
+    price REAL CHECK (price > 0), 
+    reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+);""",
+    """CREATE TABLE IF NOT EXISTS category (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    name TEXT(100) NOT NULL UNIQUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+"""
 ]
 
 
@@ -106,8 +116,27 @@ def get_user(user_name, password):
             conn.close() #close the connection
 
 
+# to delete
+def drop_table():
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return
 
+    try:
+        cursor = conn.cursor()
 
+        # Видаляємо таблицю "wish", якщо вона існує
+        cursor.execute("DROP TABLE IF EXISTS wish;")
+        conn.commit()
+        print("Table 'wish' has been deleted.")
 
+    except sqlite3.OperationalError as e:
+        print("Failed to delete table:", e)
+    finally:
+        conn.close()
+
+# if __name__ == "__main__":
+#     init_db()
 
 
