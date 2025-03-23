@@ -1,19 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Main
+Home
 {% endblock %}
 
 {% block main %}
-<script src="/static/script.js"></script>
-<h1>🎁 My wishlist</h1>
-<label>
-    Your Wish:
-    <input name="wish" type="text" id="wish-input" placeholder="Enter your wish..."/>
-</label>
-<button onclick="addWish()">➕ Add</button>
-
-<ul id="wishlist"></ul>
-
+<div> Hello,world</div>
+<!-- Кнопка для переходу на сторінку створення списку бажань -->
+<a href="/create_wishlist"><button>Create Wishlist</button></a>
 
 {% endblock %}
+
+

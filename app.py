@@ -57,5 +57,10 @@ def login():
         return redirect("/")
     return render_template("login.html")
 
+@app.route("/create_wishlist")
+def create_wishlist():
+    return render_template("create_wishlist.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
