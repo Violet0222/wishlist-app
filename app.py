@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify
 from flask_session import Session
 from werkzeug.utils import redirect
 from flask_bcrypt import Bcrypt
@@ -57,8 +57,20 @@ def login():
         return redirect("/")
     return render_template("login.html")
 
-@app.route("/create_wishlist")
+@app.route("/create_wishlist", methods=["GET", "POST"])
 def create_wishlist():
+    user_id = session["user_id"]
+    print(user_id)
+    if request.method == "POST":
+        category = request.form["category_name"]
+        if not category or not category.strip():
+            print("please enter a valid category")
+            return render_template("create_wishlist.html", error="Please enter a valid category")
+        response = db.create_wishlist_category(category, user_id)
+        if response is None:
+            return render_template("create_wishlist.html", error="Category wasn't created")
+        flash("Created!")
+        return redirect("/")
     return render_template("create_wishlist.html")
 
 

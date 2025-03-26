@@ -116,6 +116,21 @@ def get_user(user_name, password):
             conn.close() #close the connection
 
 
+def create_wishlist_category(category, user_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""INSERT INTO category (name, user_id) VALUES (?,?)""", (category, user_id))
+        conn.commit()
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to create a wishlist category:", e)
+        return None
+
+
 # to delete
 def drop_table():
     conn = get_db()
