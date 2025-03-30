@@ -97,7 +97,9 @@ def wishlist_items(category_id):
         return None
 
     if request.method == "POST":
+        item_id = request.form['id']
         title = request.form["title"]
+        print(item_id, title)
         if not title or not title.strip():
             return render_template(
                 "wishlist_items.html",
@@ -105,23 +107,29 @@ def wishlist_items(category_id):
                 category_id=category_id,
                 category_name=category_name,
             )
+        print('item_id', item_id)
 
-        description = request.form["description"]
-        if not description or not description.strip():
-            description = ""
-        url = request.form["url"]
-        if not url or not url.strip():
-            url = ''
-        price = request.form["price"]
+        if item_id:
+            print('item_id', item_id)
+            response = db.update_wishlist_item(item_id, {"title": title})
+            if response is None:
+                return render_template("wishlist_items.html", error="Item wasn't updated")
+            flash("Updated!")
+            return redirect(f"/wishlist/{category_id}")
+        else:
+            description = request.form["description"]
+            if not description or not description.strip():
+                description = ""
+            url = request.form["url"]
+            if not url or not url.strip():
+                url = ''
+            price = request.form["price"]
+            response = db.create_wishlist_item(title, description, url, user_id, price, category_id)
+            if response is None:
+                return render_template("wishlist_items.html", error="Item wasn't created")
 
-        response = db.create_wishlist_item(title, description, url, user_id, price, category_id)
-        if response is None:
-            return render_template("wishlist_items.html", error="Item wasn't created")
-
-        flash("Created!")
-        return redirect(f"/wishlist/{category_id}")
-
-    # Handle GET request
+            flash("Created!")
+            return redirect(f"/wishlist/{category_id}")
     else:
         items = db.get_wishlist_items(user_id, category_id)
         if items is None:

@@ -36,8 +36,8 @@ sql_statements = [
 """
 ]
 
-
 DATABASE = 'wishlist.db'
+
 
 # Connect to the database
 
@@ -49,6 +49,7 @@ def get_db():
     except sqlite3.OperationalError as e:
         print("Failed to connect to db:", e)
         return None  # Return None if connection fails
+
 
 # Create tables
 
@@ -74,7 +75,8 @@ def init_db():
         print("Failed to create table:", e)
     finally:
         if conn:
-            conn.close() #close the connection
+            conn.close()  #close the connection
+
 
 # create a new user
 
@@ -85,7 +87,8 @@ def create_user(user_name, email, hashed_password):
         return False
     try:
         cursor = conn.cursor()
-        cursor.execute("""INSERT INTO users (user_name, email, password) VALUES (?,?,?);""", (user_name, email, hashed_password))
+        cursor.execute("""INSERT INTO users (user_name, email, password) VALUES (?,?,?);""",
+                       (user_name, email, hashed_password))
         conn.commit()
         return True
     except sqlite3.OperationalError as e:
@@ -93,7 +96,8 @@ def create_user(user_name, email, hashed_password):
         return False
     finally:
         if conn:
-            conn.close() #close the connection
+            conn.close()  #close the connection
+
 
 def get_user(user_name, password):
     conn = get_db()
@@ -113,7 +117,7 @@ def get_user(user_name, password):
         return None
     finally:
         if conn:
-            conn.close() #close the connection
+            conn.close()  #close the connection
 
 
 def create_wishlist_category(category, user_id):
@@ -129,6 +133,7 @@ def create_wishlist_category(category, user_id):
     except sqlite3.OperationalError as e:
         print("Failed to create a wishlist category:", e)
         return None
+
 
 def get_wishlist_categories(user_id):
     conn = get_db()
@@ -146,21 +151,23 @@ def get_wishlist_categories(user_id):
         print("Failed to get categories:", e)
         return None
 
-def get_category_by_id(category_id, user_id):
 
+def get_category_by_id(category_id, user_id):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
         return None
     try:
         cursor = conn.cursor()
-        category_name=cursor.execute("""SELECT name FROM category WHERE id = ? AND user_id =?""", (category_id,user_id)).fetchone()
+        category_name = cursor.execute("""SELECT name FROM category WHERE id = ? AND user_id =?""",
+                                       (category_id, user_id)).fetchone()
         if not category_name:
             return None
         return category_name[0]
     except sqlite3.OperationalError as e:
         print("Failed to get categories:", e)
         return None
+
 
 def create_wishlist_item(title, description, url, user_id, price, category_id):
     conn = get_db()
@@ -169,12 +176,15 @@ def create_wishlist_item(title, description, url, user_id, price, category_id):
         return None
     try:
         cursor = conn.cursor()
-        cursor.execute("""INSERT INTO wish (title, description, url, price, user_id, category_id, reserved) VALUES (?,?,?,?,?,?,?)""", (title, description, url, price, user_id, category_id,0))
+        cursor.execute(
+            """INSERT INTO wish (title, description, url, price, user_id, category_id, reserved) VALUES (?,?,?,?,?,?,?)""",
+            (title, description, url, price, user_id, category_id, 0))
         conn.commit()
         return True
     except sqlite3.OperationalError as e:
         print("Failed to create a wishlist item:", e)
         return None
+
 
 def get_wishlist_items(user_id, category_id):
     conn = get_db()
@@ -183,8 +193,8 @@ def get_wishlist_items(user_id, category_id):
         return None
     try:
         cursor = conn.cursor()
-        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE user_id=? AND category_id=?""", (user_id, category_id)).fetchall()
-
+        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE user_id=? AND category_id=?""",
+                                        (user_id, category_id)).fetchall()
 
         # Debugging: Print fetched results
         print(f"Query result for user_id={user_id}, category_id={category_id}: {wishlist_items}")
@@ -196,6 +206,36 @@ def get_wishlist_items(user_id, category_id):
         return None
 
 
+def update_wishlist_item(record_id, data):
+    conn = get_db()
+
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        # Build the SET clause of the SQL query using named parameters
+        set_clause = ", ".join([f"{col} = :{col}" for col in data.keys()])
+
+        # Construct the SQL query
+        sql = f"""
+          UPDATE wish
+          SET {set_clause}
+          WHERE id = :record_id
+          """
+
+        # Prepare the values for the update, including the record_id
+        values = data.copy()  # Create a copy to avoid modifying the original
+        values["record_id"] = record_id
+        cursor = conn.cursor()
+        cursor.execute(sql, values)
+        conn.commit()
+        if cursor.rowcount == 0:
+            print("No item was updated (check if item exists)")
+            return None  # No row was updated
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to update a wishlist:", e)
+        return None
 
 
 # to delete
@@ -220,5 +260,3 @@ def drop_table():
 
 # if __name__ == "__main__":
 #     init_db()
-
-

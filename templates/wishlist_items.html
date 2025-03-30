@@ -1,5 +1,7 @@
 {% extends "wishlist.html" %}
-
+{% block head %}
+<script src="/static/wishlist-items.js"></script>
+{% endblock %}
 {% block title %}
 Wishlist Items
 {% endblock %}
@@ -9,10 +11,15 @@ Wishlist Items
 {% if items %}
 <ul>
     {% for item in items %}
-    <li>
-        <strong>{{ item['title'] }}</strong> - {{ item['description'] }}
-<!--        <a href="{{ item['url'] }}" target="_blank">🔗 Link</a>-->
-        <span>💰 {{ item['price'] }} CHF</span>
+    <li id="item-{{ item['id'] }}">
+        <div id="title-container-{{ item['id'] }}"
+        ><strong id="title-text-{{ item['id'] }}">{{ item['title'] }}</strong
+        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['title']}}" hidden name="title"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
+        <div id="desc-{{ item['id'] }}">- {{ item['description'] }}</div>
+        <a id="url-{{ item['id'] }}" href="{{ item['url'] }}" target="_blank">🔗 Link</a>
+        <span id="price-{{ item['id'] }}">💰 {{ item['price'] }} CHF</span>
+        <button onclick="EditItem({{ item['id']}})">✏️ Edit</button>
+        <button> 💾 Save</button>
     </li>
     {% endfor %}
 </ul>
