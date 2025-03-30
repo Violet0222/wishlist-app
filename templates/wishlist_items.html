@@ -15,11 +15,15 @@ Wishlist Items
         <div id="title-container-{{ item['id'] }}"
         ><strong id="title-text-{{ item['id'] }}">{{ item['title'] }}</strong
         ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['title']}}" hidden name="title"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
-        <div id="desc-{{ item['id'] }}">- {{ item['description'] }}</div>
-        <a id="url-{{ item['id'] }}" href="{{ item['url'] }}" target="_blank">🔗 Link</a>
-        <span id="price-{{ item['id'] }}">💰 {{ item['price'] }} CHF</span>
-        <button onclick="EditItem({{ item['id']}})">✏️ Edit</button>
-        <button> 💾 Save</button>
+        <div id="description-container-{{ item['id'] }}"
+        ><div id="description-text-{{ item['id'] }}">- {{ item['description'] }}</div
+        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['description']}}" hidden name="description"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
+        <div id="url-container-{{ item['id'] }}"
+        ><a id="url-link-{{ item['id'] }}" href="{{ item['url'] }}" target="_blank">🔗 Link</a
+        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['url']}}" hidden name="url"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
+        <div id="price-container-{{ item['id'] }}"
+        ><span id="price-value-{{ item['id'] }}">💰 {{ item['price'] }} CHF</span
+        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['price']}}" hidden name="price"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
     </li>
     {% endfor %}
 </ul>

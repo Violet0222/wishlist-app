@@ -97,33 +97,45 @@ def wishlist_items(category_id):
         return None
 
     if request.method == "POST":
-        item_id = request.form['id']
-        title = request.form["title"]
+        item_id = request.form.get('id')
+        title = request.form.get('title')
         print(item_id, title)
-        if not title or not title.strip():
-            return render_template(
-                "wishlist_items.html",
-                error="Please enter a valid title",
-                category_id=category_id,
-                category_name=category_name,
-            )
-        print('item_id', item_id)
 
+        print('item_id', item_id)
+        description = request.form.get("description")
+        url = request.form.get("url")
+        price = request.form.get("price")
+        data_to_update = {}
+        if title:
+            data_to_update['title'] = title
+        if description:
+            data_to_update['description'] = description
+        if url:
+            data_to_update['url'] = url
+        if price:
+            data_to_update['price'] = price
+        print(data_to_update)
         if item_id:
             print('item_id', item_id)
-            response = db.update_wishlist_item(item_id, {"title": title})
+            response = db.update_wishlist_item(item_id, data_to_update)
             if response is None:
                 return render_template("wishlist_items.html", error="Item wasn't updated")
             flash("Updated!")
             return redirect(f"/wishlist/{category_id}")
         else:
-            description = request.form["description"]
+            if not title or not title.strip():
+                return render_template(
+                    "wishlist_items.html",
+                    error="Please enter a valid title",
+                    category_id=category_id,
+                    category_name=category_name,
+                )
             if not description or not description.strip():
                 description = ""
-            url = request.form["url"]
+
             if not url or not url.strip():
                 url = ''
-            price = request.form["price"]
+
             response = db.create_wishlist_item(title, description, url, user_id, price, category_id)
             if response is None:
                 return render_template("wishlist_items.html", error="Item wasn't created")

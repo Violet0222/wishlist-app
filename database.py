@@ -208,7 +208,7 @@ def get_wishlist_items(user_id, category_id):
 
 def update_wishlist_item(record_id, data):
     conn = get_db()
-
+    print(data)
     if conn is None:
         print("Database connection failed")
         return None
