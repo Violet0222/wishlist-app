@@ -5,7 +5,13 @@ Add Wishlist
 {% endblock %}
 
 {% block main %}
-<h1>🎁 Your Wishlist Categories</h1>
+<div class="row"> <h1>🎁 Your Wishlist Categories</h1>
+    <a href="/create_wishlist" class="add-category-btn">
+        <span class="plus-icon">＋</span>
+        <span class="tooltip-text">Add a new category</span>
+    </a>
+</div>
+
 <hr>
 <ul>
     {% for category in wishlist_categories %}
@@ -16,7 +22,7 @@ Add Wishlist
 </ul>
 
 
-<button> <a href="/create_wishlist">Add a new category</a> </button>
+
 
 
 {% endblock %}
