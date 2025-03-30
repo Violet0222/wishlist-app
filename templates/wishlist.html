@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add Wishlist
+{% endblock %}
+
+{% block main %}
+<h1>🎁 Add Wishlist to your category</h1>
+
+<ul>
+    {% for category in wishlist_categories %}
+    <li>
+        <button> <a href="/wishlist/{{ category['id'] }}">{{ category['name'] }}</a></button>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<button> <a href="/create_wishlist">Add a new category</a> </button>
+
+
+{% endblock %}

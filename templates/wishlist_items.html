@@ -1,0 +1,40 @@
+{% extends "wishlist.html" %}
+
+{% block title %}
+Wishlist Items
+{% endblock %}
+
+{% block main %}
+<h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
+{% if items %}
+<ul>
+    {% for item in items %}
+    <li>
+        <strong>{{ item['title'] }}</strong> - {{ item['description'] }}
+<!--        <a href="{{ item['url'] }}" target="_blank">🔗 Link</a>-->
+        <span>💰 {{ item['price'] }} CHF</span>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h2>Add New Item</h2>
+<form action="/wishlist/{{ category_id }}" method="post">
+    <label for="title">Item Title:</label>
+    <input type="text" name="title" id="title" required>
+
+    <label for="description">Description:</label>
+    <input type="text" name="description" id="description">
+
+    <label for="url">URL:</label>
+    <input type="url" name="url" id="url">
+
+    <label for="price">Price (CHF):</label>
+    <input type="number" step="0.01" name="price" id="price">
+
+    <button type="submit">Add Item</button>
+</form>
+
+<a href="/wishlist">🔙 Back to Wishlist</a>
+
+{% endblock %}
