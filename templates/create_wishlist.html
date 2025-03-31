@@ -1,29 +1,29 @@
-{% extends "layout.html" %}
+<!--{% extends "layout.html" %}-->
 
-{% block title %}
-Create Wishlist
-{% endblock %}
+<!--{% block title %}-->
+<!--Create Wishlist-->
+<!--{% endblock %}-->
 
-{% block main %}
-<h1>🎁 Create Your Wishlist</h1>
+<!--{% block main %}-->
+<!--<h1>🎁 Create Your Wishlist</h1>-->
 
-<!-- Секція для створення нової категорії -->
-<h2>Create a New Category</h2>
-<form action="/create_wishlist" method="post">
-    <label for="category-name">Category Name:</label>
-    <input type="text" name="category_name" id="category-name" placeholder="Enter category name" required>
-    <button type="submit">Create Category</button>
-</form>
+<!--&lt;!&ndash; Секція для створення нової категорії &ndash;&gt;-->
+<!--<h2>Create a New Category</h2>-->
+<!--<form action="/create_wishlist" method="post">-->
+<!--    <label for="category-name">Category Name:</label>-->
+<!--    <input type="text" name="category_name" id="category-name" placeholder="Enter category name" required>-->
+<!--    <button type="submit">Create Category</button>-->
+<!--</form>-->
 
-<!-- Секція для вибору шаблону категорії -->
-<h2>Choose from Predefined Templates</h2>
-<p>Select a template for your wishlist category:</p>
-<ul>
-    <li><a href="/choose_template/Technology">Technology</a></li>
-    <li><a href="/choose_template/Books">Books</a></li>
-    <li><a href="/choose_template/Travel">Travel</a></li>
-    <li><a href="/choose_template/Clothing">Clothing</a></li>
-    <li><a href="/choose_template/Other">Other</a></li>
-</ul>
+<!--&lt;!&ndash; Секція для вибору шаблону категорії &ndash;&gt;-->
+<!--<h2>Choose from Predefined Templates</h2>-->
+<!--<p>Select a template for your wishlist category:</p>-->
+<!--<ul>-->
+<!--    <li><a href="/choose_template/Technology">Technology</a></li>-->
+<!--    <li><a href="/choose_template/Books">Books</a></li>-->
+<!--    <li><a href="/choose_template/Travel">Travel</a></li>-->
+<!--    <li><a href="/choose_template/Clothing">Clothing</a></li>-->
+<!--    <li><a href="/choose_template/Other">Other</a></li>-->
+<!--</ul>-->
 
-{% endblock %}
+<!--{% endblock %}-->
