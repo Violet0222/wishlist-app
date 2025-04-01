@@ -1,13 +1,20 @@
 {% extends "wishlist.html" %}
 {% block head %}
 <script src="/static/wishlist-items.js"></script>
+<script src="/static/modal_window.js"></script>
 {% endblock %}
 {% block title %}
 Wishlist Items
 {% endblock %}
 
 {% block main %}
-<h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
+<div class="row">
+    <h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
+<button id="openModalBtn" class="add-category-btn">
+    <span class="plus-icon">New +</span>
+    <span class="tooltip-text">Create new wish</span>
+</button>
+</div>
 <hr>
 {% if items %}
 <ul>
@@ -30,22 +37,30 @@ Wishlist Items
 </ul>
 {% endif %}
 
-<h2>Add New Item</h2>
-<form action="/wishlist/{{ category_id }}" method="post">
-    <label for="title">Item Title:</label>
-    <input type="text" name="title" id="title" required>
 
-    <label for="description">Description:</label>
-    <input type="text" name="description" id="description">
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="closeModalBtn" class="close-btn">&times;</span>
+        <h2>Create New Wish</h2>
+        <form action="/wishlist/{{ category_id }}" method="POST">
+            <label for="title">Item Title:</label>
+            <input type="text" name="title" id="title" required>
 
-    <label for="url">URL:</label>
-    <input type="url" name="url" id="url">
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description">
 
-    <label for="price">Price (CHF):</label>
-    <input type="number" step="0.01" name="price" id="price">
+            <label for="url">URL:</label>
+            <input type="url" name="url" id="url">
 
-    <button type="submit">Add Item</button>
-</form>
+            <label for="price">Price (CHF):</label>
+            <input type="number" step="0.01" name="price" id="price">
+
+            <button type="submit">Add Item</button>
+
+        </form>
+    </div>
+</div>
+
 
 <a href="/wishlist">🔙 Back to Wishlist</a>
 
