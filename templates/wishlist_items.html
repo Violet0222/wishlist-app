@@ -32,6 +32,10 @@ Wishlist Items
         <div id="price-container-{{ item['id'] }}"
         ><span id="price-value-{{ item['id'] }}">💰 {{ item['price'] }} CHF</span
         ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['price']}}" hidden name="price"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
+        <div id="delete-container-{{ item['id'] }}"
+        >
+        ><form action="/wishlist/{{ category_id }}" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{item['id']}}"> <button id="delete-button-{{ item['id'] }}">Delete</button></form>
+        </div>
     </li>
     {% endfor %}
 </ul>

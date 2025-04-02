@@ -1,5 +1,4 @@
 function initWishListItems() {
-    console.log('hello')
     const items = document.querySelectorAll('[id^="item-"]');
 
     const setCursorToEnd = (input) => {
@@ -11,7 +10,7 @@ function initWishListItems() {
         const description = item.querySelector('[id^="description-container-"]')
         const url = item.querySelector('[id^="url-container-"]')
         const price = item.querySelector('[id^="price-container-"]')
-
+        const delete_wish = item.querySelector('[id^="delete-container-"]')
         if (title) {
             const input = title.querySelector('input');
             const titleText = title.querySelector('[id^="title-text-"]');
@@ -104,8 +103,15 @@ function initWishListItems() {
                 }
             })
         }
+        if (delete_wish) {
+            const input = delete_wish.querySelector('input');
+            const delete_wish_button = delete_wish.querySelector('[id^="delete-button-"]');
+            delete_wish.addEventListener('click', (e) => {
+                const form = delete_wish.closest('form');  // Find the closest form
+                form.submit();
+            })
+        }
     }
-    console.log(items)
 }
 
 document.addEventListener("DOMContentLoaded", initWishListItems);

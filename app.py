@@ -105,6 +105,7 @@ def wishlist_items(category_id):
         description = request.form.get("description")
         url = request.form.get("url")
         price = request.form.get("price")
+        delete_wish=request.form.get("delete")
         data_to_update = {}
         if title:
             data_to_update['title'] = title
@@ -116,12 +117,19 @@ def wishlist_items(category_id):
             data_to_update['price'] = price
         print(data_to_update)
         if item_id:
-            print('item_id', item_id)
-            response = db.update_wishlist_item(item_id, data_to_update)
-            if response is None:
-                return render_template("wishlist_items.html", error="Item wasn't updated")
-            flash("Updated!")
-            return redirect(f"/wishlist/{category_id}")
+            if delete_wish:
+                response = db.delete_wishlist_item(item_id)
+                if response is None:
+                    return render_template("wishlist_item.html", error="Item wasn't found")
+                flash("Deleted!")
+                return redirect(f"/wishlist/{category_id}")
+            else:
+                print('item_id', item_id)
+                response = db.update_wishlist_item(item_id, data_to_update)
+                if response is None:
+                    return render_template("wishlist_items.html", error="Item wasn't updated")
+                flash("Updated!")
+                return redirect(f"/wishlist/{category_id}")
         else:
             if not title or not title.strip():
                 return render_template(

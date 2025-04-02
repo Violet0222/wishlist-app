@@ -237,6 +237,20 @@ def update_wishlist_item(record_id, data):
         print("Failed to update a wishlist:", e)
         return None
 
+def delete_wishlist_item(wish_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""DELETE FROM wish WHERE id = ?""", (wish_id,))
+        conn.commit()
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to delete a wishlist:", e)
+        return None
+
 
 # to delete
 def drop_table():
