@@ -10,4 +10,3 @@
 - [ ] add active/hide wish
 - [ ] add alert before deleting
 - [ ] add copy link function for category
-- 

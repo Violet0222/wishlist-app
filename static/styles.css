@@ -210,21 +210,20 @@ main {
 .plus-icon {
     font-size: 30px;
 }
-.tooltip-text {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    background: white;
-    color: black;
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    white-space: nowrap;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.2s ease-in-out, visibility 0.2s;
-}
-
+.tooltip-text {                                                           
+    opacity: 0;                                                           
+    visibility: hidden;                                                   
+    position: absolute;                                                   
+    background: white;                                                    
+    color: black;                                                         
+    padding: 6px 10px;                                                    
+    border-radius: 4px;                                                   
+    border: 1px solid #ddd;                                               
+    font-size: 14px;                                                      
+    white-space: nowrap;                                                  
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);                             
+    transition: opacity 0.2s ease-in-out, visibility 0.2s;                
+}                                                                         
 
 .add-category-btn:hover .tooltip-text {
     opacity: 1;
@@ -277,8 +276,20 @@ button[type="submit"]:hover {
     padding: 5px;
 }
 
+
+
+
+
 .dropdown-container {
     position: relative;
+}
+.dropdown-container:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+}
+.dropdown-container.dropdown-active:hover .tooltip-text {
+    opacity: 0;
+    visibility: hidden;
 }
 .menu-dropdown {
     display: none;
@@ -294,6 +305,20 @@ button[type="submit"]:hover {
 .menu-dropdown.show {
     display: block;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*.menu-dropdown {*/
 /*    display: none;*/
