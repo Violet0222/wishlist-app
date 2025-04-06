@@ -27,17 +27,16 @@ Add Wishlist
     {% for category in wishlist_categories %}
     <li id="category-{{ category['id'] }}">
         <div class="category-container">
-            <!-- Category Name as Link -->
-            <a href="/wishlist/{{ category['id'] }}" class="category-link">{{ category['name'] }}</a
-            ><div class="dropdown-container">
-            <button class="menu-btn" id="toggle-{{ category['id'] }}">⋮</button>
-            <div class="menu-dropdown" id="menu-{{ category['id'] }}">
-                <button onclick="copyLink('{{ category['id'] }}')">📋 Copy Link</button>
-                <button onclick="deleteCategory('{{ category['id'] }}')">❌ Delete</button>
-                <div id="delete-container-{{ category['id'] }}"
-                ><form action="/create_wishlist" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{category['id']}}"> <button id="delete-button-{{ category['id'] }}">❌ Delete</button></form>
+            <a href="/wishlist/{{ category['id'] }}" class="category-link">{{ category['name'] }}</a>
+            <div class="dropdown-container">
+                <button class="menu-btn" id="toggle-{{ category['id'] }}">⋮</button>
+                <div class="menu-dropdown" id="menu-{{ category['id'] }}">
+                    <button onclick="copyLink('{{ category['id'] }}')">📋 Copy Link</button>
+                    <div id="delete-container-{{ category['id'] }}"
+                    ><form action="/wishlist" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{category['id']}}"> <button name="delete" id="delete-button-{{ category['id'] }}" type="submit">❌ Delete</button>
+                    </form>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </li>

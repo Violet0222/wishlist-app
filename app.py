@@ -61,7 +61,7 @@ def login():
 def create_wishlist():
     user_id = session["user_id"]
     if request.method == "POST":
-        category = request.form["category_name"]
+        category = request.form.get("category_name")
         if not category or not category.strip():
             print("please enter a valid category")
             return render_template("create_wishlist.html", error="Please enter a valid category")
@@ -73,17 +73,29 @@ def create_wishlist():
     return render_template("create_wishlist.html")
 
 
-@app.route("/wishlist", methods=["GET"])
+@app.route("/wishlist", methods=["GET", "POST"])
 def wishlist():
     user_id = session["user_id"]
     if not user_id:
         return redirect("/login")
+    if request.method == "POST":
+        category_id = request.form.get('id')
+        print(category_id)
+        delete_category=request.form.get("delete")
+        print(delete_category)
+        if category_id:
+            if delete_category:
+                response = db.delete_category(category_id)
+                if response is None:
+                    return render_template("wishlist_item.html", error="Category wasn't found")
+                flash("Deleted!")
+                return redirect(f"/wishlist")
 
-    wishlist_categories = db.get_wishlist_categories(user_id)
-    if wishlist_categories is None:
-        return render_template("index.html", error="Categories weren't found")
-
-    return render_template("wishlist.html", wishlist_categories=wishlist_categories)
+    else:
+        wishlist_categories = db.get_wishlist_categories(user_id)
+        if wishlist_categories is None:
+            return render_template("index.html", error="Categories weren't found")
+        return render_template("wishlist.html", wishlist_categories=wishlist_categories)
 
 
 @app.route("/wishlist/<int:category_id>", methods=["GET", "POST"])

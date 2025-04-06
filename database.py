@@ -168,6 +168,19 @@ def get_category_by_id(category_id, user_id):
         print("Failed to get categories:", e)
         return None
 
+def delete_category(category_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""DELETE FROM category WHERE id = ?""", (category_id,))
+        conn.commit()
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to delete category:", e)
+        return None
 
 def create_wishlist_item(title, description, url, user_id, price, category_id):
     conn = get_db()
