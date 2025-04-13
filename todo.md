@@ -5,7 +5,7 @@
 - [x] add pop up window for wish creation
 - [x] add delete wish
 - [x] add delete category
-- [ ] add priority for wishes
+- [x] add priority for wishes
 - [ ] add active/hide category
 - [ ] add active/hide wish
 - [ ] add alert before deleting

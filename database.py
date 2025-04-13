@@ -33,7 +33,8 @@ sql_statements = [
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-"""
+""",
+    """ALTER TABLE wish ADD COLUMN priority INTEGER DEFAULT 0;"""
 ]
 
 DATABASE = 'wishlist.db'
@@ -285,5 +286,5 @@ def drop_table():
     finally:
         conn.close()
 
-# if __name__ == "__main__":
-#     init_db()
+if __name__ == "__main__":
+    init_db()
