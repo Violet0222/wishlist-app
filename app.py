@@ -2,8 +2,11 @@ from flask import Flask, render_template, request, session, flash, redirect
 from flask_session import Session
 from werkzeug.utils import redirect
 from flask_bcrypt import Bcrypt
+import pycountry
 
 import database
+
+currencies = list(pycountry.currencies)
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -111,12 +114,11 @@ def wishlist_items(category_id):
     if request.method == "POST":
         item_id = request.form.get('id')
         title = request.form.get('title')
-        print(item_id, title)
-
-        print('item_id', item_id)
         description = request.form.get("description")
         url = request.form.get("url")
         price = request.form.get("price")
+        currency = request.form.get("currency")
+        priority = request.form.get("priority")
         delete_wish=request.form.get("delete")
         data_to_update = {}
         if title:
@@ -127,7 +129,10 @@ def wishlist_items(category_id):
             data_to_update['url'] = url
         if price:
             data_to_update['price'] = price
-        print(data_to_update)
+        if currency:
+            data_to_update['currency'] = price
+        if priority:
+            data_to_update['priority'] = priority
         if item_id:
             if delete_wish:
                 response = db.delete_wishlist_item(item_id)
@@ -156,7 +161,7 @@ def wishlist_items(category_id):
             if not url or not url.strip():
                 url = ''
 
-            response = db.create_wishlist_item(title, description, url, user_id, price, category_id)
+            response = db.create_wishlist_item(title, description, url, user_id, price, currency,  priority, category_id)
             if response is None:
                 return render_template("wishlist_items.html", error="Item wasn't created")
 
@@ -167,7 +172,7 @@ def wishlist_items(category_id):
         if items is None:
             items = []
         print(items)
-        return render_template("wishlist_items.html", items=items, category_id=category_id, category_name=category_name)
+        return render_template("wishlist_items.html", items=items, category_id=category_id, category_name=category_name, currencies=currencies)
 
 
 

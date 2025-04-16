@@ -17,6 +17,7 @@ Wishlist Items
 </div>
 <hr>
 {% if items %}
+<button class="turn-on-priority">Priority</button>
 <ul>
     {% for item in items %}
     <li id="item-{{ item['id'] }}">
@@ -30,11 +31,19 @@ Wishlist Items
         ><a id="url-link-{{ item['id'] }}" href="{{ item['url'] }}" target="_blank">🔗 Link</a
         ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['url']}}" hidden name="url"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
         <div id="price-container-{{ item['id'] }}"
-        ><span id="price-value-{{ item['id'] }}">💰 {{ item['price'] }} CHF</span
+        ><span id="price-value-{{ item['id'] }}">💰 {{ item['price'] }}</span
         ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['price']}}" hidden name="price"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
-        <div id="delete-container-{{ item['id'] }}"
+        <div id="currency-container-{{ item['id'] }}"
+        ><span id="currency-value-{{ item['id'] }}">💰 {{ item['currency'] }} </span
         >
-        ><form action="/wishlist/{{ category_id }}" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{item['id']}}"> <button id="delete-button-{{ item['id'] }}">Delete</button></form>
+<!--            <form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['currency']}}" hidden name="price"><input type='hidden' value="{{item['id']}}" name="id"></form></div>-->
+
+
+        <div id="priority-container-{{ item['id'] }}"
+        ><span id="priority-value-{{ item['id'] }}"> {{ item['priority'] }}</span>
+
+        <div id="delete-container-{{ item['id'] }}">
+        <form action="/wishlist/{{ category_id }}" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{item['id']}}"> <button id="delete-button-{{ item['id'] }}">Delete</button></form>
         </div>
     </li>
     {% endfor %}
@@ -56,9 +65,21 @@ Wishlist Items
             <label for="url">URL:</label>
             <input type="url" name="url" id="url">
 
-            <label for="price">Price (CHF):</label>
+            <label for="price">Price:</label>
             <input type="number" step="0.01" name="price" id="price">
-
+            <label for="currency">Currency:</label>
+            <select name="currency" id="currency">
+                <option value="none" selected disabled>Select currency</option>
+                {% for currency in currencies %}
+                <option value="{{ currency.alpha_3 }}">{{ currency.name }} ({{ currency.alpha_3 }})</option>
+                {% endfor %}
+            </select>
+            <label for="priority">Priority:</label>
+            <select name="priority" id="priority">
+                <option value="0">Low</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+            </select>
             <button type="submit">Add Item</button>
 
         </form>

@@ -10,6 +10,8 @@ function initWishListItems() {
         const description = item.querySelector('[id^="description-container-"]')
         const url = item.querySelector('[id^="url-container-"]')
         const price = item.querySelector('[id^="price-container-"]')
+        const currency = item.querySelector('[id^="currency-container-"]')
+        const priority = item.querySelector('[id^="priority-container-"]')
         const delete_wish = item.querySelector('[id^="delete-container-"]')
         if (title) {
             const input = title.querySelector('input');
@@ -103,6 +105,51 @@ function initWishListItems() {
                 }
             })
         }
+        if (currency) {
+            const input = currency.querySelector('input');
+            const currencyValue = currency.querySelector('[id^="currency-value-"]');
+            currency.addEventListener('click', (e) => {
+                input.hidden = false
+                currencyValue.hidden = true
+                input.focus();
+                setCursorToEnd(input);
+            })
+            input.addEventListener('blur', () => {
+                input.hidden = true;
+                currencyValue.hidden = false;
+            });
+            currency.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    input.hidden = true
+                    currencyValue.hidden = false
+                    const form = price.closest('form');
+                    form.submit();
+                }
+            })
+        }
+        if (priority) {
+            const select = priority.querySelector('select');
+            const priorityText = priority.querySelector('[id^="priority-value-"]');
+
+            priority.addEventListener('click', (e) => {
+                if (priorityText && select) {
+                    select.hidden = false;
+                    priorityText.hidden = true;
+                    select.focus();
+                }
+            });
+
+            select.addEventListener('blur', () => {
+                select.hidden = true;
+                priorityText.hidden = false;
+            });
+
+            select.addEventListener('change', () => {
+                const form = priority.closest('form');
+                form.submit();
+            });
+        }
+
         if (delete_wish) {
             const input = delete_wish.querySelector('input');
             const delete_wish_button = delete_wish.querySelector('[id^="delete-button-"]');

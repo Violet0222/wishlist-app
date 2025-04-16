@@ -20,7 +20,9 @@ sql_statements = [
     title TEXT(150) NOT NULL,
     description TEXT,
     url TEXT(500),
-    price REAL CHECK (price > 0), 
+    price REAL, 
+    currency TEXT(3),
+    priority INTEGER DEFAULT 0,
     reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -34,7 +36,8 @@ sql_statements = [
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 """,
-    """ALTER TABLE wish ADD COLUMN priority INTEGER DEFAULT 0;"""
+
+
 ]
 
 DATABASE = 'wishlist.db'
@@ -183,7 +186,7 @@ def delete_category(category_id):
         print("Failed to delete category:", e)
         return None
 
-def create_wishlist_item(title, description, url, user_id, price, category_id):
+def create_wishlist_item(title, description, url, user_id, price, currency, priority, category_id):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
@@ -191,8 +194,8 @@ def create_wishlist_item(title, description, url, user_id, price, category_id):
     try:
         cursor = conn.cursor()
         cursor.execute(
-            """INSERT INTO wish (title, description, url, price, user_id, category_id, reserved) VALUES (?,?,?,?,?,?,?)""",
-            (title, description, url, price, user_id, category_id, 0))
+            """INSERT INTO wish (title, description, url, price, currency, priority, user_id, category_id, reserved) VALUES (?,?,?,?,?,?,?,?,?)""",
+            (title, description, url, price, currency, priority, user_id, category_id, 0))
         conn.commit()
         return True
     except sqlite3.OperationalError as e:
@@ -286,5 +289,5 @@ def drop_table():
     finally:
         conn.close()
 
-if __name__ == "__main__":
-    init_db()
+# if __name__ == "__main__":
+#     init_db()
