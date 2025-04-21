@@ -3,9 +3,9 @@ function modalWindow() {
 
 
 
-    const openModalBtn = document.getElementById("openModalBtn");
-    const modal = document.getElementById("modal");
-    const closeModalBtn = document.getElementById("closeModalBtn");
+    const openModalBtn = document.querySelectorAll(".openModalBtn");
+    const modal = document.querySelectorAll(".modal");
+    const closeModalBtn = document.querySelectorAll(".closeModalBtn");
 
     // modal window opening
    openModalBtn.addEventListener("click", () => {

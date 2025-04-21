@@ -10,14 +10,18 @@ Wishlist Items
 {% block main %}
 <div class="row">
     <h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
-<button id="openModalBtn" class="add-category-btn">
-    <span class="plus-icon">New +</span>
-    <span class="tooltip-text">Create new wish</span>
-</button>
+<!--    <button id="openSortModalBtn" class="openModalBtn sort-btn">-->
+<!--        <span class="sort-icon"> {% include "icons/arrow-up-down.svg" %}</span>-->
+<!--        <span class="tooltip-text">Sort</span>-->
+<!--    </button>-->
+    <button id="openNewWishModalBtn" class="openModalBtn add-category-btn">
+        <span class="plus-icon">New +</span>
+        <span class="tooltip-text">Create new wish</span>
+    </button>
 </div>
 <hr>
 {% if items %}
-<button class="turn-on-priority">Priority</button>
+
 <div class="wishlist-table">
     <div class="wishlist-row wishlist-header">
         <div class="wishlist-cell">Title</div>
@@ -94,9 +98,9 @@ Wishlist Items
 {% endif %}
 
 
-<div id="modal" class="modal">
+<div id="modalNewWish" class="modal">
     <div class="modal-content">
-        <span id="closeModalBtn" class="close-btn">&times;</span>
+        <span id="closeNewWishModalBtn" class="closeModalBtn close-btn">&times;</span>
         <h2>Create New Wish</h2>
         <form action="/wishlist/{{ category_id }}" method="POST">
             <label for="title">Item Title:</label>
@@ -127,7 +131,23 @@ Wishlist Items
 
         </form>
     </div>
-</div>
+<!--    <div id="modalSort" class="modal">-->
+<!--        <div class="modal-content">-->
+<!--            <span id="closeSortModalBtn" class="closeModalBtn close-btn">&times;</span>-->
+
+
+<!--                <label for="currency">Currency:</label>-->
+<!--                <select name="currency" id="currency">-->
+<!--                    <option value="none" selected disabled>Select currency</option>-->
+<!--                    {% for currency in currencies %}-->
+<!--                    <option value="{{ currency.alpha_3 }}">{{ currency.name }} ({{ currency.alpha_3 }})</option>-->
+<!--                    {% endfor %}-->
+<!--                </select>-->
+
+
+
+        </div>
+    </div>
 
 
 <a href="/wishlist">🔙 Back to Wishlist</a>
