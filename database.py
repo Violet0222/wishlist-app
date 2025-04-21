@@ -279,7 +279,7 @@ def drop_table():
     try:
         cursor = conn.cursor()
 
-        # Видаляємо таблицю "wish", якщо вона існує
+
         cursor.execute("DROP TABLE IF EXISTS wish;")
         conn.commit()
         print("Table 'wish' has been deleted.")

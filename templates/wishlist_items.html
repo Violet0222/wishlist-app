@@ -18,36 +18,79 @@ Wishlist Items
 <hr>
 {% if items %}
 <button class="turn-on-priority">Priority</button>
-<ul>
+<div class="wishlist-table">
+    <div class="wishlist-row wishlist-header">
+        <div class="wishlist-cell">Title</div>
+        <div class="wishlist-cell">Description</div>
+        <div class="wishlist-cell">URL</div>
+        <div class="wishlist-cell">Price</div>
+        <div class="wishlist-cell">Currency</div>
+        <div class="wishlist-cell">Priority</div>
+        <div class="wishlist-cell"></div>
+    </div>
+
     {% for item in items %}
-    <li id="item-{{ item['id'] }}">
-        <div id="title-container-{{ item['id'] }}"
-        ><strong id="title-text-{{ item['id'] }}">{{ item['title'] }}</strong
-        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['title']}}" hidden name="title"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
-        <div id="description-container-{{ item['id'] }}"
-        ><div id="description-text-{{ item['id'] }}">- {{ item['description'] }}</div
-        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['description']}}" hidden name="description"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
-        <div id="url-container-{{ item['id'] }}"
-        ><a id="url-link-{{ item['id'] }}" href="{{ item['url'] }}" target="_blank">🔗 Link</a
-        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['url']}}" hidden name="url"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
-        <div id="price-container-{{ item['id'] }}"
-        ><span id="price-value-{{ item['id'] }}">💰 {{ item['price'] }}</span
-        ><form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['price']}}" hidden name="price"><input type='hidden' value="{{item['id']}}" name="id"></form></div>
-        <div id="currency-container-{{ item['id'] }}"
-        ><span id="currency-value-{{ item['id'] }}">💰 {{ item['currency'] }} </span
-        >
-<!--            <form action="/wishlist/{{ category_id }}" method="post"><input value="{{item['currency']}}" hidden name="price"><input type='hidden' value="{{item['id']}}" name="id"></form></div>-->
-
-
-        <div id="priority-container-{{ item['id'] }}"
-        ><span id="priority-value-{{ item['id'] }}"> {{ item['priority'] }}</span>
-
-        <div id="delete-container-{{ item['id'] }}">
-        <form action="/wishlist/{{ category_id }}" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{item['id']}}"> <button id="delete-button-{{ item['id'] }}">Delete</button></form>
+    <div class="wishlist-row" id="item-{{ item['id'] }}">
+        <!-- Title field -->
+        <div id="title-container-{{ item['id'] }}" class="editable-field wishlist-cell">
+            <strong id="value-title-{{ item['id'] }}" class="value-display">{{ item['title'] }}</strong>
+            <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
+                <input value="{{item['title']}}" name="title">
+                <input type='hidden' value="{{item['id']}}" name="id">
+            </form>
         </div>
-    </li>
+        <!-- Description field -->
+        <div id="description-container-{{ item['id'] }}" class="editable-field wishlist-cell">
+            <div id="value-description-{{ item['id'] }}" class="value-display"> {{ item['description'] }}</div>
+            <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
+                <input value="{{item['description']}}" name="description">
+                <input type='hidden' value="{{item['id']}}" name="id">
+            </form>
+        </div>
+        <!-- URL field -->
+        <div id="url-container-{{ item['id'] }}" class="editable-field wishlist-cell">
+            <a id="value-url-{{ item['id'] }}" href="{{ item['url'] }}" target="_blank" class="value-display">🔗 Link</a>
+            <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
+                <input value="{{item['url']}}" name="url">
+                <input type='hidden' value="{{item['id']}}" name="id">
+            </form>
+        </div>
+        <!-- Price field -->
+        <div id="price-container-{{ item['id'] }}" class="editable-field wishlist-cell">
+            <span id="value-price-{{ item['id'] }}" class="value-display">💰 {{ item['price'] }}</span>
+            <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
+                <input value="{{item['price']}}" name="price">
+                <input type='hidden' value="{{item['id']}}" name="id">
+            </form>
+        </div>
+        <!-- Currency field -->
+        <div id="currency-container-{{ item['id'] }}" class="editable-field wishlist-cell">
+            <span id="value-currency-{{ item['id'] }}" class="value-display">💰 {{ item['currency'] }} </span>
+            <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
+                <select name="currency" >
+                    {% for currency in currencies %}
+                    <option value="{{ currency.alpha_3 }}">{{ currency.name }} ({{ currency.alpha_3 }})</option>
+                    {% endfor %}
+                </select>
+                <input type='hidden' value="{{item['id']}}" name="id">
+            </form>
+        </div>
+
+<!--         Priority field -->
+        <div id="priority-container-{{ item['id'] }}" class="editable-field wishlist-cell">
+            <span id="priority-value-{{ item['id'] }}"> {{ item['priority'] }}</span>
+        </div>
+
+        <!-- Delete wish button -->
+     <div id="delete-container-{{ item['id'] }}" class="wishlist-cell">
+            <form action="/wishlist/{{ category_id }}" method="post">
+                <input value="delete" hidden name="delete">
+                <input type="hidden" name="id" value="{{item['id']}}">
+                <button id="delete-button-{{ item['id'] }}">Delete</button>
+            </form>
+           </div>
+    </div>
     {% endfor %}
-</ul>
 {% endif %}
 
 
