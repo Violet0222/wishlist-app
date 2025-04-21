@@ -2,6 +2,8 @@
 {% block head %}
 <script src="/static/wishlist-items.js"></script>
 <script src="/static/modal_window.js"></script>
+<script src="/static/menu_dropdown.js"></script>
+
 {% endblock %}
 {% block title %}
 Wishlist Items
@@ -10,10 +12,23 @@ Wishlist Items
 {% block main %}
 <div class="row">
     <h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
-<!--    <button id="openSortModalBtn" class="openModalBtn sort-btn">-->
-<!--        <span class="sort-icon"> {% include "icons/arrow-up-down.svg" %}</span>-->
-<!--        <span class="tooltip-text">Sort</span>-->
-<!--    </button>-->
+    <div class="dropdown-container">
+    <button class="menu-dropdown-btn">
+        <span class="sort-icon"> {% include "icons/arrow-up-down.svg" %}</span>
+        <span class="tooltip-text">Sort</span>
+    </button>
+        <div class="menu-dropdown" >
+            <label for="sortSelect">Sort by:</label>
+            <select id="sortSelect">
+                <option value="priority-desc">Priority ↓</option>
+                <option value="priority-asc">Priority ↑</option>
+                <option value="title-asc">Title A–Z</option>
+                <option value="title-desc">Title Z–A</option>
+                <option value="date-desc">Date ↓</option>
+                <option value="date-asc">Date ↑</option>
+            </select>
+        </div>
+    </div>
     <button id="openNewWishModalBtn" class="openModalBtn add-category-btn">
         <span class="plus-icon">New +</span>
         <span class="tooltip-text">Create new wish</span>

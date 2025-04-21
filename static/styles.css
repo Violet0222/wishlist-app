@@ -278,12 +278,12 @@ button[type="submit"]:hover {
 /*    cursor: pointer;*/
 /*    font-size: 18px;*/
 /*}*/
-.menu-btn {
+.menu-dropdown-btn {
     background: none;
     border: none;
-    font-size: 1.5rem;
     cursor: pointer;
     padding: 5px;
+    font-size: 18px;
 }
 
 

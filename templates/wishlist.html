@@ -29,12 +29,15 @@
             <div class="category-container">
                 <a href="/wishlist/{{ category['id'] }}" class="category-link">{{ category['name'] }}</a>
                 <div class="dropdown-container" id="dropdown-container-{{ category['id'] }}">
-                    <button class="menu-btn" id="toggle-{{ category['id'] }}">⋮</button>
+                    <button class="menu-dropdown-btn" id="toggle-{{ category['id'] }}">⋮</button>
                     <span class="tooltip-text">Delete, more...</span>
                     <div class="menu-dropdown" id="menu-{{ category['id'] }}">
                         <button onclick="copyLink('{{ category['id'] }}')">📋 Copy Link</button>
-                        <div id="delete-container-{{ category['id'] }}"
-                        ><form action="/wishlist" method="post"> <input value="delete" hidden name="delete"> <input type="hidden" name="id" value="{{category['id']}}"> <button name="delete" id="delete-button-{{ category['id'] }}" type="submit">❌ Delete</button>
+                        <div id="delete-container-{{ category['id'] }}">
+                            <form action="/wishlist" method="post">
+                                <input value="delete" hidden name="delete">
+                                <input type="hidden" name="id" value="{{category['id']}}">
+                                <button name="delete" id="delete-button-{{ category['id'] }}" type="submit">❌ Delete</button>
                         </form>
                         </div>
                     </div>
