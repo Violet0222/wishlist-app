@@ -1,116 +1,115 @@
 /* Основні стилі, що нагадують Notion */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #fafafa;
-    color: #37352f;
-    margin: 0;
-    padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background-color: #fafafa;
+  color: #37352f;
+  margin: 0;
+  padding: 20px;
 }
 
 h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 hr {
-    border: 1px solid #ddd;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 ul li {
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 ul li a {
-    text-decoration: none;
-    color: #37352f;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease-in-out;
+  text-decoration: none;
+  color: #37352f;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
 }
 
 ul li a:hover {
-    background-color: rgba(55, 53, 47, 0.1);
+  background-color: rgba(55, 53, 47, 0.1);
 }
 
 button {
-    background: #fff;
-    border: 1px solid rgba(55, 53, 47, 0.2);
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background: #fff;
+  border: 1px solid rgba(55, 53, 47, 0.2);
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 button a {
-    text-decoration: none;
-    color: #37352f;
-    font-weight: 500;
+  text-decoration: none;
+  color: #37352f;
+  font-weight: 500;
 }
 
 button:hover {
-    background-color: rgba(55, 53, 47, 0.1);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgba(55, 53, 47, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    /*max-width: 500px;*/
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /*max-width: 500px;*/
+  margin-top: 20px;
 }
 
 form label {
-    font-weight: 500;
+  font-weight: 500;
 }
 
-
-
 form button {
-    background-color: #f7f7f7;
-    font-weight: 600;
+  background-color: #f7f7f7;
+  font-weight: 600;
 }
 
 main {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: auto;
 }
 
 .sort-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: #555;
-    transition: fill 0.2s ease-in-out;
+  width: 20px;
+  height: 20px;
+  fill: #555;
+  transition: fill 0.2s ease-in-out;
 }
 
 .sort-icon:hover svg {
-    fill: #000;
+  fill: #000;
 }
 /*.add-category-btn {*/
 /*    display: inline-flex;*/
@@ -132,144 +131,140 @@ main {
 /*    border: 1px solid #ddd;*/
 /*}*/
 
-
-
-
 .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Раздвигает элементы */
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd; /* Добавляет разделительную линию */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Раздвигает элементы */
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd; /* Добавляет разделительную линию */
 }
 
 /* Стилі для поп-ап модального вікна */
 .modal {
-    display: none; /* Сховати вікно за замовчуванням */
-    position: fixed;
-    z-index: 109;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 564px;
-    transform: translateX(0px) translateZ(0px);
-    transition-duration: 200ms;
-    transition-timing-function: ease;
-    transition-property: width, transform;
-    overflow: auto; /* Прокручування при потребі */
-    transition: opacity 0.3s ease;
+  display: none; /* Сховати вікно за замовчуванням */
+  position: fixed;
+  z-index: 109;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 564px;
+  transform: translateX(0px) translateZ(0px);
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+  transition-property: width, transform;
+  overflow: auto; /* Прокручування при потребі */
+  transition: opacity 0.3s ease;
 }
 
-
 .modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    /*max-width: 500px;*/
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(0);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  /*max-width: 500px;*/
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .modal.open .modal-content {
-    transform: scale(1);
-    opacity: 1;
+  transform: scale(1);
+  opacity: 1;
 }
 
 /* Кнопка закриття */
 .close-btn {
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 /* Кнопка для відкриття поп-ап */
 .add-category-btn {
-    user-select: none;
-    transition: background 20ms ease-in;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    padding-left: 8px;
-    padding-right: 8px;
-    font-weight: 500;
-    background: rgb(35, 131, 226);
-    color: white;
+  user-select: none;
+  transition: background 20ms ease-in;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-weight: 500;
+  background: rgb(35, 131, 226);
+  color: white;
 }
 
 .add-category-btn:hover {
-    background: rgb(0, 119, 212);
+  background: rgb(0, 119, 212);
 }
 
 .plus-icon {
-    font-size: 30px;
+  font-size: 30px;
 }
-.tooltip-text {                                                           
-    opacity: 0;                                                           
-    visibility: hidden;                                                   
-    position: absolute;                                                   
-    background: white;                                                    
-    color: black;                                                         
-    padding: 6px 10px;                                                    
-    border-radius: 4px;                                                   
-    border: 1px solid #ddd;                                               
-    font-size: 14px;                                                      
-    white-space: nowrap;                                                  
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);                             
-    transition: opacity 0.2s ease-in-out, visibility 0.2s;                
-}                                                                         
+.tooltip-text {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  background: white;
+  color: black;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.2s ease-in-out, visibility 0.2s;
+}
 
 .add-category-btn:hover .tooltip-text {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Кастомні стилі для input */
 input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin: 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 .category-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  position: relative;
 }
 
 /*.menu-btn {*/
@@ -279,101 +274,77 @@ button[type="submit"]:hover {
 /*    font-size: 18px;*/
 /*}*/
 .menu-dropdown-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 18px;
 }
-
-
-
-
 
 .dropdown-container {
-    position: relative;
+  position: relative;
 }
 .dropdown-container:hover .tooltip-text {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 .dropdown-container.dropdown-active:hover .tooltip-text {
-    opacity: 0;
-    visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
 }
 .menu-dropdown {
-    display: none;
-    position: absolute;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 1000;
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
 }
 
 .menu-dropdown.show {
-    display: block;
+  display: block;
 }
 
-
-
 .hidden {
-    display: none;
+  display: none;
 }
 
 .wishlist-table {
-    display: flex;
-    flex-direction: column;
-    /*width: 100%;*/
-    margin-top: 1rem;
-    font-family: system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  /*width: 100%;*/
+  margin-top: 1rem;
+  font-family: system-ui, sans-serif;
 }
 
 .wishlist-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: #fff;
-    padding: 12px 16px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 .wishlist-cell {
-    flex: 1; /* Все колонки равной ширины */
-    min-width: 100px;
+  flex: 1; /* Все колонки равной ширины */
+  min-width: 100px;
 }
-
 
 .wishlist-header {
-    font-weight: bold;
-    background-color: #f9f9f9;
-    border-bottom: 2px solid #ccc;
+  font-weight: bold;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #ccc;
 }
-
-
 
 .editable-field:hover {
-    background-color: #f4f4f4;
-    cursor: pointer;
+  background-color: #f4f4f4;
+  cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*.menu-dropdown {*/
 /*    display: none;*/
@@ -400,4 +371,3 @@ button[type="submit"]:hover {
 /*.menu-dropdown.show {*/
 /*    display: block;*/
 /*}*/
-
