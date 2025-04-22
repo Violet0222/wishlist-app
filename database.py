@@ -25,6 +25,7 @@ sql_statements = [
     priority INTEGER DEFAULT 0,
     reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    hidden BOOLEAN NOT NULL CHECK (hidden IN (0, 1)) DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
 );""",
@@ -280,7 +281,7 @@ def drop_table():
         cursor = conn.cursor()
 
 
-        cursor.execute("DROP TABLE IF EXISTS users;")
+        cursor.execute("DROP TABLE IF EXISTS wish;")
         conn.commit()
         print("Table 'wish' has been deleted.")
 
