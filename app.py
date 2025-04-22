@@ -97,7 +97,7 @@ def wishlist():
     else:
         wishlist_categories = db.get_wishlist_categories(user_id)
         if wishlist_categories is None:
-            return render_template("index.html", error="Categories weren't found")
+            return render_template("wishlist.html", error="Categories weren't found")
         return render_template("wishlist.html", wishlist_categories=wishlist_categories)
 
 

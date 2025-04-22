@@ -280,7 +280,7 @@ def drop_table():
         cursor = conn.cursor()
 
 
-        cursor.execute("DROP TABLE IF EXISTS wish;")
+        cursor.execute("DROP TABLE IF EXISTS users;")
         conn.commit()
         print("Table 'wish' has been deleted.")
 
@@ -289,5 +289,5 @@ def drop_table():
     finally:
         conn.close()
 
-# if __name__ == "__main__":
-#     init_db()
+if __name__ == "__main__":
+    init_db()

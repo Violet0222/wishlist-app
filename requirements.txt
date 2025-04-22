@@ -1,5 +1,4 @@
 flask
 flask-bcrypt
 pycountry
-werkzeug.utils
 Flask-Session
