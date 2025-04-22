@@ -3,8 +3,6 @@ function sort() {
   sort_filter.addEventListener("change", () => {
     const sort_field = sort_filter.value.split("-")[0];
     const sort_order = sort_filter.value.split("-")[1];
-    console.log(sort_field);
-    console.log(sort_order);
     const items = document.querySelectorAll('[id^="item-"]');
     const rows = Array.from(document.querySelectorAll(".wishlist-row")).filter(
       (row) => !row.classList.contains("wishlist-header")
@@ -12,15 +10,29 @@ function sort() {
     rows.sort((a, b) => {
       const aId = a.id.replace("item-", "");
       const bId = b.id.replace("item-", "");
-      const aValue = parseFloat(
-        document.querySelector(`[id^="value-${sort_field}-${aId}"]`)
-          ?.textContent || 0
-      );
-      const bValue = parseFloat(
-        document.querySelector(`[id^="value-${sort_field}-${bId}"]`)
-          ?.textContent || 0
-      );
+      let aValue, bValue;
 
+      if (sort_field === "date") {
+        aValue = new Date(
+          document.querySelector(`#value-date-${aId}`)?.textContent
+        );
+        bValue = new Date(
+          document.querySelector(`#value-date-${bId}`)?.textContent
+        );
+      } else {
+        aValue =
+          document.querySelector(`#value-${sort_field}-${aId}`)?.textContent ||
+          "";
+        bValue =
+          document.querySelector(`#value-${sort_field}-${bId}`)?.textContent ||
+          "";
+
+        // convert to number if sorting numeric fields like price or priority
+        if (sort_field === "price" || sort_field === "priority") {
+          aValue = parseFloat(aValue) || 0;
+          bValue = parseFloat(bValue) || 0;
+        }
+      }
       if (sort_order === "asc") {
         return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
       } else {

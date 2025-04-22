@@ -18,6 +18,8 @@
         <option value="priority-asc">Priority ↑</option>
         <option value="title-asc">Title A–Z</option>
         <option value="title-desc">Title Z–A</option>
+        <option value="price-desc">Price ↓</option>
+        <option value="price-asc">Price ↑</option>
         <option value="date-desc">Date ↓</option>
         <option value="date-asc">Date ↑</option>
       </select>
@@ -36,7 +38,7 @@
     <div class="wishlist-cell">Title</div>
     <div class="wishlist-cell">Description</div>
     <div class="wishlist-cell">URL</div>
-    <div class="wishlist-cell">Price</div>
+    <div class="wishlist-cell">💰 Price</div>
     <div class="wishlist-cell">Currency</div>
     <div class="wishlist-cell">Priority</div>
     <div class="wishlist-cell">Creation Date</div>
@@ -93,8 +95,8 @@
       id="price-container-{{ item['id'] }}"
       class="editable-field wishlist-cell"
     >
-      <span id="value-price-{{ item['id'] }}" class="value-display"
-        >💰 {{ item['price'] }}</span
+      <span id="value-price-{{ item['id'] }}" class="value-display">
+        {{ item['price'] }}</span
       >
       <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
         <input value="{{item['price']}}" name="price" />
