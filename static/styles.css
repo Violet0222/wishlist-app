@@ -8,10 +8,25 @@ body {
   padding: 20px;
 }
 
+p {
+  max-width: 100%;
+  width: 780px;
+  caret-color: rgb(50, 48, 44);
+  font-size: 14px;
+}
 h1 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 20px;
+}
+
+h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 6px;
+  color: rgb(50, 48, 44);
+  line-height: 1.5;
 }
 
 hr {
@@ -50,7 +65,7 @@ ul li a:hover {
   background-color: rgba(55, 53, 47, 0.1);
 }
 
-button {
+/* button {
   background: #fff;
   border: 1px solid rgba(55, 53, 47, 0.2);
   padding: 10px 16px;
@@ -58,17 +73,38 @@ button {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+} */
+
+button {
+  background-color: #ececec;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
 }
 
-button a {
+/* button a {
   text-decoration: none;
   color: #37352f;
   font-weight: 500;
-}
+} */
 
 button:hover {
   background-color: rgba(55, 53, 47, 0.1);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input,
+select,
+textarea {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
 }
 
 form {
@@ -111,25 +147,6 @@ main {
 .sort-icon:hover svg {
   fill: #000;
 }
-/*.add-category-btn {*/
-/*    display: inline-flex;*/
-/*    align-items: center;*/
-/*    gap: 8px;*/
-/*    padding: 8px 12px;*/
-/*    border-radius: 6px;*/
-/*    font-size: 16px;*/
-/*    text-decoration: none;*/
-/*    color: black;*/
-/*    background: none;*/
-/*    border: 1px solid transparent;*/
-/*    position: relative;*/
-/*    transition: all 0.2s ease-in-out;*/
-/*}*/
-
-/*.add-category-btn:hover {*/
-/*    background: #f0f0f0;*/
-/*    border: 1px solid #ddd;*/
-/*}*/
 
 .row {
   display: flex;
@@ -190,35 +207,41 @@ main {
   text-decoration: none;
 }
 
-/* Кнопка для відкриття поп-ап */
-.add-category-btn {
-  user-select: none;
-  transition: background 20ms ease-in;
-  cursor: pointer;
-  display: flex;
+.new-item-btn {
+  position: relative;
+  display: inline-block;
   align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
   font-weight: 500;
-  background: rgb(35, 131, 226);
-  color: white;
+  color: #4a4a4a;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.add-category-btn:hover {
-  background: rgb(0, 119, 212);
+.new-item-btn:hover {
+  background-color: #f9f9f9;
+  border-color: #bdbdbd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-.plus-icon {
+/* .plus-icon {
   font-size: 30px;
-}
+} */
 .tooltip-text {
   opacity: 0;
   visibility: hidden;
   position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+
   background: white;
   color: black;
   padding: 6px 10px;
@@ -228,9 +251,10 @@ main {
   white-space: nowrap;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: opacity 0.2s ease-in-out, visibility 0.2s;
+  z-index: 10;
 }
 
-.add-category-btn:hover .tooltip-text {
+.new-item-btn:hover .tooltip-text {
   opacity: 1;
   visibility: visible;
 }

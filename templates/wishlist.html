@@ -1,76 +1,94 @@
-    {% extends "layout.html" %}
+{% extends "layout.html" %} {% block head %}
+<script src="/static/modal_window.js"></script>
+<script src="/static/menu_dropdown.js"></script>
+{% endblock %} {% block title %} Add Wishlist {% endblock %} {% block main %}
+<h1>🎁 Wishlist Categories</h1>
+<p>
+  Use this template to organize your wishlist categories and keep track of your
+  items.
+</p>
+<p>
+  Click <strong>+ New</strong> to create a new wishlist category and start
+  adding your wishes.
+</p>
+<p>
+  Click on an existing category to view, edit, or manage the items inside it.
+</p>
+<div class="row">
+  <h3>Categories</h3>
+  <button id="openModalBtn" class="openModalBtn new-item-btn">
+    <span class="plus-icon">New +</span>
+    <span class="tooltip-text">Create new category</span>
+  </button>
+</div>
 
-    {% block head %}
-    <script src="/static/modal_window.js"></script>
-    <script src="/static/menu_dropdown.js"></script>
-    {% endblock %}
-    {% block title %}
-    Add Wishlist
-    {% endblock %}
-
-    {% block main %}
-    <div class="row"> <h1>🎁 Your Wishlist Categories</h1>
-    <!--    <a href="/create_wishlist" class="add-category-btn">-->
-    <!--        <span class="plus-icon">＋</span>-->
-    <!--        <span class="tooltip-text">Add a new category</span>-->
-    <!--    </a>-->
-    <!--</div>-->
-
-    <button id="openModalBtn" class="openModalBtn add-category-btn">
-        <span class="plus-icon">New +</span>
-        <span class="tooltip-text">Create new category</span>
-    </button>
-    </div>
-
-    <hr>
-    <ul>
-        {% for category in wishlist_categories %}
-        <li id="category-{{ category['id'] }}">
-            <div class="category-container">
-                <a href="/wishlist/{{ category['id'] }}" class="category-link">{{ category['name'] }}</a>
-                <div class="dropdown-container" id="dropdown-container-{{ category['id'] }}">
-                    <button class="menu-dropdown-btn" id="toggle-{{ category['id'] }}">⋮</button>
-                    <span class="tooltip-text">Delete, more...</span>
-                    <div class="menu-dropdown" id="menu-{{ category['id'] }}">
-                        <button onclick="copyLink('{{ category['id'] }}')">📋 Copy Link</button>
-                        <div id="delete-container-{{ category['id'] }}">
-                            <form action="/wishlist" method="post">
-                                <input value="delete" hidden name="delete">
-                                <input type="hidden" name="id" value="{{category['id']}}">
-                                <button name="delete" id="delete-button-{{ category['id'] }}" type="submit">❌ Delete</button>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span id="closeModalBtn" class="closeModalBtn close-btn">&times;</span>
-            <h2>Create New Category</h2>
-            <form action="/create_wishlist" method="POST">
-
-                    <label for="category_name">Category Name</label>
-                    <input type="text" name="category_name" id="category_name" placeholder="Empty" required>
-                    <button type="submit">Create Category</button>
-
-                <!-- Секція для вибору шаблону категорії -->
-                <h2>Choose from Predefined Templates</h2>
-                <p>Select a template for your wishlist category:</p>
-                <ul>
-                    <li><a href="/choose_template/Technology">Technology</a></li>
-                    <li><a href="/choose_template/Books">Books</a></li>
-                    <li><a href="/choose_template/Travel">Travel</a></li>
-                    <li><a href="/choose_template/Clothing">Clothing</a></li>
-                    <li><a href="/choose_template/Other">Other</a></li>
-                </ul>
+<hr />
+<ul>
+  {% for category in wishlist_categories %}
+  <li id="category-{{ category['id'] }}">
+    <div class="category-container">
+      <a href="/wishlist/{{ category['id'] }}" class="category-link"
+        >{{ category['name'] }}</a
+      >
+      <div
+        class="dropdown-container"
+        id="dropdown-container-{{ category['id'] }}"
+      >
+        <button class="menu-dropdown-btn" id="toggle-{{ category['id'] }}">
+          ⋮
+        </button>
+        <span class="tooltip-text">Delete, more...</span>
+        <div class="menu-dropdown" id="menu-{{ category['id'] }}">
+          <button onclick="copyLink('{{ category['id'] }}')">
+            📋 Copy Link
+          </button>
+          <div id="delete-container-{{ category['id'] }}">
+            <form action="/wishlist" method="post">
+              <input value="delete" hidden name="delete" />
+              <input type="hidden" name="id" value="{{category['id']}}" />
+              <button
+                name="delete"
+                id="delete-button-{{ category['id'] }}"
+                type="submit"
+              >
+                ❌ Delete
+              </button>
             </form>
+          </div>
         </div>
+      </div>
     </div>
+  </li>
+  {% endfor %}
+</ul>
 
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="closeModalBtn" class="closeModalBtn close-btn">&times;</span>
+    <h2>Create New Category</h2>
+    <form action="/create_wishlist" method="POST">
+      <label for="category_name">Category Name</label>
+      <input
+        type="text"
+        name="category_name"
+        id="category_name"
+        placeholder="Empty"
+        required
+      />
+      <button type="submit">Create Category</button>
 
-    {% endblock %}
+      <!-- Секція для вибору шаблону категорії -->
+      <h2>Choose from Predefined Templates</h2>
+      <p>Select a template for your wishlist category:</p>
+      <ul>
+        <li><a href="/choose_template/Technology">Technology</a></li>
+        <li><a href="/choose_template/Books">Books</a></li>
+        <li><a href="/choose_template/Travel">Travel</a></li>
+        <li><a href="/choose_template/Clothing">Clothing</a></li>
+        <li><a href="/choose_template/Other">Other</a></li>
+      </ul>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

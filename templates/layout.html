@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>My Wishlist: {% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css" />
     <script src="/static/script.js"></script>
     {% block head %}{% endblock %}
-</head>
-<body>
-
-<h1>🎁 My wishlist</h1>
-
-<div>
-    {% if session["user_id"] %}
-    <ul>
-        <li><a  href="/">Wish</a></li>
-    </ul>
-    {% else %}
-    <ul >
+  </head>
+  <body>
+    <div>
+      {% if session["user_id"] %}
+      <ul>
+        <li><a href="/">Wish</a></li>
+      </ul>
+      {% else %}
+      <ul>
         <li><a href="/register">Register</a></li>
         <li><a href="/login">Log In</a></li>
-    </ul>
-    {% endif %}
-</div>
+      </ul>
+      {% endif %}
+    </div>
 
-<main >
-    {% block main %}{% endblock %}
-</main>
-</body>
+    <main>{% block main %}{% endblock %}</main>
+  </body>
 </html>
