@@ -371,3 +371,13 @@ button[type="submit"]:hover {
 /*.menu-dropdown.show {*/
 /*    display: block;*/
 /*}*/
+
+.private-item {
+  filter: blur(1px);
+  position: relative;
+}
+
+.private-icon {
+  margin-left: 8px;
+  color: #888;
+}

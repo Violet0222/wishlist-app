@@ -46,7 +46,10 @@
     </div>
 
     {% for item in items %}
-      <div class="wishlist-row" id="item-{{ item['id'] }}">
+      <div class="wishlist-row {% if item.private %}private-item{% endif %}" id="item-{{ item['id'] }}">
+        {% if item.private %}
+        <span class="private-icon" title="Private">🔒</span>
+        {% endif %}
         <!-- Title field -->
         <div
           id="title-container-{{ item['id'] }}"
@@ -142,7 +145,13 @@
         <div class="dropdown-container wishlist-cell" id="dropdown-container-{{ item['id'] }}">
           <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">⋮</button>
           <div class="menu-dropdown" id="menu-{{ item['id'] }}">
-            <button>📋 Hide wish</button>
+            <div id="hide-container-{{ item['id'] }}">
+              <form action="/wishlist/<int:category_id>/private_<int:item_id>" method="POST" name='private'>
+                <input type="checkbox" name="private" value="{{ item['private'] }}" {% if item['private'] == 1 %}checked{% endif %} onchange="togglePrivate(event, {{category_id}}, {{item['id']}})"/>
+              </form>
+            </div>
+
+
             <!-- Delete wish button -->
             <div id="delete-container-{{ item['id'] }}" >
               <form action="/wishlist/{{ category_id }}" method="post">

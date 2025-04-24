@@ -13,17 +13,17 @@ function initWishListItems() {
       const input = form.querySelector("input, select");
 
       if (!valueElement || !form || !input) return;
-
-      field.addEventListener("click", (event) => {
-        event.stopPropagation(); // prevent the click from bubbling to document
-        valueElement.hidden = true;
-        form.classList.remove("hidden");
-        input.focus();
-        setCursorToEnd(input);
-        if (input.tagName === "INPUT") {
-          input.setSelectionRange(input.value.length, input.value.length);
-        }
-      });
+        field.addEventListener("click", (event) => {
+          event.stopPropagation(); // prevent the click from bubbling to document
+          valueElement.hidden = true;
+          form.classList.remove("hidden");
+          input.focus();
+          setCursorToEnd(input);
+          if (input.tagName === "INPUT") {
+            input.setSelectionRange(input.value.length, input.value.length);
+          }
+        });
+      
     });
   }
 
@@ -197,6 +197,7 @@ function initWishListItems() {
       }
     });
   });
+
   document.querySelectorAll('select[name="currency"]').forEach((select) => {
     select.addEventListener("change", () => {
       select.closest("form").submit();
@@ -218,4 +219,10 @@ function initWishListItems() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initWishListItems);
+function togglePrivate(event, category_id, item_id) {
+  const value = event.target.checked;
+  const formData = new FormData();
+  formData.append("private", value.toString());
+  return fetch(`/wishlist/${category_id}/private_${item_id}`, { method: "POST", body: formData });
+}
+document.addEventListener("DOMContentLoaded", initWishListItems, togglePrivate);

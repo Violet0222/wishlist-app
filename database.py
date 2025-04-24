@@ -25,7 +25,7 @@ sql_statements = [
     priority INTEGER DEFAULT 0,
     reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    hidden BOOLEAN NOT NULL CHECK (hidden IN (0, 1)) DEFAULT 0,
+    private BOOLEAN NOT NULL CHECK (private IN (0, 1)) DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
 );""",
@@ -226,7 +226,6 @@ def get_wishlist_items(user_id, category_id):
 
 def update_wishlist_item(record_id, data):
     conn = get_db()
-    print(data)
     if conn is None:
         print("Database connection failed")
         return None

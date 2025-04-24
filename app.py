@@ -119,6 +119,7 @@ def wishlist_items(category_id):
         price = request.form.get("price")
         currency = request.form.get("currency")
         priority = request.form.get("priority")
+        hide = request.form.get("hide")
         delete_wish=request.form.get("delete")
         data_to_update = {}
         if title:
@@ -133,6 +134,7 @@ def wishlist_items(category_id):
             data_to_update['currency'] = price
         if priority:
             data_to_update['priority'] = priority
+        
         if item_id:
             if delete_wish:
                 response = db.delete_wishlist_item(item_id)
@@ -174,7 +176,19 @@ def wishlist_items(category_id):
         print(items)
         return render_template("wishlist_items.html", items=items, category_id=category_id, category_name=category_name, currencies=currencies)
 
-
-
+@app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
+def private_items(category_id, item_id):
+    if request.method == "POST":
+        private = request.form.get('private') == 'true'
+        data_to_update = {}
+        data_to_update = {'private': int(private)}
+        response = db.update_wishlist_item(item_id, data_to_update)
+        if response is None:
+            return render_template("wishlist_items.html", error="Item wasn't updated")
+        flash("Updated!")
+        return redirect(f"/wishlist/{category_id}")
+    
+    
+    
 if __name__ == '__main__':
     app.run(debug=True)
