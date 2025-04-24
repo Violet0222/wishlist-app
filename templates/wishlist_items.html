@@ -6,25 +6,7 @@
 {% endblock %} {% block title %} Wishlist Items {% endblock %} {% block main %}
 <div class="row">
   <h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
-  <div class="dropdown-container">
-    <button class="menu-dropdown-btn">
-      <span class="sort-icon"> {% include "icons/arrow-up-down.svg" %}</span>
-      <span class="tooltip-text">Sort</span>
-    </button>
-    <div class="menu-dropdown">
-      <label for="sortSelect">Sort by:</label>
-      <select id="sortSelect">
-        <option value="priority-desc">Priority ↓</option>
-        <option value="priority-asc">Priority ↑</option>
-        <option value="title-asc">Title A–Z</option>
-        <option value="title-desc">Title Z–A</option>
-        <option value="price-desc">Price ↓</option>
-        <option value="price-asc">Price ↑</option>
-        <option value="date-desc">Date ↓</option>
-        <option value="date-asc">Date ↑</option>
-      </select>
-    </div>
-  </div>
+  {% include "sort_wishlist_items.html" %}
   <button id="openNewWishModalBtn" class="openModalBtn add-category-btn">
     <span class="plus-icon">New +</span>
     <span class="tooltip-text">Create new wish</span>

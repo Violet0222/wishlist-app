@@ -1,0 +1,19 @@
+<div class="dropdown-container">
+  <button class="menu-dropdown-btn">
+    <span class="sort-icon"> {% include "icons/arrow-up-down.svg" %}</span>
+    <span class="tooltip-text">Sort</span>
+  </button>
+  <div class="menu-dropdown">
+    <label for="sortSelect">Sort by:</label>
+    <select id="sortSelect">
+      <option value="priority-desc">Priority ↓</option>
+      <option value="priority-asc">Priority ↑</option>
+      <option value="title-asc">Title A–Z</option>
+      <option value="title-desc">Title Z–A</option>
+      <option value="price-desc">Price ↓</option>
+      <option value="price-asc">Price ↑</option>
+      <option value="date-desc">Date ↓</option>
+      <option value="date-asc">Date ↑</option>
+    </select>
+  </div>
+</div>
