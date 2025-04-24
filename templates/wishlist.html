@@ -2,18 +2,14 @@
 <script src="/static/modal_window.js"></script>
 <script src="/static/menu_dropdown.js"></script>
 {% endblock %} {% block title %} Add Wishlist {% endblock %} {% block main %}
+<div class="page-header"/>
 <h1>🎁 Wishlist Categories</h1>
-<p>
+<p class="intro-text">
   Use this template to organize your wishlist categories and keep track of your
-  items.
+  items. Click <strong>+ New</strong> to create a new wishlist category and start
+  adding your wishes. Click on an existing category to view, edit, or manage the items inside it.
 </p>
-<p>
-  Click <strong>+ New</strong> to create a new wishlist category and start
-  adding your wishes.
-</p>
-<p>
-  Click on an existing category to view, edit, or manage the items inside it.
-</p>
+
 <div class="row">
   <h3>Categories</h3>
   <button id="openModalBtn" class="openModalBtn new-item-btn">
@@ -21,13 +17,14 @@
     <span class="tooltip-text">Create new category</span>
   </button>
 </div>
+</div>
 
 <hr />
-<ul>
+<div class="category-grid">
   {% for category in wishlist_categories %}
-  <li id="category-{{ category['id'] }}">
-    <div class="category-container">
-      <a href="/wishlist/{{ category['id'] }}" class="category-link"
+ 
+    <div class="category-container" id="category-{{ category['id'] }}">
+      <a href="/wishlist/{{ category['id'] }}" class="category-title"
         >{{ category['name'] }}</a
       >
       <div
@@ -58,9 +55,9 @@
         </div>
       </div>
     </div>
-  </li>
+  
   {% endfor %}
-</ul>
+</div>
 
 <div id="modal" class="modal">
   <div class="modal-content">

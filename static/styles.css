@@ -280,15 +280,44 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #45a049;
 }
-
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
 .category-container {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e7eb;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-  position: relative;
+  align-items: flex-start;
+  transition: all 0.2s ease;
+}
+.category-container:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+.category-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+}
+
+.category-title:hover {
+  text-decoration: underline;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.intro-text {
+  font-size: 15px;
+  color: #5b5b5b;
+  margin-bottom: 16px;
 }
 
 /*.menu-btn {*/
