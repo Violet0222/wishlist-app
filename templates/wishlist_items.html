@@ -9,6 +9,7 @@
   <div class="row">
     <h1>🛍️ {{ category_name if category_name else 'Unknown Category' }}</h1>
     {% include "sort_wishlist_items.html" %}
+    {% include "filter_items.html" %}
     <button id="openNewWishModalBtn" class="openModalBtn new-item-btn">
       <span class="plus-icon">New +</span>
       <span class="tooltip-text">Create new wish</span>

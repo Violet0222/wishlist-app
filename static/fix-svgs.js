@@ -12,7 +12,10 @@ function fixIcons() {
     // Ensure the file is an SVG
     if (path.extname(file) === ".svg") {
       const fileContent = fs.readFileSync(filePath, "utf-8"); // Read the content of the SVG file
-      const newContent = fileContent.replaceAll("#000", "#555"); // Replace #000 (black) with #555 (gray)
+      const newContent = fileContent.replace(
+        /#(?:[0-9a-fA-F]{3}){1,2}\b|rgb(a?)\((\d{1,3}), (\d{1,3}), (\d{1,3})(, (\d(\.\d+)?))?\)/g,
+        "#555"
+      ); // Replace any color with #555 (gray)
 
       fs.writeFileSync(filePath, newContent); // Write the updated content back to the file
     }

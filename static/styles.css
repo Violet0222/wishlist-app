@@ -98,7 +98,6 @@ button:hover {
 }
 
 input,
-select,
 textarea {
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -137,19 +136,30 @@ main {
   margin: auto;
 }
 
-.sort-icon svg {
+.icon svg {
   width: 20px;
   height: 20px;
   color: #999; /* gray like Notion */
   transition: color 0.2s ease-in-out;
 }
 
-.sort-icon svg:hover {
+.icon svg:hover {
   color: #333; /* darker on hover */
 }
 
-.sort-icon:hover svg {
-  fill: #000;
+select {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  outline: none;
+  margin-top: 5px;
+}
+
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 .row {
@@ -325,17 +335,36 @@ button[type="submit"]:hover {
 }
 
 .menu-dropdown-btn {
-  background: none;
+  /* background: none;
   border: none;
   cursor: pointer;
   padding: 5px;
-  font-size: 18px;
+  font-size: 18px; */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* .menu-dropdown-btn:hover {
+  background-color: #f4f4f4;
+  border-color: #bbb;
+} */
+.menu-dropdown-btn:hover .icon {
+  fill: #333;
 }
 
 .dropdown-container {
-  display: flex;
+  /* display: flex;
   align-items: center;
-  align-content: center;
+  align-content: center; */
+  display: inline-block;
   position: relative;
 }
 .dropdown-container:hover .tooltip-text {
@@ -347,14 +376,26 @@ button[type="submit"]:hover {
   visibility: hidden;
 }
 .menu-dropdown {
-  display: none;
+  /* display: none;
   position: absolute;
   background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  z-index: 1000;
+  z-index: 1000; */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: none;
+  z-index: 10;
+  width: max-content;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .menu-dropdown.show {
