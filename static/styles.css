@@ -140,8 +140,12 @@ main {
 .sort-icon svg {
   width: 20px;
   height: 20px;
-  fill: #555;
-  transition: fill 0.2s ease-in-out;
+  color: #999; /* gray like Notion */
+  transition: color 0.2s ease-in-out;
+}
+
+.sort-icon svg:hover {
+  color: #333; /* darker on hover */
 }
 
 .sort-icon:hover svg {
