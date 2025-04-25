@@ -27,7 +27,53 @@ function initWishListItems() {
     });
   }
 
-  // const title = item.querySelector('[id^="title-container-"]')
+ 
+
+  document.addEventListener("click", (event) => {
+    const openFields = document.querySelectorAll(
+      ".editable-field form:not(.hidden)"
+    );
+    openFields.forEach((form) => {
+      if (!form.contains(event.target)) {
+        const field = form.closest(".editable-field");
+        const valueElement = field.querySelector(".value-display");
+        form.classList.add("hidden");
+        valueElement.hidden = false;
+      }
+    });
+  });
+
+  document.querySelectorAll('select[name="currency"]').forEach((select) => {
+    select.addEventListener("change", () => {
+      select.closest("form").submit();
+    });
+  });
+  document.addEventListener("keypress", (event) => {
+    items.forEach((item) => {
+      const forms = item.querySelector("form");
+      forms.forEach((form) => {
+        if (event.key === "Enter") {
+          const field = form.closest(".editable-field");
+          const valueElement = field.querySelector(".value-display");
+          form.classList.add("hidden");
+          valueElement.hidden = false;
+          form.submit();
+        }
+      });
+    });
+  });
+}
+
+function togglePrivate(event, category_id, item_id) {
+  const value = event.target.checked;
+  const formData = new FormData();
+  formData.append("private", value.toString());
+  return fetch(`/wishlist/${category_id}/private_${item_id}`, { method: "POST", body: formData });
+}
+document.addEventListener("DOMContentLoaded", initWishListItems, togglePrivate);
+
+
+ // const title = item.querySelector('[id^="title-container-"]')
   // const description = item.querySelector('[id^="description-container-"]')
   // const url = item.querySelector('[id^="url-container-"]')
   // const price = item.querySelector('[id^="price-container-"]')
@@ -183,46 +229,3 @@ function initWishListItems() {
   //         form.submit();
   //     })
   // }
-
-  document.addEventListener("click", (event) => {
-    const openFields = document.querySelectorAll(
-      ".editable-field form:not(.hidden)"
-    );
-    openFields.forEach((form) => {
-      if (!form.contains(event.target)) {
-        const field = form.closest(".editable-field");
-        const valueElement = field.querySelector(".value-display");
-        form.classList.add("hidden");
-        valueElement.hidden = false;
-      }
-    });
-  });
-
-  document.querySelectorAll('select[name="currency"]').forEach((select) => {
-    select.addEventListener("change", () => {
-      select.closest("form").submit();
-    });
-  });
-  document.addEventListener("keypress", (event) => {
-    items.forEach((item) => {
-      const forms = item.querySelector("form");
-      forms.forEach((form) => {
-        if (event.key === "Enter") {
-          const field = form.closest(".editable-field");
-          const valueElement = field.querySelector(".value-display");
-          form.classList.add("hidden");
-          valueElement.hidden = false;
-          form.submit();
-        }
-      });
-    });
-  });
-}
-
-function togglePrivate(event, category_id, item_id) {
-  const value = event.target.checked;
-  const formData = new FormData();
-  formData.append("private", value.toString());
-  return fetch(`/wishlist/${category_id}/private_${item_id}`, { method: "POST", body: formData });
-}
-document.addEventListener("DOMContentLoaded", initWishListItems, togglePrivate);
