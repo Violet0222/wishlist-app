@@ -117,8 +117,14 @@
     </div>
       <!--         Priority field -->
       <div class="wishlist-cell editable-field">
-        <span id="value-priority-{{ item['id'] }}">
-          {{ item['priority'] }}
+        <span id="value-priority-{{ item['id'] }}" class="priority-label 
+        {% if item['priority'] == 0 %}priority-low{% endif %}
+        {% if item['priority'] == 1 %}priority-medium{% endif %}
+        {% if item['priority'] == 2 %}priority-high{% endif %}
+      ">
+          {% if item['priority'] == 0 %}Low{% endif %}
+          {% if item['priority'] == 1 %}Medium{% endif %}
+          {% if item['priority'] == 2 %}High{% endif %}
         </span>
         <form action="/wishlist/{{ category_id }}" method="post" class="hidden">
           <select name="priority">

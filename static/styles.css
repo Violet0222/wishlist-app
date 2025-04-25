@@ -413,6 +413,31 @@ button[type="submit"]:hover {
   color: #999;
 }
 
+.priority-label {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.priority-low {
+  background-color: #e6f4ea;
+  color: #257942;
+  border: 1px solid #b7e1cd;
+}
+
+.priority-medium {
+  background-color: #fff4e5;
+  color: #c27000;
+  border: 1px solid #ffd89e;
+}
+
+.priority-high {
+  background-color: #ffe5e5;
+  color: #c00000;
+  border: 1px solid #ffb3b3;
+}
 /* .wishlist-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
