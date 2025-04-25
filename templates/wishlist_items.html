@@ -23,6 +23,7 @@
 <div class="wishlist-table">
   <!-- Table Header -->
   <div class="wishlist-row wishlist-header">
+    <div class="wishlist-cell">📍 Status</div>
     <div class="wishlist-cell">📌 Title</div>
     <div class="wishlist-cell">📝 Description</div>
     <div class="wishlist-cell">🔗 URL</div>
@@ -39,6 +40,16 @@
     class="wishlist-row {% if item.private %}private-item{% endif %}"
     id="item-{{ item['id'] }}"
   >
+  <div class="wishlist-cell">
+    <span class="value-display status-label 
+    {% if item['reserved'] == 0 %}status-not-reserved{% endif %}
+    {% if item['reserved'] == 1 %}status-reserved{% endif %}" >
+      {% if item['reserved'] == 0 %}Not reserved{% endif %}
+      {% if item['reserved'] == 1 %}Reserved{% endif %}
+    </span>
+  </div>
+
+
     <div class="wishlist-cell editable-field">
       {% if item.private %}
       <span class="private-icon" title="Private">🔒
