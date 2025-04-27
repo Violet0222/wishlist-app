@@ -5,22 +5,31 @@
     <title>My Wishlist: {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/styles.css" />
     <script src="/static/script.js"></script>
+    <script src="/static/nav_bar.js"></script>
     {% block head %}{% endblock %}
   </head>
   <body>
-    <div>
+    <div class="nav-wrapper">
       {% if session["user_id"] %}
-      <ul>
+      <ul class="nav-bar">
         <li><a href="/">Wish</a></li>
+        <li>
+          <button class="nav-bar-btn">⋯</button>
+          <div class="nav_bar_container">
+            <a href="/">Home</a>
+            <a href="/settings">Settings</a>
+            <a href="/logout">Log out</a>
+          </div>
+        </li>
       </ul>
       {% else %}
-      <ul>
+      <ul class="nav-bar">
         <li><a href="/register">Register</a></li>
         <li><a href="/login">Log In</a></li>
       </ul>
       {% endif %}
     </div>
 
-    <main>{% block main %}{% endblock %}</main>
+    <main>{% block main %} {% endblock %}</main>
   </body>
 </html>

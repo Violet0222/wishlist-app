@@ -139,6 +139,40 @@ main {
   margin: auto;
 }
 
+.nav-bar {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.nav-bar-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.nav_bar_container {
+  display: none;
+  top: 50px;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  flex-direction: column;
+  padding: 10px;
+  z-index: 999;
+}
+
+.nav_bar_container.show {
+  display: flex;
+}
+
 .icon svg {
   width: 20px;
   height: 20px;
