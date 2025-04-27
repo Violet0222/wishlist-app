@@ -1,10 +1,8 @@
 function menu_dropdown() {
-  console.log("hello");
   const dropdown_containers = document.querySelectorAll(".dropdown-container");
   dropdown_containers.forEach((dropdown_container) => {
     const menuButton = dropdown_container.querySelector(".menu-dropdown-btn");
     menuButton.addEventListener("click", (event) => {
-      console.log("hi there");
       const dropdown_menu = dropdown_container.querySelector(".menu-dropdown");
 
       dropdown_menu.classList.toggle("show");
