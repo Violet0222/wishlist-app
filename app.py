@@ -60,6 +60,17 @@ def login():
         return redirect("/")
     return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/login")
+
+
 @app.route("/create_wishlist", methods=["GET", "POST"])
 def create_wishlist():
     user_id = session["user_id"]
