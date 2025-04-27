@@ -3,6 +3,7 @@
 <script src="/static/modal_window.js"></script>
 <script src="/static/menu_dropdown.js"></script>
 <script src="/static/sort.js"></script>
+<script src="/static/filter.js"></script>
 {% endblock %} {% block title %} Wishlist Items {% endblock %} {% block main %}
 
 <div class="page-header">
@@ -156,9 +157,7 @@
       <!-- Dropdown / Menu -->
       <div class="wishlist-cell">
         <div class="dropdown-container" id="dropdown-container-{{ item['id'] }}">
-          <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
-          ⋮
-          </button>
+          <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">⋮</button>
           <div class="menu-dropdown" id="menu-{{ item['id'] }}">
             <div id="hide-container-{{ item['id'] }}">
               <form
