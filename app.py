@@ -74,26 +74,27 @@ def logout():
 
 @app.route("/settings")
 def settings():
-    return render_template("settings.html")
+    user_name = session["user_name"]
+    return render_template("settings.html", user_name=user_name)
 
-@app.route("/settings/account", methods=["GET", "POST"])
-def settings_account():
-    user_id = session["user_id"]
-    if request.method == "POST":
-        new_user_name = request.form.get('user_name')
-        data_to_update = {}
-        if user_name:
-            data_to_update['user_name'] = new_user_name
+# @app.route("/settings/", methods=["GET", "POST"])
+# def settings_account():
+#     user_id = session["user_id"]
+#     if request.method == "POST":
+#         new_user_name = request.form.get('user_name')
+#         data_to_update = {}
+#         if user_name:
+#             data_to_update['user_name'] = new_user_name
        
-        response = db.update_user_details(user_id, data_to_update)
-        if response is None:
-            return render_template("settings.html", error="User details are not updated")
-        flash("Updated!")
-        session["user_name"]=new_user_name
-        return redirect("settings.html")
-    else:      
-        user_name = session["user_name"]
-        return render_template("settings.html", user_name=user_name)
+#         response = db.update_user_details(user_id, data_to_update)
+#         if response is None:
+#             return render_template("settings.html", error="User details are not updated")
+#         flash("Updated!")
+#         session["user_name"]=new_user_name
+#         return redirect("settings.html")
+#     else:      
+#         user_name = session["user_name"]
+#         return render_template("settings.html", user_name=user_name)
 
 @app.route("/create_wishlist", methods=["GET", "POST"])
 def create_wishlist():

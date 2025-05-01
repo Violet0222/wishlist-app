@@ -1,51 +1,70 @@
 {% extends "layout.html" %} {% block head %}
+<link rel="stylesheet" href="/static/styles.css" />
 <script src="/static/settings.js"></script>
-
-{% endblock %} {% block title %} Settings {% endblock %} {% block main %}
+{% endblock %} {% block title %}Settings{% endblock %} {% block main %}
 <div class="settings-page">
   <!-- Sidebar -->
   <aside class="settings-sidebar">
     <h2 class="sidebar-title">Settings</h2>
-    
+
     <nav class="settings-nav">
-      <a href="/account" class="settings-link">Account</a>
-      <a href="/preferences" class="settings-link">Preferences</a>
-      <a href="/notifications" class="settings-link">Notifications</a>
-      <a href="/security" class="settings-link">Security</a>
+      <button type="button" class="settings-link" data-target="account">
+        Account
+      </button>
+      <button type="button" class="settings-link" data-target="preferences">
+        Preferences
+      </button>
+      <button type="button" class="settings-link" data-target="notifications">
+        Notifications
+      </button>
     </nav>
   </aside>
 
   <!-- Main Content -->
   <div class="settings-content">
-    <h1 class="content-title">Account</h1>
-
-    <div class="settings-group editable-field">
-      <label class="settings-label">Username</label>
-      <p>Change your user name.</p>
-      <span class="value-display">{{user_name}}</span>
-      <form action="/settings/account" method="post" class="hidden">
-        <input value="{{user_name}}" name="user_name" />
-      </form>
+    <!-- Account Section -->
+    <div id="account-content" class="settings-section">
+      <h1 class="content-title">Account</h1>
+      <div class="settings-group editable-field">
+        <label class="settings-label">Username</label>
+        <p>Change your user name.</p>
+        <span class="value-display">{{ user_name }}</span>
+        <form action="/settings/account" method="post" class="hidden">
+          <input value="{{ user_name }}" name="user_name" />
+        </form>
+      </div>
     </div>
 
-    <h1 class="content-title">Preferences</h1>
-    <div class="setting-group">
-      <label for="language">Language</label>
-      <p>Change the language used in the user interface.</p>
-      <select id="language">
-        <option>English</option>
-        <option>Español</option>
-      </select>
+    <!-- Preferences Section -->
+    <div id="preferences-content" class="settings-section hidden">
+      <h1 class="content-title">Preferences</h1>
+      <div class="settings-group">
+        <label for="language">Language</label>
+        <p>Change the language used in the user interface.</p>
+        <select id="language" name="language">
+          <option>English</option>
+          <option>Español</option>
+        </select>
+      </div>
     </div>
-    <button class="btn-save">Save Changes</button>
 
-    <div class="settings-group">
-      <label class="settings-label">Email Notifications</label>
-      <select class="settings-select">
-        <option>All</option>
-        <option>Only important</option>
-        <option>None</option>
-      </select>
+    <!-- Notifications Section -->
+    <div id="notifications-content" class="settings-section hidden">
+      <h1 class="content-title">Notifications</h1>
+      <div class="settings-group">
+        <label>Email Notifications</label>
+        <p>Receive updates via email.</p>
+        <input
+          type="checkbox"
+          name="email_notifications"
+          {%
+          if
+          email_notifications
+          %}checked{%
+          endif
+          %}
+        />
+      </div>
     </div>
   </div>
 </div>
