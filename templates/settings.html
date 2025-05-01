@@ -6,7 +6,9 @@
   <!-- Sidebar -->
   <aside class="settings-sidebar">
     <h2 class="sidebar-title">Settings</h2>
+    
     <nav class="settings-nav">
+      <a href="/account" class="settings-link">Account</a>
       <a href="/preferences" class="settings-link">Preferences</a>
       <a href="/notifications" class="settings-link">Notifications</a>
       <a href="/security" class="settings-link">Security</a>
@@ -15,17 +17,18 @@
 
   <!-- Main Content -->
   <div class="settings-content">
-    <h1 class="content-title">Preferences</h1>
+    <h1 class="content-title">Account</h1>
 
     <div class="settings-group editable-field">
       <label class="settings-label">Username</label>
       <p>Change your user name.</p>
       <span class="value-display">{{user_name}}</span>
-      <form action="/settings/preferences" method="post" class="hidden">
+      <form action="/settings/account" method="post" class="hidden">
         <input value="{{user_name}}" name="user_name" />
       </form>
     </div>
 
+    <h1 class="content-title">Preferences</h1>
     <div class="setting-group">
       <label for="language">Language</label>
       <p>Change the language used in the user interface.</p>

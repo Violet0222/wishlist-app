@@ -76,8 +76,8 @@ def logout():
 def settings():
     return render_template("settings.html")
 
-@app.route("/settings/preferences", methods=["GET", "POST"])
-def settings_preferences():
+@app.route("/settings/account", methods=["GET", "POST"])
+def settings_account():
     user_id = session["user_id"]
     if request.method == "POST":
         new_user_name = request.form.get('user_name')
