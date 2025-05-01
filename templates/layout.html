@@ -9,27 +9,25 @@
     {% block head %}{% endblock %}
   </head>
   <body>
-    <div class="nav-wrapper">
-      {% if session["user_id"] %}
-      <ul class="nav-bar">
-        <li>
-          <button class="nav-bar-btn">⋯</button>
-          <div class="nav_bar_container">
-            <a href="/">Home</a>
-            <a href="/settings">Settings</a>
-            <a href="/logout">Log out</a>
-          </div>
-        </li>
-        <li><a href="/">Wish</a></li>
-      </ul>
-      {% else %}
-      <ul class="nav-bar">
-        <li><a href="/register">Register</a></li>
-        <li><a href="/login">Log In</a></li>
-      </ul>
-      {% endif %}
+    <div class="wrapper">
+      {% if session["user_id"] %} {% include "nav_bar.html" %}
+      <div class="content" id="main-content">
+        <ul class="nav-bar">
+          <li>
+            <button class="nav-bar-btn" id="toggleSidebar">
+              <span class="icon"> {% include "icons/menu.svg" %}</span>
+            </button>
+          </li>
+          <li><a href="/">Wish</a></li>
+        </ul>
+        {% else %}
+        <ul>
+          <li><a href="/login">Log In</a></li>
+          <li><a href="/register">Register</a></li>
+        </ul>
+        {% endif %}
+        <main>{% block main %}{% endblock %}</main>
+      </div>
     </div>
-
-    <main>{% block main %} {% endblock %}</main>
   </body>
 </html>
