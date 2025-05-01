@@ -80,15 +80,16 @@ def settings():
 def settings_preferences():
     user_id = session["user_id"]
     if request.method == "POST":
-        user_name = request.form.get('user_name')
+        new_user_name = request.form.get('user_name')
         data_to_update = {}
         if user_name:
-            data_to_update['user_name'] = user_name
+            data_to_update['user_name'] = new_user_name
        
         response = db.update_user_details(user_id, data_to_update)
         if response is None:
             return render_template("settings.html", error="User details are not updated")
         flash("Updated!")
+        session["user_name"]=new_user_name
         return redirect("settings.html")
     else:      
         user_name = session["user_name"]
@@ -207,7 +208,6 @@ def wishlist_items(category_id):
         items = db.get_wishlist_items(user_id, category_id)
         if items is None:
             items = []
-        print(items)
         return render_template("wishlist_items.html", items=items, category_id=category_id, category_name=category_name, currencies=currencies)
 
 @app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
