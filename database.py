@@ -124,6 +124,35 @@ def get_user(user_name, password):
         if conn:
             conn.close()  #close the connection
 
+def update_user_details (user_id, data):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        # Build the SET clause of the SQL query using named parameters
+        set_clause = ", ".join([f"{col} = :{col}" for col in data.keys()])
+
+        # Construct the SQL query
+        sql = f"""
+          UPDATE users
+          SET {set_clause}
+          WHERE id = :user_id
+          """
+
+        # Prepare the values for the update, including the record_id
+        values = data.copy()  # Create a copy to avoid modifying the original
+        values["user_id"] = user_id
+        cursor = conn.cursor()
+        cursor.execute(sql, values)
+        conn.commit()
+        if cursor.rowcount == 0:
+            print("No item was updated (check if item exists)")
+            return None  # No row was updated
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to update a wishlist:", e)
+        return None
 
 def create_wishlist_category(category, user_id):
     conn = get_db()

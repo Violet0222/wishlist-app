@@ -1,0 +1,49 @@
+{% extends "layout.html" %} {% block head %}
+<script src="/static/settings.js"></script>
+
+{% endblock %} {% block title %} Settings {% endblock %} {% block main %}
+<div class="settings-page">
+  <!-- Sidebar -->
+  <aside class="settings-sidebar">
+    <h2 class="sidebar-title">Settings</h2>
+    <nav class="settings-nav">
+      <a href="/preferences" class="settings-link">Preferences</a>
+      <a href="/notifications" class="settings-link">Notifications</a>
+      <a href="/security" class="settings-link">Security</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="settings-content">
+    <h1 class="content-title">Preferences</h1>
+
+    <div class="settings-group editable-field">
+      <label class="settings-label">Username</label>
+      <p>Change your user name.</p>
+      <span class="value-display">{{user_name}}</span>
+      <form action="/settings/preferences" method="post" class="hidden">
+        <input value="{{user_name}}" name="user_name" />
+      </form>
+    </div>
+
+    <div class="setting-group">
+      <label for="language">Language</label>
+      <p>Change the language used in the user interface.</p>
+      <select id="language">
+        <option>English</option>
+        <option>Español</option>
+      </select>
+    </div>
+    <button class="btn-save">Save Changes</button>
+
+    <div class="settings-group">
+      <label class="settings-label">Email Notifications</label>
+      <select class="settings-select">
+        <option>All</option>
+        <option>Only important</option>
+        <option>None</option>
+      </select>
+    </div>
+  </div>
+</div>
+{% endblock %}
