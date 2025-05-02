@@ -1,25 +1,45 @@
-/* Основні стилі, що нагадують Notion */
+/* Base Font and Layout */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
-  background-color: #fafafa;
-  color: #37352f;
-  /* margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
   padding: 20px;
-  overflow-x: auto;
-  min-width: 1000px; */
 }
 
+/* Theme Variables */
+:root {
+  --bg-color: #fafafa;
+  --text-color: #37352f;
+  --card-bg: #fff;
+  --border-color: #ddd;
+  --heading-color: #2e2e2e;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e4e4e4;
+  --card-bg: #1e1e1e;
+  --border-color: #333;
+  --heading-color: #f0f0f0;
+  --shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
+}
+
+/* Typography */
 p {
   max-width: 100%;
   width: 780px;
-  caret-color: rgb(50, 48, 44);
   font-size: 14px;
+  caret-color: var(--text-color);
 }
+
 h1 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 20px;
+  color: var(--heading-color);
 }
 
 h3 {
@@ -27,36 +47,34 @@ h3 {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-right: 6px;
-  color: rgb(50, 48, 44);
+  color: var(--heading-color);
   line-height: 1.5;
 }
 
+/* Divider */
 hr {
-  border: 1px solid #ddd;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  margin: 10px 0 20px;
 }
 
+/* List Styling */
 ul {
   list-style: none;
   padding: 0;
 }
 
 ul li {
-  background: #fff;
+  background: var(--card-bg);
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
 }
 
+/* Link inside list items */
 ul li a {
   text-decoration: none;
-  color: #37352f;
+  color: var(--text-color);
   font-weight: 500;
   padding: 8px 12px;
   border-radius: 6px;
@@ -64,93 +82,82 @@ ul li a {
 }
 
 ul li a:hover {
-  background-color: rgba(55, 53, 47, 0.1);
+  background-color: var(--hover-bg);
 }
 
-/* button {
-  background: #fff;
-  border: 1px solid rgba(55, 53, 47, 0.2);
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-} */
-
+/* Buttons */
 button {
-  background-color: #ececec;
+  background-color: var(--button-bg);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.2rem;
   cursor: pointer;
   font-size: 1rem;
   margin-top: 1rem;
-  transition: background-color 0.2s ease;
+  color: var(--text-color);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-
-/* button a {
-  text-decoration: none;
-  color: #37352f;
-  font-weight: 500;
-} */
 
 button:hover {
-  background-color: rgba(55, 53, 47, 0.1);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--button-hover-bg);
+  box-shadow: var(--shadow);
 }
 
+/* Inputs and textareas */
 input,
 textarea {
-  border: 1px solid #ddd;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 0.5rem;
   font-size: 1rem;
   width: 100%;
 }
 
+/* Forms */
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  /*max-width: 500px;*/
-  margin-top: 20px;
+  gap: 1rem;
 }
 
 form label {
   font-weight: 500;
+  color: var(--text-color);
 }
 
 form button {
-  background-color: #f7f7f7;
+  background-color: var(--button-bg);
   font-weight: 600;
+  color: var(--text-color);
 }
 
+/* Main content area */
 main {
-  background: #fff;
+  background: var(--card-bg);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 2000x;
+  box-shadow: var(--shadow);
+  max-width: 2000px; /* fixed the typo from "2000x" */
   overflow-x: auto;
   margin: auto;
 }
 
+/* Layout wrapper */
 .wrapper {
   display: flex;
   transition: transform 0.3s ease;
 }
 
+/* Sidebar / nav */
 .nav_bar_container {
   width: 250px;
   min-width: 250px;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   height: 100vh;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   position: relative;
   left: 0;
   transition: margin-left 0.3s ease;
@@ -162,6 +169,7 @@ main {
   margin-left: -280px;
 }
 
+/* Main content */
 .content {
   flex: 1;
   transition: margin-left 0.3s ease;
@@ -171,33 +179,37 @@ main {
   margin-left: 0px;
 }
 
+/* Button for toggling nav */
 .nav-bar-btn {
   background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: var(--text-color);
 }
 
+/* Icons */
 .icon svg {
   width: 20px;
   height: 20px;
-  color: #999; /* gray like Notion */
+  color: var(--icon-color);
   transition: color 0.2s ease-in-out;
 }
 
 .icon svg:hover {
-  color: #333; /* darker on hover */
+  color: var(--icon-hover-color);
 }
 
+/* Selects (dropdowns) */
 select {
   width: 100%;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  outline: none;
-  margin-top: 5px;
+  padding: 0.5rem;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
 }
+
 
 select:focus {
   border-color: #007bff;

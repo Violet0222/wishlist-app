@@ -1,6 +1,7 @@
 {% extends "layout.html" %} {% block head %}
 <link rel="stylesheet" href="/static/styles.css" />
 <script src="/static/settings.js"></script>
+<script src="/static/theme.js"></script>
 {% endblock %} {% block title %}Settings{% endblock %} {% block main %}
 <div class="settings-page">
   <!-- Sidebar -->
@@ -40,11 +41,9 @@
       <h1 class="content-title">Preferences</h1>
       <div class="settings-group">
         <label for="language">Language</label>
-        <p>Change the language used in the user interface.</p>
-        <select id="language" name="language">
-          <option>English</option>
-          <option>Español</option>
-        </select>
+        <p>Change the theme used in the user interface.</p>
+
+        <button onclick="toggleTheme()">Toggle Theme</button>
       </div>
     </div>
 
