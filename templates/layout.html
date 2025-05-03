@@ -11,12 +11,14 @@
   </head>
   <body>
     <div class="wrapper">
-      {% if session["user_id"] %} {% include "nav_bar.html" %}
+      {% if session["user_id"] %} {% include "nav_bar.html" %} {% endif %}
+
       <div class="content" id="main-content">
+        {% if session["user_id"] %}
         <ul class="nav-bar">
           <li>
             <button class="nav-bar-btn" id="toggleSidebar">
-              <span class="icon"> {% include "icons/menu.svg" %}</span>
+              <span class="icon">{% include "icons/menu.svg" %}</span>
             </button>
           </li>
         </ul>
@@ -26,6 +28,7 @@
           <li><a href="/register">Register</a></li>
         </ul>
         {% endif %}
+
         <main>{% block main %}{% endblock %}</main>
       </div>
     </div>
