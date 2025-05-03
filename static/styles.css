@@ -182,9 +182,24 @@ main {
   display: flex;
   flex-direction: row;
   min-height: 100vh;
+  background-color: var(--bg-color);
   /* transition: transform 0.3s ease; */
 }
 /* Sidebar base */
+
+.nav-bar-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.nav-bar-btn:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
 .nav_bar_container {
   width: 250px;
   min-width: 250px;
@@ -456,9 +471,9 @@ button[type="submit"]:hover {
   text-decoration: underline;
 }
 
-.page-header {
+/* .page-header {
   margin-bottom: 24px;
-}
+} */
 
 .intro-text {
   font-size: 15px;
@@ -537,10 +552,10 @@ button[type="submit"]:hover {
   border-top: none;
 }
 
-.wishlist-header {
+/* .wishlist-header {
   background-color: #f9f9f9;
   color: rgb(120, 119, 116);
-}
+} */
 
 .wishlist-cell {
   display: table-cell;
