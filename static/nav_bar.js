@@ -1,31 +1,7 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//   const sidebar = document.getElementById("sidebar");
-//   const content = document.getElementById("main-content");
-//   const toggleButton = document.getElementById("toggleSidebar");
-//   const closeButton = document.getElementById("closeSidebar");
-//   const links = document.querySelectorAll(".nav_bar_container a");
-
-//   toggleButton?.addEventListener("click", () => {
-//     sidebar.classList.toggle("hidden");
-//     content.classList.toggle("shifted");
-//   });
-
-//   closeButton?.addEventListener("click", () => {
-//     sidebar.classList.add("hidden");
-//     content.classList.remove("shifted");
-//   });
-
-//   links.forEach((link) => {
-//     link.addEventListener("click", () => {
-//       sidebar.classList.add("hidden");
-//       content.classList.remove("shifted");
-//     });
-//   });
-// });
-
 document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
-  const content = document.getElementById("main-content");
+  const content = document.getElementById("content");
+  const main_content = document.getElementById("main-content");
   const toggleButton = document.getElementById("toggleSidebar");
   const closeButton = document.getElementById("closeSidebar");
   const links = document.querySelectorAll(".nav_bar_container a");
@@ -39,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleButton.classList.remove("hidden");
     if (!isMobile()) {
       content.classList.remove("shifted");
+      main_content.classList.remove("shifted");
     }
   }
 
@@ -47,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleButton.classList.toggle("hidden");
     if (!isMobile()) {
       content.classList.toggle("shifted");
+      main_content.classList.toggle("shifted");
     }
   }
 

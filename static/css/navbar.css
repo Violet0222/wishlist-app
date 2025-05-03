@@ -1,43 +1,80 @@
+.nav-bar {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-bar li {
+  margin: 0;
+  padding: 0;
+}
+
 .nav-bar-btn {
   position: relative;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: clamp(20px, 4vw, 28px); /* адаптивный размер иконки */
   cursor: pointer;
   color: var(--text-color);
+  padding: clamp(6px, 1vw, 12px);
+}
+
+.tooltip-text {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  padding: 6px 10px;
+  font-size: clamp(12px, 2vw, 14px);
+  white-space: nowrap;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  margin-left: 8px;
+  z-index: 999;
 }
 
 .nav-bar-btn:hover .tooltip-text {
   opacity: 1;
   visibility: visible;
 }
+
+/* Sidebar */
 .nav_bar_container {
-  width: 250px;
-  min-width: 250px;
+  width: clamp(180px, 30vw, 250px); /* адаптивная ширина */
+  min-width: 180px;
   background-color: var(--card-bg);
   height: 100vh;
-  padding: 20px;
+  padding: clamp(12px, 3vw, 20px);
   box-shadow: var(--shadow);
   position: fixed;
   left: 0;
   top: 0;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   transition: transform 0.3s ease;
   z-index: 1000;
   transform: translateX(0); /* visible by default */
 }
 
+
+
 .nav_bar_container.hidden {
   transform: translateX(-100%);
 }
 
-/* Nav links */
 .nav_bar_container a {
   color: var(--text-color);
   text-decoration: none;
-  padding: 12px 0;
-  font-size: 16px;
+  padding: clamp(8px, 1.5vw, 12px) 0;
+  font-size: clamp(14px, 2vw, 16px);
   transition: color 0.2s ease;
 }
 
@@ -48,51 +85,16 @@
 
 /* Optional spacing block inside sidebar */
 .nav_bar_container div {
-  margin-bottom: 20px;
+  margin-bottom: clamp(12px, 2vw, 20px);
 }
 
-/* Main content next to sidebar */
-.content {
-  margin-left: 0px;
-  transition: margin-left 0.3s ease;
-}
-
-.content.shifted {
-  margin-left: 240px;
-}
-
-/* Mobile: auto-hide sidebar and shift content */
+/* Mobile: hide sidebar and adapt layout */
 @media (max-width: 768px) {
   .nav_bar_container {
     transform: translateX(-100%);
   }
 
-  .nav_bar_container.hidden {
-    transform: translateX(0);
+  .nav-bar-btn {
+    font-size: clamp(24px, 6vw, 32px); /* чуть крупнее на мобильных */
   }
-
-  .content,
-  .content.shifted {
-    margin-left: 0;
-  }
-}
-
-.close-navbar-btn {
-  position: relative;
-  background: none;
-  border: none;
-  font-size: 28px;
-  color: var(--text-color);
-  align-self: flex-end;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.close-navbar-btn:hover {
-  color: var(--heading-color);
-}
-
-.close-navbar-btn:hover .tooltip-text {
-  opacity: 1;
-  visibility: visible;
 }
