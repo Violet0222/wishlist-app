@@ -247,7 +247,7 @@ main {
 
   .content,
   .content.shifted {
-    margin-left: 0 !important; /* Always full width on mobile */
+    margin-left: 0;
   }
 }
 
