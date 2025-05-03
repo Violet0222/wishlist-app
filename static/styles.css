@@ -150,7 +150,7 @@ main {
   transition: transform 0.3s ease;
 }
 
-/* Sidebar / nav */
+/* Sidebar base */
 .nav_bar_container {
   width: 250px;
   min-width: 250px;
@@ -165,8 +165,20 @@ main {
   flex-direction: column;
 }
 
+/* Hidden = slide out */
 .nav_bar_container.hidden {
   margin-left: -280px;
+}
+
+/* Responsive auto-hide on small screens */
+@media (max-width: 767px) {
+  .nav_bar_container {
+    margin-left: -280px;
+  }
+
+  .nav_bar_container.hidden {
+    margin-left: 0;
+  }
 }
 
 /* Main content */
@@ -179,7 +191,7 @@ main {
   margin-left: 0px;
 }
 
-/* Button for toggling nav */
+/* Toggle button */
 .nav-bar-btn {
   background: none;
   border: none;
@@ -187,6 +199,7 @@ main {
   cursor: pointer;
   color: var(--text-color);
 }
+
 
 /* Icons */
 .icon svg {
@@ -209,7 +222,6 @@ select {
   border: 1px solid var(--border-color);
   border-radius: 6px;
 }
-
 
 select:focus {
   border-color: #007bff;
