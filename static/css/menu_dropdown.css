@@ -11,16 +11,6 @@
   visibility: hidden;
 }
 
-.menu-dropdown-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  cursor: pointer;
-}
-
 .menu-dropdown {
   display: none;
   position: absolute;
@@ -38,18 +28,17 @@
   display: block;
 }
 
-.menu-dropdown button {
-  display: block;
-  padding: 0.5rem 1rem;
+.menu-dropdown-btn {
   background: none;
   border: none;
-  width: 100%;
-  text-align: left;
+  font-size: 1.25rem;
+  color: var(--text-color);
   cursor: pointer;
+  padding: 0.25rem;
 }
 
-.menu-dropdown button:hover {
-  background: #f0f0f0;
+.menu-dropdown-btn:hover {
+  color: var(--heading-color);
 }
 
 /* .menu-dropdown {
