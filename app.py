@@ -101,6 +101,7 @@ def create_wishlist():
     user_id = session["user_id"]
     if request.method == "POST":
         category = request.form.get("category_name")
+        print(category)
         if not category or not category.strip():
             print("please enter a valid category")
             return render_template("create_wishlist.html", error="Please enter a valid category")

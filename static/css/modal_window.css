@@ -1,0 +1,104 @@
+/* Overlay background */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+/* Modal box */
+.modal {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.open .modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+/* Close button */
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--heading-color);
+}
+
+/* Form layout */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-form input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-submit {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background-color: #2f80ed;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-submit:hover {
+  background-color: #1366d6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

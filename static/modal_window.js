@@ -1,49 +1,35 @@
 function modalWindow() {
+  const openModalBtn = document.getElementById("openModalBtn");
+  const modal = document.getElementById("modal");
+  const closeModalBtn = modal.querySelector(".modal-close");
 
+  if (!openModalBtn || !modal || !closeModalBtn) return;
 
+  // Open modal
+  openModalBtn.addEventListener("click", () => {
+    modal.style.display = "flex"; // Flex for centered layout
+    setTimeout(() => {
+      modal.classList.add("open");
+    }, 10);
+  });
 
+  // Close modal on close button
+  closeModalBtn.addEventListener("click", () => {
+    modal.classList.remove("open");
+    setTimeout(() => {
+      modal.style.display = "none";
+    }, 300);
+  });
 
-    const openModalBtns = document.querySelectorAll(".openModalBtn");
-    const modals = document.querySelectorAll(".modal");
-    const closeModalBtns = document.querySelectorAll(".closeModalBtn");
-
-    openModalBtns.forEach((btn, index) => {
-        const modal = modals[index]
-        const closeModalBtn = closeModalBtns[index]
-
-        if (!modal || !closeModalBtn) return;
-
-        // modal window opening
-        btn.addEventListener("click", () => {
-            modal.style.display = "block";
-            setTimeout(function() {
-                modal.classList.add("open");
-            }, 10);
-        });
-        // Close modal window
-        closeModalBtn.addEventListener("click", function() {
-            modal.classList.remove("open");
-            setTimeout(function() {
-                modal.style.display = "none";
-            }, 300);
-        })
-
-        // Close modal if clicked outside of modal content
-        window.addEventListener("click", function(event) {
-            if (event.target === modal) {
-                modal.classList.remove("open");
-                setTimeout(function() {
-                    modal.style.display = "none";
-                }, 300);
-            }
-        });
-    })
-
-
-
-
-
-
+  // Close modal on outside click
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.classList.remove("open");
+      setTimeout(() => {
+        modal.style.display = "none";
+      }, 300);
+    }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", modalWindow);

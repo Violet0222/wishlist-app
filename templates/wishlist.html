@@ -1,31 +1,36 @@
 {% extends "layout.html" %} {% block head %}
 <script src="/static/modal_window.js"></script>
 <script src="/static/menu_dropdown.js"></script>
-{% endblock %} {% block title %} Add Wishlist {% endblock %} {% block main %}
-<div class="page-header"/>
-<h1>🎁 Wishlist Categories</h1>
-<p class="intro-text">
-  Use this template to organize your wishlist categories and keep track of your
-  items. Click <strong>+ New</strong> to create a new wishlist category and start
-  adding your wishes. Click on an existing category to view, edit, or manage the items inside it.
-</p>
+<link rel="stylesheet" href="/static/css/styles.css" />
+<link rel="stylesheet" href="/static/css/wishlist_categories.css" />
+<link rel="stylesheet" href="/static/css/menu_dropdown.css" />
+<link rel="stylesheet" href="/static/css/modal_window.css" />
 
-<div class="row">
-  <h3>Categories</h3>
-  <button id="openModalBtn" class="openModalBtn new-item-btn">
-    <span class="plus-icon">New +</span>
-    <span class="tooltip-text">Create new category</span>
-  </button>
-</div>
-</div>
+{% endblock %} {% block title %} All Wishlists{% endblock %} {% block main %}
+<div class="wishlist-wrapper">
+  <header class="wishlist-header">
+    <h1 class="wishlist-title">🎁 Wishlist Categories</h1>
+    <p class="wishlist-intro">
+      Use this space to organize wishlist categories and track your desired
+      items. Click <strong>+ New</strong> to create a new category or click an
+      existing one to manage it.
+    </p>
+  </header>
 
-<div class="category-grid">
-  {% for category in wishlist_categories %}
- 
-    <div class="category-container" id="category-{{ category['id'] }}">
-      <a href="/wishlist/{{ category['id'] }}" class="category-title"
-        >{{ category['name'] }}</a
-      >
+  <div class="wishlist-controls">
+    <h3 class="wishlist-subheading">Categories</h3>
+    <button id="openModalBtn" class="new-category-btn">
+      <span class="plus-icon">+ New</span>
+      <span class="tooltip-text">Create new category</span>
+    </button>
+  </div>
+
+  <section class="category-grid">
+    {% if wishlist_categories %} {% for category in wishlist_categories %}
+    <div class="category-card" id="category-{{ category['id'] }}">
+      <a href="/wishlist/{{ category['id'] }}" class="category-title">
+        {{ category['name'] }}
+      </a>
       <div
         class="dropdown-container"
         id="dropdown-container-{{ category['id'] }}"
@@ -35,9 +40,7 @@
         </button>
         <span class="tooltip-text">Delete, more...</span>
         <div class="menu-dropdown" id="menu-{{ category['id'] }}">
-          <button onclick="copyLink('{{ category['id'] }}')">
-            📋 Copy Link
-          </button>
+          <button onclick="copyLink({{ category['id'] }})">Copy Link</button>
           <div id="delete-container-{{ category['id'] }}">
             <form action="/wishlist" method="post">
               <input value="delete" hidden name="delete" />
@@ -54,36 +57,35 @@
         </div>
       </div>
     </div>
-  
-  {% endfor %}
-</div>
+    {% endfor %} {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📭</div>
+      <p class="empty-message">No wishlist categories yet.</p>
+      <p>
+        Click <strong>New +</strong> above to start adding your first category!
+      </p>
+    </div>
+    {% endif %}
+  </section>
 
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span id="closeModalBtn" class="closeModalBtn close-btn">&times;</span>
-    <h2>Create New Category</h2>
-    <form action="/create_wishlist" method="POST">
-      <label for="category_name">Category Name</label>
-      <input
-        type="text"
-        name="category_name"
-        id="category_name"
-        placeholder="Empty"
-        required
-      />
-      <button type="submit">Create Category</button>
-
-      <!-- Секція для вибору шаблону категорії -->
-      <h2>Choose from Predefined Templates</h2>
-      <p>Select a template for your wishlist category:</p>
-      <ul>
-        <li><a href="/choose_template/Technology">Technology</a></li>
-        <li><a href="/choose_template/Books">Books</a></li>
-        <li><a href="/choose_template/Travel">Travel</a></li>
-        <li><a href="/choose_template/Clothing">Clothing</a></li>
-        <li><a href="/choose_template/Other">Other</a></li>
-      </ul>
-    </form>
+  <div id="modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Create New Category</h2>
+        <button id="closeModalBtn" class="modal-close">&times;</button>
+      </div>
+      <form action="/create_wishlist" method="POST" class="notion-modal-form">
+        <label for="category_name">Category Name</label>
+        <input
+          type="text"
+          name="category_name"
+          id="category_name"
+          placeholder="Empty"
+          required
+        />
+        <button type="submit" class="modal-submit">Create</button>
+      </form>
+    </div>
   </div>
 </div>
 

@@ -225,88 +225,6 @@ select:focus {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Раздвигает элементы */
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd; /* Добавляет разделительную линию */
-}
-
-/* Стилі для поп-ап модального вікна */
-.modal {
-  display: none; /* Сховати вікно за замовчуванням */
-  position: fixed;
-  z-index: 109;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 564px;
-  transform: translateX(0px) translateZ(0px);
-  transition-duration: 200ms;
-  transition-timing-function: ease;
-  transition-property: width, transform;
-  overflow: auto; /* Прокручування при потребі */
-  transition: opacity 0.3s ease;
-}
-
-.modal-content {
-  background-color: white;
-  margin: 15% auto;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  /*max-width: 500px;*/
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transform: scale(0);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.modal.open .modal-content {
-  transform: scale(1);
-  opacity: 1;
-}
-
-/* Кнопка закриття */
-.close-btn {
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-  color: black;
-  text-decoration: none;
-}
-
-.new-item-btn {
-  position: relative;
-  display: inline-block;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #4a4a4a;
-  background-color: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.new-item-btn:hover {
-  background-color: #f9f9f9;
-  border-color: #bdbdbd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-
 .tooltip-text {
   position: absolute;
   opacity: 0;
@@ -329,13 +247,23 @@ select:focus {
   margin-left: 2px;
 }
 
-.new-item-btn:hover .tooltip-text {
+/* .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Раздвигает элементы */
+/* padding: 10px 0;
+  border-bottom: 1px solid #ddd; /* Добавляет разделительную линию */
+/* }  */
+
+
+
+/* .new-item-btn:hover .tooltip-text {
   opacity: 1;
   visibility: visible;
-}
+} */
 
 /* Кастомні стилі для input */
-input[type="text"] {
+/* input[type="text"] {
   width: 100%;
   padding: 10px;
   margin: 15px 0;
@@ -354,13 +282,13 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #45a049;
-}
-.category-grid {
+} */
+/* .category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
-}
-.category-container {
+} */
+/* .category-container {
   background: white;
   padding: 16px;
   border-radius: 12px;
@@ -370,8 +298,8 @@ button[type="submit"]:hover {
   justify-content: space-between;
   align-items: center;
   transition: all 0.2s ease;
-}
-.category-container:hover {
+} */
+/* .category-container:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 .category-title {
@@ -379,23 +307,23 @@ button[type="submit"]:hover {
   font-size: 16px;
   color: #333;
   text-decoration: none;
-}
+} */
 
-.category-title:hover {
+/* .category-title:hover {
   text-decoration: underline;
-}
+} */
 
 /* .page-header {
   margin-bottom: 24px;
 } */
 
-.intro-text {
+/* .intro-text {
   font-size: 15px;
   color: #5b5b5b;
   margin-bottom: 16px;
-}
+} */
 
-.menu-dropdown-btn {
+/* .menu-dropdown-btn {
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 8px 16px;
@@ -410,9 +338,9 @@ button[type="submit"]:hover {
 
 .menu-dropdown-btn:hover .icon {
   fill: #333;
-}
+} */
 
-.dropdown-container {
+/* .dropdown-container {
   display: inline-block;
   position: relative;
 }
@@ -437,12 +365,41 @@ button[type="submit"]:hover {
   z-index: 10;
   width: max-content;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+} */
 
-.menu-dropdown.show {
+/* .menu-dropdown.show {
   display: block;
+} */
+
+[data-theme="dark"] .empty-state {
+  color: #aaa;
 }
 
+[data-theme="dark"] .empty-icon {
+  filter: brightness(0.8) contrast(1.2);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--card-bg);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  margin-top: 2rem;
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-message {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
 .hidden {
   display: none;
 }
