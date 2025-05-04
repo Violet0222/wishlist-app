@@ -15,12 +15,17 @@
   display: none;
   position: absolute;
   right: 0;
-  top: 2rem;
-  background: white;
+  top: 2.5rem;
+  background: var(--card-bg, white);
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: var(--shadow);
   z-index: 10;
+
+  min-width: clamp(160px, 40vw, 240px);
+  padding: clamp(0.5rem, 1vw, 1rem);
+  max-width: 90vw;
+  overflow: hidden;
 }
 
 .menu-dropdown-btn:focus + .menu-dropdown,
@@ -29,12 +34,16 @@
 }
 
 .menu-dropdown-btn {
+  width: 100%;
+  padding: clamp(0.5rem, 1vh, 0.75rem);
   background: none;
   border: none;
-  font-size: 1.25rem;
+  text-align: left;
+  font-size: clamp(0.9rem, 1vw, 1rem); /* 👈 Scales font based on screen */
   color: var(--text-color);
   cursor: pointer;
-  padding: 0.25rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
 }
 
 .menu-dropdown-btn:hover {
