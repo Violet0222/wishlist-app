@@ -28,12 +28,22 @@
     <div id="account-content" class="settings-section">
       <h1 class="section-title">Account</h1>
       <div class="settings-group editable-field">
-        <label>Username</label>
-        <p class="text-explanation">Change your user name.</p>
-        <span class="value-display">{{ user_name }}</span>
-        <form action="/settings/account" method="post" class="hidden">
-          <input value="{{ user_name }}" name="user_name" />
-        </form>
+        <div class="editable-field">
+          <label>Username</label>
+          <p class="text-explanation">Change your user name.</p>
+          <span class="value-display">{{ user_name }}</span>
+          <form action="/settings" method="post" class="hidden">
+            <input value="{{ user_name }}" name="user_name" />
+          </form>
+        </div>
+        <div class="editable-field">
+          <label>Email</label>
+          <p class="text-explanation">Change your email.</p>
+          <span class="value-display">{{ email }}</span>
+          <form action="/settings" method="post" class="hidden">
+            <input value="{{ email }}" name="email" />
+          </form>
+        </div>
       </div>
     </div>
 

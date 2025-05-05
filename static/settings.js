@@ -44,8 +44,12 @@ function settings() {
         .querySelectorAll(".editable-field form:not(.hidden)")
         .forEach((form) => {
           if (form.contains(event.target)) {
-            event.preventDefault(); // prevent page refresh
-            form.submit(); // or handle it manually
+            const field = form.closest(".editable-field");
+            const valueDisplay = field.querySelector(".value-display");
+            form.classList.add("hidden");
+            valueDisplay.hidden = false;
+            event.preventDefault();
+            form.submit();
           }
         });
     }

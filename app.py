@@ -55,9 +55,9 @@ def login():
 
         # record the user name
         session["user_id"] = response["id"]
-        session["user_name"] = username
-        
-
+        session["user_name"] = response["user_name"]
+        session["email"] = response["email"]
+    
         # redirect to the main page
         return redirect("/")
     return render_template("login.html")
@@ -72,29 +72,30 @@ def logout():
     # Redirect user to login form
     return redirect("/login")
 
-@app.route("/settings")
+@app.route("/settings", methods=["GET", "POST"])
 def settings():
-    user_name = session["user_name"]
-    return render_template("settings.html", user_name=user_name)
+    user_id = session["user_id"]
+    if request.method == "POST":
+        new_user_name = request.form.get('user_name')
+        new_user_email = request.form.get('email')
+        data_to_update = {}
+        if new_user_name:
+            data_to_update['user_name'] = new_user_name
+        if new_user_email:
+            data_to_update['email'] = new_user_email
+        response = db.update_user_details(user_id, data_to_update)
+        if response is None:
+            return render_template("settings.html", error="User details are not updated")
+        flash("Updated!")
+        session["user_name"]=new_user_name
+        return redirect("settings.html")
+    else:      
+        user_name = session["user_name"]
+        email = session["email"]
+        return render_template("settings.html", user_name=user_name, email=email)
 
-# @app.route("/settings/", methods=["GET", "POST"])
-# def settings_account():
-#     user_id = session["user_id"]
-#     if request.method == "POST":
-#         new_user_name = request.form.get('user_name')
-#         data_to_update = {}
-#         if user_name:
-#             data_to_update['user_name'] = new_user_name
-       
-#         response = db.update_user_details(user_id, data_to_update)
-#         if response is None:
-#             return render_template("settings.html", error="User details are not updated")
-#         flash("Updated!")
-#         session["user_name"]=new_user_name
-#         return redirect("settings.html")
-#     else:      
-#         user_name = session["user_name"]
-#         return render_template("settings.html", user_name=user_name)
+
+
 
 @app.route("/create_wishlist", methods=["GET", "POST"])
 def create_wishlist():
