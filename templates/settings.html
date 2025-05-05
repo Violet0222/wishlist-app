@@ -1,23 +1,23 @@
-{% extends "layout.html" %}
-
-{% block head %}
+{% extends "layout.html" %} {% block head %}
 <link rel="stylesheet" href="/static/css/styles.css" />
 <link rel="stylesheet" href="/static/css/settings.css" />
 <script src="/static/settings.js"></script>
 <script src="/static/theme.js"></script>
-{% endblock %}
-
-{% block title %}Settings{% endblock %}
-
-{% block main %}
+{% endblock %} {% block title %}Settings{% endblock %} {% block main %}
 <div class="settings-container">
   <!-- Sidebar -->
   <aside class="settings-sidebar">
     <h2 class="sidebar-title">Settings</h2>
     <nav class="settings-nav">
-      <button type="button" class="settings-link" data-target="account">Account</button>
-      <button type="button" class="settings-link" data-target="preferences">Preferences</button>
-      <button type="button" class="settings-link" data-target="notifications">Notifications</button>
+      <button type="button" class="settings-link" data-target="account">
+        Account
+      </button>
+      <button type="button" class="settings-link" data-target="preferences">
+        Preferences
+      </button>
+      <button type="button" class="settings-link" data-target="notifications">
+        Notifications
+      </button>
     </nav>
   </aside>
 
@@ -28,13 +28,10 @@
       <h1 class="section-title">Account</h1>
 
       {% if error %}
-        <p class="error-message">{{ error }}</p>
-      {% endif %}
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <p class="success-message">{{ messages[0] }}</p>
-        {% endif %}
-      {% endwith %}
+      <p class="error-message">{{ error }}</p>
+      {% endif %} {% with messages = get_flashed_messages() %} {% if messages %}
+      <p class="success-message">{{ messages[0] }}</p>
+      {% endif %} {% endwith %}
 
       <form action="/settings" method="POST" class="settings-form">
         <div class="editable-field">
@@ -56,11 +53,28 @@
     <!-- Placeholder for other sections -->
     <div id="preferences-content" class="settings-section hidden">
       <h1 class="section-title">Preferences</h1>
-      <p>Coming soon...</p>
+      <div class="settings-group">
+        <label>Theme</label>
+        <p class="text-explanation">Change the theme used in the interface.</p>
+        <button onclick="toggleTheme()">Toggle Theme</button>
+      </div>
     </div>
     <div id="notifications-content" class="settings-section hidden">
       <h1 class="section-title">Notifications</h1>
-      <p>Coming soon...</p>
+      <div class="settings-group">
+        <label>Email Notifications</label>
+        <p class="text-explanation">Receive updates via email.</p>
+        <input
+          type="checkbox"
+          name="email_notifications"
+          {%
+          if
+          email_notifications
+          %}checked{%
+          endif
+          %}
+        />
+      </div>
     </div>
   </section>
 </div>
