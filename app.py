@@ -74,25 +74,37 @@ def logout():
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
-    user_id = session["user_id"]
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/login")
+
     if request.method == "POST":
-        new_user_name = request.form.get('user_name')
-        new_user_email = request.form.get('email')
+        new_user_name = request.form.get("user_name")
+        new_user_email = request.form.get("email")
         data_to_update = {}
+
         if new_user_name:
-            data_to_update['user_name'] = new_user_name
+            data_to_update["user_name"] = new_user_name
         if new_user_email:
-            data_to_update['email'] = new_user_email
-        response = db.update_user_details(user_id, data_to_update)
-        if response is None:
-            return render_template("settings.html", error="User details are not updated")
-        flash("Updated!")
-        session["user_name"]=new_user_name
-        return redirect("settings.html")
-    else:      
-        user_name = session["user_name"]
-        email = session["email"]
-        return render_template("settings.html", user_name=user_name, email=email)
+            data_to_update["email"] = new_user_email
+
+        if data_to_update:
+            response = db.update_user_details(user_id, data_to_update)
+            if response is None:
+                return render_template("settings.html", error="User details were not updated")
+
+            flash("Updated!")
+            if new_user_name:
+                session["user_name"] = new_user_name
+            if new_user_email:
+                session["email"] = new_user_email
+
+        return redirect("/settings")
+
+    user_name = session.get("user_name", "")
+    email = session.get("email", "")
+    return render_template("settings.html", user_name=user_name, email=email)
+
 
 
 

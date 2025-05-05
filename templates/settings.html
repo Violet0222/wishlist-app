@@ -1,24 +1,23 @@
-{% extends "layout.html" %} {% block head %}
+{% extends "layout.html" %}
+
+{% block head %}
 <link rel="stylesheet" href="/static/css/styles.css" />
 <link rel="stylesheet" href="/static/css/settings.css" />
 <script src="/static/settings.js"></script>
 <script src="/static/theme.js"></script>
-{% endblock %} {% block title %}Settings{% endblock %} {% block main %}
+{% endblock %}
+
+{% block title %}Settings{% endblock %}
+
+{% block main %}
 <div class="settings-container">
   <!-- Sidebar -->
   <aside class="settings-sidebar">
     <h2 class="sidebar-title">Settings</h2>
-
     <nav class="settings-nav">
-      <button type="button" class="settings-link" data-target="account">
-        Account
-      </button>
-      <button type="button" class="settings-link" data-target="preferences">
-        Preferences
-      </button>
-      <button type="button" class="settings-link" data-target="notifications">
-        Notifications
-      </button>
+      <button type="button" class="settings-link" data-target="account">Account</button>
+      <button type="button" class="settings-link" data-target="preferences">Preferences</button>
+      <button type="button" class="settings-link" data-target="notifications">Notifications</button>
     </nav>
   </aside>
 
@@ -27,53 +26,41 @@
     <!-- Account Section -->
     <div id="account-content" class="settings-section">
       <h1 class="section-title">Account</h1>
-      <div class="settings-group editable-field">
+
+      {% if error %}
+        <p class="error-message">{{ error }}</p>
+      {% endif %}
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <p class="success-message">{{ messages[0] }}</p>
+        {% endif %}
+      {% endwith %}
+
+      <form action="/settings" method="POST" class="settings-form">
         <div class="editable-field">
-          <label>Username</label>
+          <label for="user_name">Username</label>
           <p class="text-explanation">Change your user name.</p>
-          <span class="value-display">{{ user_name }}</span>
-          <form action="/settings" method="post" class="hidden">
-            <input value="{{ user_name }}" name="user_name" />
-          </form>
+          <input id="user_name" name="user_name" value="{{ user_name }}" />
         </div>
+
         <div class="editable-field">
-          <label>Email</label>
+          <label for="email">Email</label>
           <p class="text-explanation">Change your email.</p>
-          <span class="value-display">{{ email }}</span>
-          <form action="/settings" method="post" class="hidden">
-            <input value="{{ email }}" name="email" />
-          </form>
+          <input id="email" name="email" value="{{ email }}" />
         </div>
-      </div>
+
+        <button type="submit" class="save-button">Save Changes</button>
+      </form>
     </div>
 
-    <!-- Preferences Section -->
+    <!-- Placeholder for other sections -->
     <div id="preferences-content" class="settings-section hidden">
       <h1 class="section-title">Preferences</h1>
-      <div class="settings-group">
-        <label>Theme</label>
-        <p class="text-explanation">Change the theme used in the interface.</p>
-        <button onclick="toggleTheme()">Toggle Theme</button>
-      </div>
+      <p>Coming soon...</p>
     </div>
-
-    <!-- Notifications Section -->
     <div id="notifications-content" class="settings-section hidden">
       <h1 class="section-title">Notifications</h1>
-      <div class="settings-group">
-        <label>Email Notifications</label>
-        <p class="text-explanation">Receive updates via email.</p>
-        <input
-          type="checkbox"
-          name="email_notifications"
-          {%
-          if
-          email_notifications
-          %}checked{%
-          endif
-          %}
-        />
-      </div>
+      <p>Coming soon...</p>
     </div>
   </section>
 </div>
