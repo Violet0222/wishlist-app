@@ -14,8 +14,6 @@
   margin-bottom: 0.5rem;
 }
 
-
-
 .wishlist-controls {
   display: flex;
   justify-content: space-between;
@@ -53,6 +51,24 @@
   border-radius: 8px;
   box-shadow: var(--shadow);
   gap: 0.75rem;
+}
+
+.color-input {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  appearance: none;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.color-input:hover {
+  transform: scale(1.1);
 }
 
 .category-title {

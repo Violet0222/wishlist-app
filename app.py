@@ -120,9 +120,12 @@ def wishlist():
         return redirect("/login")
     if request.method == "POST":
         category_id = request.form.get('id')
-        print(category_id)
+       
         delete_category=request.form.get("delete")
-        print(delete_category)
+        card_background= request.form.get("card_color")
+        data_to_update = {}
+        if card_background:
+            data_to_update['card_background'] = card_background
         if category_id:
             if delete_category:
                 response = db.delete_category(category_id)
@@ -130,12 +133,17 @@ def wishlist():
                     return render_template("wishlist_item.html", error="Category wasn't found")
                 flash("Deleted!")
                 return redirect(f"/wishlist")
-
+            if card_background:
+                response = db.update_category(data_to_update, category_id)
+                if response is None:
+                    return render_template("wishlist_item.html", error="Category wasn't found")
+                return redirect(f"/wishlist")
     else:
         wishlist_categories = db.get_wishlist_categories(user_id)
         if wishlist_categories is None:
             return render_template("wishlist.html", error="Categories weren't found")
         return render_template("wishlist.html", wishlist_categories=wishlist_categories)
+
 
 
 @app.route("/wishlist/<int:category_id>", methods=["GET", "POST"])
@@ -180,7 +188,6 @@ def wishlist_items(category_id):
                 flash("Deleted!")
                 return redirect(f"/wishlist/{category_id}")
             else:
-                print('item_id', item_id)
                 response = db.update_wishlist_item(item_id, data_to_update)
                 if response is None:
                     return render_template("wishlist_items.html", error="Item wasn't updated")

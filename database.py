@@ -33,6 +33,7 @@ sql_statements = [
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
     name TEXT(100) NOT NULL UNIQUE,
+    card_background TEXT DEFAULT '#f5f5f5',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -215,6 +216,39 @@ def delete_category(category_id):
     except sqlite3.OperationalError as e:
         print("Failed to delete category:", e)
         return None
+    
+    
+ 
+def update_category(record_id, data):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        # Build the SET clause of the SQL query using named parameters
+        set_clause = ", ".join([f"{col} = :{col}" for col in data.keys()])
+
+        # Construct the SQL query
+        sql = f"""
+          UPDATE category
+          SET {set_clause}
+          WHERE id = :record_id
+          """
+
+        # Prepare the values for the update, including the record_id
+        values = data.copy()  # Create a copy to avoid modifying the original
+        values["record_id"] = record_id
+        cursor = conn.cursor()
+        cursor.execute(sql, values)
+        conn.commit()
+        if cursor.rowcount == 0:
+            print("No item was updated (check if item exists)")
+            return None  # No row was updated
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to update a wishlist:", e)
+        return None
+    
 
 def create_wishlist_item(title, description, url, user_id, price, currency, priority, category_id):
     conn = get_db()
@@ -309,7 +343,7 @@ def drop_table():
         cursor = conn.cursor()
 
 
-        cursor.execute("DROP TABLE IF EXISTS wish;")
+        cursor.execute("DROP TABLE IF EXISTS category")
         conn.commit()
         print("Table 'wish' has been deleted.")
 
