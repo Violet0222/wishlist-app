@@ -50,20 +50,7 @@
   color: var(--heading-color);
 }
 
-/* .menu-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  display: none;
-  z-index: 10;
-  width: max-content;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}  */
+
 
 .menu-dropdown.show {
   display: block;
