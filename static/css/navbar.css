@@ -15,7 +15,7 @@
   position: relative;
   background: none;
   border: none;
-  font-size: clamp(20px, 4vw, 28px); /* адаптивный размер иконки */
+  font-size: clamp(20px, 4vw, 28px); 
   cursor: pointer;
   color: var(--text-color);
   padding: clamp(6px, 1vw, 12px);

@@ -1,9 +1,10 @@
 {% extends "layout.html" %} {% block head %}
-<link rel="stylesheet" href="/static/styles.css" />
+<link rel="stylesheet" href="/static/css/styles.css" />
+<link rel="stylesheet" href="/static/css/settings.css" />
 <script src="/static/settings.js"></script>
 <script src="/static/theme.js"></script>
 {% endblock %} {% block title %}Settings{% endblock %} {% block main %}
-<div class="settings-page">
+<div class="settings-container">
   <!-- Sidebar -->
   <aside class="settings-sidebar">
     <h2 class="sidebar-title">Settings</h2>
@@ -22,13 +23,13 @@
   </aside>
 
   <!-- Main Content -->
-  <div class="settings-content">
+  <section class="settings-content">
     <!-- Account Section -->
     <div id="account-content" class="settings-section">
-      <h1 class="content-title">Account</h1>
+      <h1 class="section-title">Account</h1>
       <div class="settings-group editable-field">
-        <label class="settings-label">Username</label>
-        <p>Change your user name.</p>
+        <label>Username</label>
+        <p class="text-explanation">Change your user name.</p>
         <span class="value-display">{{ user_name }}</span>
         <form action="/settings/account" method="post" class="hidden">
           <input value="{{ user_name }}" name="user_name" />
@@ -38,21 +39,20 @@
 
     <!-- Preferences Section -->
     <div id="preferences-content" class="settings-section hidden">
-      <h1 class="content-title">Preferences</h1>
+      <h1 class="section-title">Preferences</h1>
       <div class="settings-group">
-        <label for="language">Language</label>
-        <p>Change the theme used in the user interface.</p>
-
+        <label>Theme</label>
+        <p class="text-explanation">Change the theme used in the interface.</p>
         <button onclick="toggleTheme()">Toggle Theme</button>
       </div>
     </div>
 
     <!-- Notifications Section -->
     <div id="notifications-content" class="settings-section hidden">
-      <h1 class="content-title">Notifications</h1>
+      <h1 class="section-title">Notifications</h1>
       <div class="settings-group">
         <label>Email Notifications</label>
-        <p>Receive updates via email.</p>
+        <p class="text-explanation">Receive updates via email.</p>
         <input
           type="checkbox"
           name="email_notifications"
@@ -65,6 +65,6 @@
         />
       </div>
     </div>
-  </div>
+  </section>
 </div>
 {% endblock %}

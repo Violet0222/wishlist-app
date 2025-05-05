@@ -26,6 +26,10 @@ body {
   --border-color: #ddd;
   --heading-color: #2e2e2e;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --sidebar-width: clamp(180px, 20vw, 260px);
+  --content-padding: clamp(1rem, 2vw, 2rem);
+  --font-size-base: clamp(0.95rem, 1vw + 0.25rem, 1.1rem);
+  --font-size-heading: clamp(1.2rem, 1.5vw + 0.5rem, 1.75rem);
 }
 
 [data-theme="dark"] {
@@ -159,6 +163,12 @@ form button[type="submit"]:hover {
   min-height: 100vh;
   background-color: var(--bg-color);
 }
+/* p */
+.text-explanation {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
 
 /* Main content area */
 
@@ -254,8 +264,6 @@ select:focus {
 /* padding: 10px 0;
   border-bottom: 1px solid #ddd; /* Добавляет разделительную линию */
 /* }  */
-
-
 
 /* .new-item-btn:hover .tooltip-text {
   opacity: 1;
@@ -509,13 +517,13 @@ button[type="submit"]:hover {
   color: #888;
 }
 
-.settings-page {
+/* .settings-page {
   display: flex;
   height: 100vh;
-}
+} */
 
 /* SIDEBAR */
-.settings-sidebar {
+/* .settings-sidebar {
   width: 250px;
   background-color: #f9f9f9;
   border-right: 1px solid #e2e2e2;
@@ -527,9 +535,9 @@ button[type="submit"]:hover {
   font-size: 1.4em;
   margin-bottom: 24px;
   font-weight: bold;
-}
+} */
 
-.settings-nav {
+/* .settings-nav {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -544,10 +552,10 @@ button[type="submit"]:hover {
 
 .settings-link:hover {
   color: #000;
-}
+} */
 
 /* MAIN CONTENT */
-.settings-content {
+/* .settings-content {
   flex: 1;
   padding: 40px;
   overflow-y: auto;
@@ -562,9 +570,9 @@ button[type="submit"]:hover {
 
 .settings-group {
   margin-bottom: 24px;
-}
+} */
 
-.settings-label {
+/* .settings-label {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
@@ -586,4 +594,4 @@ button[type="submit"]:hover {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-}
+} */
