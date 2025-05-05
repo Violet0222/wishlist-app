@@ -1,7 +1,7 @@
 {% extends "layout.html" %} {% block head %}
 <script src="/static/modal_window.js"></script>
 <script src="/static/menu_dropdown.js"></script>
-<script src="/static/wishlist-items.js"></script>
+<script src="/static/wishlist.js"></script>
 <link rel="stylesheet" href="/static/css/styles.css" />
 <link rel="stylesheet" href="/static/css/wishlist_categories.css" />
 <link rel="stylesheet" href="/static/css/menu_dropdown.css" />
@@ -45,24 +45,25 @@
         </button>
         <span class="tooltip-text">Delete, more...</span>
         <div class="menu-dropdown" id="menu-{{ category['id'] }}">
-          <span class="value-display"
-            >{{ category['color'] or '#f5f5f5' }}</span
-          >
-          <form
-            action="/wishlist/{{ category_id }}"
-            method="post"
-            class="hidden"
-            class="color-picker-form"
-          >
-            <input
-              type="color"
-              name="card_color"
-              value="{{ category['color'] or '#f5f5f5' }}"
-              class="color-input"
-              title="Choose background color"
-            />
-            <input type="hidden" value="{{ category_id }}" name="id" />
-          </form>
+          <div class="editable-field">
+            <span class="value-display"
+              >{{ category['card_background'] or '#f5f5f5' }}</span
+            >
+            <form
+              action="/wishlist"
+              method="post"
+              class="hidden color-picker-form"
+            >
+              <input
+                type="color"
+                name="card_color"
+                value="{{ category['card_background']or '#f5f5f5' }}"
+                class="color-input"
+                title="Choose background color"
+              />
+              <input type="hidden" value="{{category['id']}}" name="id" />
+            </form>
+          </div>
           <button onclick="copyLink({{ category['id'] }})">Copy Link</button>
           <div id="delete-container-{{ category['id'] }}">
             <form action="/wishlist" method="post">

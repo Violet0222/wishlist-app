@@ -225,6 +225,7 @@ def update_category(record_id, data):
         print("Database connection failed")
         return None
     try:
+        print(data)
         # Build the SET clause of the SQL query using named parameters
         set_clause = ", ".join([f"{col} = :{col}" for col in data.keys()])
 

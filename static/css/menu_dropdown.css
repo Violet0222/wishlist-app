@@ -13,6 +13,8 @@
 
 .menu-dropdown {
   display: none;
+  flex-direction: column;
+  gap: 5px;
   position: absolute;
   right: 0;
   top: 2.5rem;
@@ -25,7 +27,6 @@
   min-width: clamp(160px, 40vw, 240px);
   padding: clamp(0.5rem, 1vw, 1rem);
   max-width: 90vw;
-  overflow: hidden;
 }
 
 .menu-dropdown-btn:focus + .menu-dropdown,
@@ -49,8 +50,6 @@
 .menu-dropdown-btn:hover {
   color: var(--heading-color);
 }
-
-
 
 .menu-dropdown.show {
   display: block;

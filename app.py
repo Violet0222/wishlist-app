@@ -123,9 +123,9 @@ def wishlist():
        
         delete_category=request.form.get("delete")
         card_background= request.form.get("card_color")
+        print(card_background, category_id)
         data_to_update = {}
-        if card_background:
-            data_to_update['card_background'] = card_background
+       
         if category_id:
             if delete_category:
                 response = db.delete_category(category_id)
@@ -134,7 +134,9 @@ def wishlist():
                 flash("Deleted!")
                 return redirect(f"/wishlist")
             if card_background:
-                response = db.update_category(data_to_update, category_id)
+                data_to_update['card_background'] = card_background
+                response = db.update_category(category_id, data_to_update)
+                                              
                 if response is None:
                     return render_template("wishlist_item.html", error="Category wasn't found")
                 return redirect(f"/wishlist")
