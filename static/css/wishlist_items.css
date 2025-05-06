@@ -96,26 +96,29 @@
 }
 
 .priority-label {
-  padding: 2px 8px;
-  border-radius: 12px; /* Pill shape */
-  font-size: 0.8em;
-  font-weight: 600;
-  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  display: inline-block;
 }
 
 .priority-low {
-  background-color: #fff3cd; /* Light yellow background */
-  color: #856404; /* Dark yellow text */
+  background-color: #e6f4ea;
+  color: #257942;
+  border: 1px solid #b7e1cd;
 }
 
 .priority-medium {
-  background-color: #d1ecf1; /* Light blue background */
-  color: #0c5460; /* Dark blue text */
+  background-color: #fff4e5;
+  color: #c27000;
+  border: 1px solid #ffd89e;
 }
 
 .priority-high {
-  background-color: #f8d7da; /* Light red background */
-  color: #721c24; /* Dark red text */
+  background-color: #ffe5e5;
+  color: #c00000;
+  border: 1px solid #ffb3b3;
 }
 
 /* Editable Field Styling within Table Cells */
@@ -169,27 +172,4 @@
   /* Hide save/cancel buttons for a cleaner inline edit,
      rely on blur or Enter key to submit */
   display: none;
-}
-
-/* Header Styling */
-.page-header {
-  margin-bottom: 20px;
-}
-
-.page-header .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.category-emoji {
-  margin-right: 10px;
-  font-size: 1.2em;
-}
-
-/* Header Actions Styling */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }

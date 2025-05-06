@@ -5,8 +5,8 @@
 <script src="/static/menu_dropdown.js"></script>
 <script src="/static/sort.js"></script>
 <script src="/static/filter.js"></script>
-<script src="/static/wishlist-editing.js"></script>
 
+<link rel="stylesheet" href="/static/css/style.css" />
 <link rel="stylesheet" href="/static/css/menu_dropdown.css" />
 <link rel="stylesheet" href="/static/css/modal_window.css" />
 <link rel="stylesheet" href="/static/css/wishlist_items.css" />
@@ -234,6 +234,7 @@
           class="hidden edit-form"
           data-item-id="{{ item['id'] }}"
            data-property="priority"
+
         >
           <select name="priority">
             <option value="0" {% if item['priority'] == 0 %}selected{% endif %}>

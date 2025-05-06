@@ -220,7 +220,7 @@ form button[type="submit"]:hover {
 }
 
 /* Selects (dropdowns) */
-select {
+/* select {
   width: 100%;
   padding: 0.5rem;
   background-color: var(--card-bg);
@@ -232,7 +232,7 @@ select {
 select:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
+} */
 
 .tooltip-text {
   position: absolute;
@@ -349,40 +349,6 @@ select:focus {
   visibility: visible;
   opacity: 1;
 }
-/* .wishlist-table {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
-  font-family: sans-serif;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.wishlist-row {
-  display: table-row;
-  background-color: #fff;
-  border-top: 1px solid #e0e0e0;
-}
-.wishlist-row:first-child {
-  border-top: none;
-} */
-
-/* .wishlist-header {
-  background-color: #f9f9f9;
-  color: rgb(120, 119, 116);
-} */
-
-/* .wishlist-cell {
-  display: table-cell;
-  padding: 12px 16px;
-  border-right: 1px solid #e0e0e0;
-  vertical-align: middle;
-  word-break: break-word;
-}
-.wishlist-cell:last-child {
-  border-right: none;
-} */
 
 .private-item {
   opacity: 0.8;
@@ -401,7 +367,7 @@ select:focus {
   color: #999;
 }
 
-.priority-label {
+/* .priority-label {
   padding: 4px 8px;
   border-radius: 6px;
   font-weight: 500;
@@ -452,7 +418,7 @@ select:focus {
 .private-icon {
   margin-left: 8px;
   color: #888;
-}
+} */
 
 /* .settings-page {
   display: flex;
