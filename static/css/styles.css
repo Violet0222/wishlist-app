@@ -195,7 +195,6 @@ form button[type="submit"]:hover {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  overflow-x: auto;
   box-sizing: border-box;
   padding: clamp(12px, 2vw, 24px);
 }
@@ -257,128 +256,6 @@ select:focus {
   margin-left: 2px;
 }
 
-/* .row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Раздвигает элементы */
-/* padding: 10px 0;
-  border-bottom: 1px solid #ddd; /* Добавляет разделительную линию */
-/* }  */
-
-/* .new-item-btn:hover .tooltip-text {
-  opacity: 1;
-  visibility: visible;
-} */
-
-/* Кастомні стилі для input */
-/* input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin: 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button[type="submit"]:hover {
-  background-color: #45a049;
-} */
-/* .category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-} */
-/* .category-container {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.2s ease;
-} */
-/* .category-container:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-.category-title {
-  font-weight: 600;
-  font-size: 16px;
-  color: #333;
-  text-decoration: none;
-} */
-
-/* .category-title:hover {
-  text-decoration: underline;
-} */
-
-/* .page-header {
-  margin-bottom: 24px;
-} */
-
-/* .intro-text {
-  font-size: 15px;
-  color: #5b5b5b;
-  margin-bottom: 16px;
-} */
-
-/* .menu-dropdown-btn {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 4px;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-.menu-dropdown-btn:hover .icon {
-  fill: #333;
-} */
-
-/* .dropdown-container {
-  display: inline-block;
-  position: relative;
-}
-.dropdown-container:hover .tooltip-text {
-  opacity: 1;
-  visibility: visible;
-}
-.dropdown-container.dropdown-active:hover .tooltip-text {
-  opacity: 0;
-  visibility: hidden;
-}
-.menu-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  display: none;
-  z-index: 10;
-  width: max-content;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-} */
-
-/* .menu-dropdown.show {
-  display: block;
-} */
-
 [data-theme="dark"] .empty-state {
   color: #aaa;
 }
@@ -412,7 +289,67 @@ button[type="submit"]:hover {
   display: none;
 }
 
-.wishlist-table {
+.wishlist-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.wishlist-header {
+  margin-bottom: 2rem;
+}
+
+.wishlist-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.wishlist-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.new-item-btn {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.new-item-btn .plus-icon {
+  margin-right: 5px;
+}
+
+.new-item-btn:hover {
+  background: #ebebeb;
+}
+
+.new-item-btn .tooltip-text {
+  visibility: hidden;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.new-item-btn:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+/* .wishlist-table {
   display: table;
   width: 100%;
   border-collapse: collapse;
@@ -429,14 +366,14 @@ button[type="submit"]:hover {
 }
 .wishlist-row:first-child {
   border-top: none;
-}
+} */
 
 /* .wishlist-header {
   background-color: #f9f9f9;
   color: rgb(120, 119, 116);
 } */
 
-.wishlist-cell {
+/* .wishlist-cell {
   display: table-cell;
   padding: 12px 16px;
   border-right: 1px solid #e0e0e0;
@@ -445,7 +382,7 @@ button[type="submit"]:hover {
 }
 .wishlist-cell:last-child {
   border-right: none;
-}
+} */
 
 .private-item {
   opacity: 0.8;

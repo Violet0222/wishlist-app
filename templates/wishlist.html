@@ -21,7 +21,7 @@
 
   <div class="wishlist-controls">
     <h3 class="wishlist-subheading">Categories</h3>
-    <button id="openModalBtn" class="new-category-btn">
+    <button id="openModalBtn" class="new-item-btn">
       <span class="plus-icon">+ New</span>
       <span class="tooltip-text">Create new category</span>
     </button>
@@ -48,21 +48,11 @@
         </button>
         <span class="tooltip-text">Delete, more...</span>
         <div class="menu-dropdown" id="menu-{{ category['id'] }}">
-          
-          <! -- Edit title -- > 
+          <! -- Edit title -- >
           <div class="editable-field">
-            <span class="value-display"
-              >Edit title </span
-            >
-            <form
-              action="/wishlist"
-              method="post"
-              class="hidden "
-            >
-              <input
-                name="name"
-                value="{{ category['name']}}"
-              />
+            <span class="value-display">Edit title </span>
+            <form action="/wishlist" method="post" class="hidden">
+              <input name="name" value="{{ category['name']}}" />
               <input type="hidden" value="{{category['id']}}" name="id" />
             </form>
           </div>
@@ -115,11 +105,9 @@
             </form>
           </div>
 
-           <!-- Background -->
+          <!-- Background -->
           <div class="editable-field">
-            <span class="value-display"
-              >Add background</span
-            >
+            <span class="value-display">Add background</span>
             <form
               action="/wishlist"
               method="post"

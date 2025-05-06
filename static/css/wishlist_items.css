@@ -1,0 +1,195 @@
+/* Container for the table (useful for sticky header or overflow) */
+.wishlist-table-container {
+  margin-top: 20px;
+  border: 1px solid #e0e0e0; /* Outer border for the table container */
+  border-radius: 5px;
+}
+
+.wishlist-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse; /* Remove space between borders */
+  font-size: 0.9em;
+  line-height: 1.5;
+  border: 1px solid #e0e0e0; /* This outer border might be redundant with the container border, you can remove one */
+  border-radius: 8px; /* This will apply to the table element itself */
+}
+
+.wishlist-row {
+  display: table-row;
+  border-bottom: 1px solid #eee; /* Light border between rows */
+}
+
+.wishlist-row:last-child {
+  border-bottom: none; /* No border on the last row */
+}
+.wishlist-row:first-child {
+  border-top: none;
+}
+
+/* Hover effect on rows */
+.wishlist-row:hover {
+  background-color: #f9f9f9; /* Subtle background change on hover */
+}
+
+.wishlist-cell {
+  padding: 10px 12px;
+  display: table-cell;
+  vertical-align: middle; /* Vertically align cell content */
+  text-overflow: ellipsis; /* Show ellipsis for overflow */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Adjust column widths using `width` or `min-width` for better control with table-cell */
+.wishlist-cell.status-cell {
+  width: 100px;
+}
+.wishlist-cell.title-cell {
+  width: 200px; /* Give a base width */
+}
+.wishlist-cell.description-cell {
+  width: 250px; /* Give a base width */
+}
+.wishlist-cell.url-cell {
+  width: 180px;
+}
+.wishlist-cell.price-cell {
+  width: 80px;
+}
+.wishlist-cell.currency-cell {
+  width: 100px;
+}
+.wishlist-cell.priority-cell {
+  width: 90px;
+}
+.wishlist-cell.date-cell {
+  width: 150px;
+}
+.wishlist-cell.actions-cell {
+  width: 50px;
+  text-align: center;
+} /* Center content using text-align */
+
+/* Allow description and title cells to grow if needed */
+.wishlist-cell.title-cell,
+.wishlist-cell.description-cell {
+  width: auto; /* Allow these cells to take up available space */
+}
+
+/* Visual Property Indicators (Same as before, adjust colors if needed) */
+.status-label {
+  padding: 2px 8px;
+  border-radius: 12px; /* Pill shape */
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-not-reserved {
+  background-color: #f8d7da; /* Light red background */
+  color: #721c24; /* Dark red text */
+}
+
+.status-reserved {
+  background-color: #d4edda; /* Light green background */
+  color: #155724; /* Dark green text */
+}
+
+.priority-label {
+  padding: 2px 8px;
+  border-radius: 12px; /* Pill shape */
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.priority-low {
+  background-color: #fff3cd; /* Light yellow background */
+  color: #856404; /* Dark yellow text */
+}
+
+.priority-medium {
+  background-color: #d1ecf1; /* Light blue background */
+  color: #0c5460; /* Dark blue text */
+}
+
+.priority-high {
+  background-color: #f8d7da; /* Light red background */
+  color: #721c24; /* Dark red text */
+}
+
+/* Editable Field Styling within Table Cells */
+.wishlist-cell.editable-field {
+  cursor: pointer;
+  position: relative; /* Needed for positioning the edit form */
+}
+
+.wishlist-cell .value-display {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wishlist-cell .edit-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.wishlist-cell .edit-form input[type="text"],
+.wishlist-cell .edit-form input[type="url"],
+.wishlist-cell .edit-form input[type="number"],
+.wishlist-cell .edit-form select,
+.wishlist-cell .edit-form textarea {
+  border: none; /* Remove border */
+  padding: 8px 12px; /* Match cell padding */
+  font-size: 1em; /* Match cell font size */
+  width: 100%; /* Fill the form container */
+  box-sizing: border-box; /* Include padding in width */
+  outline: none; /* Remove outline on focus */
+  background-color: transparent; /* Transparent background */
+}
+
+.wishlist-cell .edit-form textarea {
+  resize: none; /* Prevent resizing */
+  height: 100%; /* Fill the cell height */
+}
+
+.wishlist-cell .edit-form button {
+  /* Hide save/cancel buttons for a cleaner inline edit,
+     rely on blur or Enter key to submit */
+  display: none;
+}
+
+/* Header Styling */
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-header .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-emoji {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+/* Header Actions Styling */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

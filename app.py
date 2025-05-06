@@ -178,11 +178,11 @@ def wishlist_items(category_id):
     user_id = session["user_id"]
     if not user_id:
         return redirect("/login")
-    category_name = db.get_category_by_id(category_id, user_id)
-    print(category_name)
-    if not category_name:
+    category = db.get_category_by_id(category_id, user_id)
+    print(category)
+    if not category:
         return None
-
+    
     if request.method == "POST":
         item_id = request.form.get('id')
         title = request.form.get('title')
@@ -226,7 +226,7 @@ def wishlist_items(category_id):
                     "wishlist_items.html",
                     error="Please enter a valid title",
                     category_id=category_id,
-                    category_name=category_name,
+                    category_name=category,
                 )
             if not description or not description.strip():
                 description = ""
@@ -244,7 +244,7 @@ def wishlist_items(category_id):
         items = db.get_wishlist_items(user_id, category_id)
         if items is None:
             items = []
-        return render_template("wishlist_items.html", items=items, category_id=category_id, category_name=category_name, currencies=currencies)
+        return render_template("wishlist_items.html", items=items, category_id=category_id, category=category, currencies=currencies)
 
 @app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
 def private_items(category_id, item_id):

@@ -195,11 +195,10 @@ def get_category_by_id(category_id, user_id):
         return None
     try:
         cursor = conn.cursor()
-        category_name = cursor.execute("""SELECT name FROM category WHERE id = ? AND user_id =?""",
-                                       (category_id, user_id)).fetchone()
-        if not category_name:
+        category = cursor.execute("""SELECT * FROM category WHERE id = ? AND user_id =?""",(category_id, user_id)).fetchone()
+        if not category:
             return None
-        return category_name[0]
+        return category
     except sqlite3.OperationalError as e:
         print("Failed to get categories:", e)
         return None
