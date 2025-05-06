@@ -33,6 +33,7 @@ sql_statements = [
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
     name TEXT(100) NOT NULL UNIQUE,
+    emoji TEXT,
     card_background TEXT DEFAULT '#f5f5f5',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

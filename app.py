@@ -136,7 +136,8 @@ def wishlist():
        
         delete_category=request.form.get("delete")
         card_background= request.form.get("card_color")
-        print(card_background, category_id)
+        name = request.form.get("name", "").strip()
+        emoji = request.form.get("emoji", "").strip()
         data_to_update = {}
        
         if category_id:
@@ -148,8 +149,19 @@ def wishlist():
                 return redirect(f"/wishlist")
             if card_background:
                 data_to_update['card_background'] = card_background
-                response = db.update_category(category_id, data_to_update)
-                                              
+                response = db.update_category(category_id, data_to_update)                            
+                if response is None:
+                    return render_template("wishlist_item.html", error="Category wasn't found")
+                return redirect(f"/wishlist")
+            if name:
+                data_to_update['name'] = name
+                response = db.update_category(category_id, data_to_update)                            
+                if response is None:
+                    return render_template("wishlist_item.html", error="Category wasn't found")
+                return redirect(f"/wishlist")
+            if emoji:
+                data_to_update['emoji'] = emoji
+                response = db.update_category(category_id, data_to_update)                            
                 if response is None:
                     return render_template("wishlist_item.html", error="Category wasn't found")
                 return redirect(f"/wishlist")

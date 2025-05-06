@@ -35,6 +35,14 @@ function category_update() {
         setCursorToEnd(input);
       });
 
+      field.querySelector(".emoji").addEventListener("change", function () {
+          const form = this.closest("form");
+          if (form) {
+            form.submit();
+          }
+        });
+      
+
       document.querySelectorAll(".color-input").forEach((input) => {
         input.addEventListener("change", function () {
           const form = this.closest("form");
