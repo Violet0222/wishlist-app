@@ -1,38 +1,41 @@
 function modalWindow() {
+  console.log("DOM loaded.");
   const openModalBtnNewItem = document.getElementById("openModalBtnNewItem");
   const openModalBtnImgs = document.querySelectorAll(
     '[id^="openModalBtnImg-"]'
   );
-  console.log(openModalBtnImgs);
-  if (openModalBtnNewItem) {
-    const modalNewItem = document.getElementById("modalNewItem");
-    const closeModalBtn = modalNewItem.querySelector(".modal-close");
-    // Open modal
-    openModalBtnNewItem.addEventListener("click", () => {
-      modalNewItem.style.display = "flex"; // Flex for centered layout
-      setTimeout(() => {
-        modalNewItem.classList.add("open");
-      }, 10);
-    });
+  console.log(openModalBtnNewItem);
 
-    // Close modal on close button
-    closeModalBtn.addEventListener("click", () => {
+  const modalNewItem = document.getElementById("modalNewItem");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+
+  console.log(modalNewItem);
+  console.log(closeModalBtn);
+  // Open modal
+  openModalBtnNewItem.addEventListener("click", () => {
+    modalNewItem.style.display = "flex"; // Flex for centered layout
+    setTimeout(() => {
+      modalNewItem.classList.add("open");
+    }, 10);
+  });
+
+  // Close modal on close button
+  closeModalBtn.addEventListener("click", () => {
+    modalNewItem.classList.remove("open");
+    setTimeout(() => {
+      modalNewItem.style.display = "none";
+    }, 300);
+  });
+
+  // Close modal on outside click
+  window.addEventListener("click", (event) => {
+    if (event.target === modalNewItem) {
       modalNewItem.classList.remove("open");
       setTimeout(() => {
         modalNewItem.style.display = "none";
       }, 300);
-    });
-
-    // Close modal on outside click
-    window.addEventListener("click", (event) => {
-      if (event.target === modalNewItem) {
-        modalNewItem.classList.remove("open");
-        setTimeout(() => {
-          modalNewItem.style.display = "none";
-        }, 300);
-      }
-    });
-  }
+    }
+  });
 
   openModalBtnImgs.forEach((openModalBtnImg) => {
     const modalImg = openModalBtnImg.querySelector('[id^="modalImg-"]');

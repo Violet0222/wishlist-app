@@ -21,7 +21,7 @@
 
   <div class="wishlist-controls">
     <h3 class="wishlist-subheading">Categories</h3>
-    <button id="openModalBtn" class="new-item-btn">
+    <button id="openModalBtnNewItem" class="new-item-btn">
       <span class="plus-icon">+ New</span>
       <span class="tooltip-text">Create new category</span>
     </button>
@@ -72,15 +72,12 @@
                 type="hidden"
                 name="emoji"
                 id="emoji-input-{{ category['id'] }}"
-               
               />
               <div class="emoji-picker-wrapper">
                 <input
                   type="text"
                   class="emoji-input"
-                
                   id="emoji-text-input-{{ category['id'] }}"
-                 
                   placeholder="Choose emoji"
                   readonly
                 />
@@ -138,13 +135,13 @@
     {% endif %}
   </section>
 
-  <div id="modal" class="modal-overlay">
+  <div id="modalNewItem" class="modal-overlay">
     <div class="modal">
       <div class="modal-header">
         <h2>Create New Category</h2>
-        <button id="closeModalBtn" class="modal-close">&times;</button>
+        <button id="closeModalBtn" class="modal-close">x</button>
       </div>
-      <form action="/create_wishlist" method="POST" class="notion-modal-form">
+      <form action="/create_wishlist" method="POST" class="modal-form">
         <label for="category_name">Category Name</label>
         <input
           type="text"

@@ -123,8 +123,8 @@ def settings():
 def create_wishlist():
     user_id = session["user_id"]
     if request.method == "POST":
-        category = request.form.get("category_name")
-        if not category or not category.strip():
+        category_name = request.form.get("category_name")
+        if not category_name or not category_name.strip():
             print("please enter a valid category")
             return render_template("create_wishlist.html", error="Please enter a valid category")
         public_token = str(uuid.uuid4())

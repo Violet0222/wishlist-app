@@ -169,7 +169,7 @@ def create_wishlist_category(category_name, public_token, user_id):
         return None
     try:
         cursor = conn.cursor()
-        cursor.execute("""INSERT INTO category (name, public_token, user_id) VALUES (?,?)""", (category_name, public_token, user_id))
+        cursor.execute("""INSERT INTO category (name, public_token, user_id) VALUES (?,?,?)""", (category_name, public_token, user_id))
         conn.commit()
         return True
     except sqlite3.OperationalError as e:
