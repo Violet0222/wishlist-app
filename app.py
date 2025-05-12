@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, session, flash, redirect
+import os
+from flask import Flask, render_template, request, session, flash, redirect, url_for
 from flask_session import Session
-from werkzeug.utils import redirect
+from werkzeug.utils import redirect, secure_filename
 from flask_bcrypt import Bcrypt
 import pycountry
 
@@ -13,6 +14,14 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 bcrypt = Bcrypt(app)
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.after_request
 def after_request(response):
@@ -186,6 +195,7 @@ def wishlist_items(category_id):
     if request.method == "POST":
         item_id = request.form.get('id')
         title = request.form.get('title')
+        image = request.files.get('image')
         description = request.form.get("description")
         url = request.form.get("url")
         price = request.form.get("price")
@@ -196,6 +206,14 @@ def wishlist_items(category_id):
         data_to_update = {}
         if title:
             data_to_update['title'] = title
+        if image and allowed_file(image.filename):
+            print("here")
+            filename = secure_filename(image.filename)
+            print(filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(filepath)
+            image.save(filepath)
+            data_to_update['image'] = filename
         if description:
             data_to_update['description'] = description
         if url:

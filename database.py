@@ -18,12 +18,17 @@ sql_statements = [
     user_id INTEGER NOT NULL,
     category_id INTEGER NOT NULL,
     title TEXT(150) NOT NULL,
+    image TEXT,
     description TEXT,
     url TEXT(500),
     price REAL, 
     currency TEXT(3),
     priority INTEGER DEFAULT 0,
+    public_token TEXT UNIQUE,
     reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
+    reserved_by_email TEXT,
+    reserved_token TEXT,
+    reserved_at DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     private BOOLEAN NOT NULL CHECK (private IN (0, 1)) DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -34,6 +39,7 @@ sql_statements = [
     user_id INTEGER NOT NULL,
     name TEXT(100) NOT NULL UNIQUE,
     emoji TEXT,
+    public_token TEXT UNIQUE,
     card_background TEXT DEFAULT '#f5f5f5',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -344,7 +350,7 @@ def drop_table():
         cursor = conn.cursor()
 
 
-        cursor.execute("DROP TABLE IF EXISTS category")
+        cursor.execute("DROP TABLE IF EXISTS wish")
         conn.commit()
         print("Table 'wish' has been deleted.")
 

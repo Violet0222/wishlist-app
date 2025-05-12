@@ -2,7 +2,7 @@ function initWishListItems() {
   const items = document.querySelectorAll('[id^="item-"]');
 
   const setCursorToEnd = (input) => {
-    if (input.tagName === "INPUT") {
+    if (input.tagName === "INPUT" || input.tagName === "TEXTAREA") {
       const length = input.value.length;
       input.setSelectionRange(length, length);
     }
@@ -13,14 +13,15 @@ function initWishListItems() {
     editableFields.forEach((field) => {
       const valueElement = field.querySelector(".value-display");
       const form = field.querySelector("form");
-      const editableInput = form.querySelector("input, select, textarea");
+      const editableInput = form?.querySelector("input, select, textarea");
 
       if (!valueElement || !form || !editableInput) return;
 
-      // --- Ensure the form is hidden on load ---
+      // Ensure the form is hidden and the value is visible on load
       form.classList.add("hidden");
-      valueElement.hidden = false; // Ensure value display is visible
+      valueElement.hidden = false;
 
+      // Click handler to open the input form
       field.addEventListener("click", (event) => {
         if (
           event.target.closest(".dropdown-container") ||
@@ -30,6 +31,7 @@ function initWishListItems() {
         }
         event.stopPropagation();
 
+        // Hide other open forms
         document
           .querySelectorAll(".editable-field form:not(.hidden)")
           .forEach((openForm) => {
@@ -39,52 +41,54 @@ function initWishListItems() {
             openValueElement.hidden = false;
           });
 
-        valueElement.hidden = true;
         form.classList.remove("hidden");
-        editableInput.focus();
-        setCursorToEnd(editableInput);
+        valueElement.hidden = true;
+
+        setTimeout(() => {
+          editableInput.focus();
+          setCursorToEnd(editableInput);
+        }, 0);
       });
 
-      editableInput.addEventListener("blur", function () {
-        if (!form.contains(document.activeElement)) {
-          form.submit();
-        }
-      });
-
-      form.addEventListener("mousedown", function (event) {
-        event.preventDefault();
-      });
-
-      if (editableInput.tagName !== "SELECT") {
-        editableInput.addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            form.submit();
-          }
+      // Cancel button logic
+      const cancelBtn = form.querySelector(".cancel-btn");
+      if (cancelBtn) {
+        cancelBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          form.classList.add("hidden");
+          valueElement.hidden = false;
         });
       }
 
-      if (editableInput.tagName === "SELECT") {
-        editableInput.addEventListener("change", function () {
-          form.submit();
+      // If it's an image input, add live preview
+      if (editableInput.name === "image" && editableInput.type === "file") {
+        editableInput.addEventListener("change", () => {
+          const file = editableInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const preview = field.querySelector(".image-preview");
+              if (preview) {
+                preview.src = e.target.result;
+              }
+            };
+            reader.readAsDataURL(file);
+          }
         });
       }
     });
   }
 
-  document.addEventListener("click", (event) => {
-    const openFields = document.querySelectorAll(
-      ".editable-field form:not(.hidden)"
-    );
-    openFields.forEach((form) => {
-      const field = form.closest(".editable-field");
-      if (!form.contains(event.target) && !field.contains(event.target)) {
-        const valueElement = field.querySelector(".value-display");
-        form.classList.add("hidden");
-        valueElement.hidden = false;
-        form.reset();
-      }
-    });
+  // Click outside to close all
+  document.addEventListener("click", () => {
+    document
+      .querySelectorAll(".editable-field form:not(.hidden)")
+      .forEach((openForm) => {
+        const openField = openForm.closest(".editable-field");
+        const openValueElement = openField.querySelector(".value-display");
+        openForm.classList.add("hidden");
+        openValueElement.hidden = false;
+      });
   });
 }
 

@@ -1,34 +1,67 @@
 function modalWindow() {
-  const openModalBtn = document.getElementById("openModalBtn");
-  const modal = document.getElementById("modal");
-  const closeModalBtn = modal.querySelector(".modal-close");
-
-  if (!openModalBtn || !modal || !closeModalBtn) return;
-
-  // Open modal
-  openModalBtn.addEventListener("click", () => {
-    modal.style.display = "flex"; // Flex for centered layout
-    setTimeout(() => {
-      modal.classList.add("open");
-    }, 10);
-  });
-
-  // Close modal on close button
-  closeModalBtn.addEventListener("click", () => {
-    modal.classList.remove("open");
-    setTimeout(() => {
-      modal.style.display = "none";
-    }, 300);
-  });
-
-  // Close modal on outside click
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.classList.remove("open");
+  const openModalBtnNewItem = document.getElementById("openModalBtnNewItem");
+  const openModalBtnImgs = document.querySelectorAll(
+    '[id^="openModalBtnImg-"]'
+  );
+  console.log(openModalBtnImgs);
+  if (openModalBtnNewItem) {
+    const modalNewItem = document.getElementById("modalNewItem");
+    const closeModalBtn = modalNewItem.querySelector(".modal-close");
+    // Open modal
+    openModalBtnNewItem.addEventListener("click", () => {
+      modalNewItem.style.display = "flex"; // Flex for centered layout
       setTimeout(() => {
-        modal.style.display = "none";
+        modalNewItem.classList.add("open");
+      }, 10);
+    });
+
+    // Close modal on close button
+    closeModalBtn.addEventListener("click", () => {
+      modalNewItem.classList.remove("open");
+      setTimeout(() => {
+        modalNewItem.style.display = "none";
       }, 300);
-    }
+    });
+
+    // Close modal on outside click
+    window.addEventListener("click", (event) => {
+      if (event.target === modalNewItem) {
+        modalNewItem.classList.remove("open");
+        setTimeout(() => {
+          modalNewItem.style.display = "none";
+        }, 300);
+      }
+    });
+  }
+
+  openModalBtnImgs.forEach((openModalBtnImg) => {
+    const modalImg = openModalBtnImg.querySelector('[id^="modalImg-"]');
+    const closeModalBtnImg = modalImg.querySelector(
+      '[id^="closeModalBtnImg-"]'
+    );
+    console.log(modalImg);
+    openModalBtnImg.addEventListener("click", () => {
+      modalImg.style.display = "flex"; // Flex for centered layout
+      setTimeout(() => {
+        modalImg.classList.add("open");
+      }, 10);
+    });
+    closeModalBtnImg.addEventListener("click", () => {
+      modalImg.classList.remove("open");
+      setTimeout(() => {
+        modalImg.style.display = "none";
+      }, 300);
+    });
+
+    // Close modal on outside click
+    window.addEventListener("click", (event) => {
+      if (event.target === modalImg) {
+        modalImg.classList.remove("open");
+        setTimeout(() => {
+          modalImg.style.display = "none";
+        }, 300);
+      }
+    });
   });
 }
 

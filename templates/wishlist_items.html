@@ -6,7 +6,7 @@
 <script src="/static/sort.js"></script>
 <script src="/static/filter.js"></script>
 
-<link rel="stylesheet" href="/static/css/style.css" />
+<link rel="stylesheet" href="/static/css/styles.css" />
 <link rel="stylesheet" href="/static/css/menu_dropdown.css" />
 <link rel="stylesheet" href="/static/css/modal_window.css" />
 <link rel="stylesheet" href="/static/css/wishlist_items.css" />
@@ -33,10 +33,10 @@
 
 <div class="wishlist-controls">
   {% include "sort_wishlist_items.html" %} {% include "filter_items.html" %}
-  <button id="openModalBtn" class="new-item-btn">
+ <!-- <button id="openModalBtnNewItem" class="new-item-btn">
     <span class="plus-icon">+ New</span>
     <span class="tooltip-text">Create new wish</span>
-  </button>
+  </button>> --> 
 </div>
 
 {% if items %}
@@ -46,6 +46,7 @@
     <!-- Table Header -->
     <div class="wishlist-row wishlist-header">
       <div class="wishlist-cell status-cell">📍 Status</div>
+      <div class="wishlist-cell image-cell"> Image</div>
       <div class="wishlist-cell title-cell">📌 Title</div>
       <div class="wishlist-cell description-cell">📝 Description</div>
       <div class="wishlist-cell url-cell">🔗 URL</div>
@@ -92,6 +93,35 @@
         </form>
       </div>
 
+      <!--Image-->
+      <div class="wishlist-cell image-cell" data-property="image">
+        {% if item['image'] %}
+          <div class="wishlist-image">
+            <img src="{{ url_for('static', filename='uploads/' ~ item['image']) }}" class="image-preview" />
+          </div>
+        {% endif %}
+        <button id="openModalBtnImg-{{item['id']}}" class="new-item-btn">
+          <span class="plus-icon">Add Image</span>
+        </button>
+        <div id="modalImg-{{item['id']}}" class="modal-overlay">
+          <div class="modal">
+            <div class="modal-header">
+              <h2>Add Image</h2>
+              <button id="closeModalBtnImg-{{item['id']}}" class="modal-close">&times;</button>
+            </div>
+            <form action="/wishlist/{{ category_id }}" method="POST" class="modal-form" enctype="multipart/form-data">
+              <input type="file" name="image" accept="image/*" />
+              <input type="hidden" name="id" value="{{ item['id'] }}" />
+              <button type="submit" class="modal-submit">Save</button>
+              <button type="button" class="cancel-btn">Cancel</button>
+            </form>
+          </div>
+        </div>
+       
+      </div>
+      
+
+      <!--Title-->
       <div class="wishlist-cell title-cell editable-field" data-property="title">
         {% if item.private %}
         <span class="private-icon" title="Private">🔒 </span>
