@@ -35,10 +35,10 @@
 
 <div class="wishlist-controls">
   {% include "sort_wishlist_items.html" %} {% include "filter_items.html" %}
- <!-- <button id="openModalBtnNewItem" class="new-item-btn">
+ <button id="openModalBtnNewItem" class="new-item-btn">
     <span class="plus-icon">+ New</span>
     <span class="tooltip-text">Create new wish</span>
-  </button>> --> 
+  </button>
 </div>
 
 {% if items %}
@@ -327,11 +327,11 @@
 </div>
 {% endif %}
 
-<div id="modal" class="modal-overlay">
+<div id="modalNewItem" class="modal-overlay">
   <div class="modal">
     <div class="modal-header">
       <h2>Create New Wish</h2>
-      <button id="closeModalBtn" class="modal-close">&times;</button>
+      <button id="closeModalBtnNewItem" class="modal-close">&times;</button>
     </div>
     <form action="/wishlist/{{ category_id }}" method="POST" class="modal-form">
       <label for="title">Wish Title</label>
