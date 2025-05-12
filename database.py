@@ -357,9 +357,10 @@ def get_wishlist_items_by_token(category_id):
         print("Database connection failed")
         return None
     try:
+        print(f"Type of category_id: {type(category_id)}, Value: {category_id}")
         cursor = conn.cursor()
-        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE AND category_id=?""",
-                                        (category_id)).fetchall()
+        
+        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE category_id=?""", (category_id,)).fetchall()
         if not wishlist_items:
             return None
         return wishlist_items
