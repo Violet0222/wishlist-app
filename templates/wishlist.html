@@ -107,7 +107,13 @@
               <input type="hidden" value="{{category['id']}}" name="id" />
             </form>
           </div>
-          <button onclick="copyLink({{ category['id'] }})">Copy Link</button>
+          <button
+            class="openModalBtnCopyLink"
+            data-category-id="{{ category['id'] }}"
+            data-public-token="{{ category['public_token'] }}"
+          >
+            Copy Public Link
+          </button>
           <div id="delete-container-{{ category['id'] }}">
             <form action="/wishlist" method="post">
               <input value="delete" hidden name="delete" />
@@ -124,6 +130,42 @@
         </div>
       </div>
     </div>
+
+    <div id="modalCopyLink-{{ category['id'] }}" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Share Wishlist</h2>
+          <button
+            class="closeModalBtnCopyLink modal-close"
+            data-category-id="{{ category['id'] }}"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Share this link for public viewing:</p>
+          <div class="public-link-display">
+            <span class="public-link-text">
+              {{ url_for('view_wishlist', category_id=category['id'],
+              public_token=category['public_token'], _external=True) }}
+            </span>
+            <button
+              class="copy-to-clipboard-btn"
+              data-link-target="#modalCopyLink-{{ category['id'] }} .public-link-text"
+            >
+              Copy
+            </button>
+          </div>
+          <p>
+            <small
+              >This link allows anyone to view this wishlist without logging
+              in.</small
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
     {% endfor %} {% else %}
     <div class="empty-state">
       <div class="empty-icon">📭</div>

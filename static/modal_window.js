@@ -1,42 +1,102 @@
 function modalWindow() {
-  console.log("DOM loaded.");
+  // Modal for New Item Category
   const openModalBtnNewItem = document.getElementById("openModalBtnNewItem");
-  const openModalBtnImgs = document.querySelectorAll(
-    '[id^="openModalBtnImg-"]'
-  );
-  console.log(openModalBtnNewItem);
-
   const modalNewItem = document.getElementById("modalNewItem");
-  const closeModalBtn = document.getElementById("closeModalBtn");
+  const closeModalBtnNewItem = document.getElementById("closeModalBtnNewItem");
 
-  console.log(modalNewItem);
-  console.log(closeModalBtn);
-  // Open modal
-  openModalBtnNewItem.addEventListener("click", () => {
-    modalNewItem.style.display = "flex"; // Flex for centered layout
-    setTimeout(() => {
+  if (openModalBtnNewItem && modalNewItem && closeModalBtnNewItem) {
+    openModalBtnNewItem.addEventListener("click", () => {
       modalNewItem.classList.add("open");
-    }, 10);
-  });
+    });
 
-  // Close modal on close button
-  closeModalBtn.addEventListener("click", () => {
-    modalNewItem.classList.remove("open");
-    setTimeout(() => {
-      modalNewItem.style.display = "none";
-    }, 300);
-  });
-
-  // Close modal on outside click
-  window.addEventListener("click", (event) => {
-    if (event.target === modalNewItem) {
+    closeModalBtnNewItem.addEventListener("click", () => {
       modalNewItem.classList.remove("open");
-      setTimeout(() => {
-        modalNewItem.style.display = "none";
-      }, 300);
+    });
+
+    modalNewItem.addEventListener("click", (event) => {
+      if (event.target === modalNewItem) {
+        modalNewItem.classList.remove("open");
+      }
+    });
+  }
+
+  // Modals for Copying Public Link
+  const openModalBtnCopyLinks = document.querySelectorAll(
+    ".openModalBtnCopyLink"
+  );
+
+  openModalBtnCopyLinks.forEach((button) => {
+    button.addEventListener("click", () => {
+      const categoryId = button.dataset.categoryId;
+      const modalCopyLink = document.getElementById(
+        `modalCopyLink-${categoryId}`
+      );
+      if (modalCopyLink) {
+        modalCopyLink.classList.add("open");
+      }
+    });
+  });
+
+  const closeModalBtnCopyLinks = document.querySelectorAll(
+    ".closeModalBtnCopyLink"
+  );
+
+  closeModalBtnCopyLinks.forEach((button) => {
+    button.addEventListener("click", () => {
+      const categoryId = button.dataset.categoryId;
+      const modalCopyLink = document.getElementById(
+        `modalCopyLink-${categoryId}`
+      );
+      if (modalCopyLink) {
+        modalCopyLink.classList.remove("open");
+      }
+    });
+  });
+
+  // Close copy link modal on outside click
+  document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+    if (overlay.id.startsWith("modalCopyLink-")) {
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+          overlay.classList.remove("open");
+        }
+      });
     }
   });
 
+  // Functionality for the "Copy" button within the modal
+  const copyToClipboardButtons = document.querySelectorAll(
+    ".copy-to-clipboard-btn"
+  );
+
+  copyToClipboardButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetSelector = button.dataset.linkTarget;
+      const linkElement = document.querySelector(targetSelector);
+
+      if (linkElement) {
+        const linkText = linkElement.textContent.trim();
+
+        navigator.clipboard
+          .copy(linkText)
+          .then(() => {
+            // Optional: Provide feedback (e.g., change button text temporarily)
+            button.textContent = "Copied!";
+            setTimeout(() => {
+              button.textContent = "Copy";
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Failed to copy link: ", err);
+            alert("Failed to copy link."); // Basic error feedback
+          });
+      }
+    });
+  });
+
+  const openModalBtnImgs = document.querySelectorAll(
+    '[id^="openModalBtnImg-"]'
+  );
   openModalBtnImgs.forEach((openModalBtnImg) => {
     const modalImg = openModalBtnImg.querySelector('[id^="modalImg-"]');
     const closeModalBtnImg = modalImg.querySelector(

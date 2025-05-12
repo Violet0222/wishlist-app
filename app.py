@@ -281,9 +281,9 @@ def private_items(category_id, item_id):
     
     
 # view category by token    
-@app.route("/wishlist/<int:category_id>/<token>")
-def view_wishlist(category_id, token):
-    category_response = db.get_wishlist_category_by_token(category_id, token)
+@app.route("/public/wishlist/<int:category_id>/<public_token>")
+def view_wishlist(category_id, public_token):
+    category_response = db.get_wishlist_category_by_token(category_id, public_token)
     if category_response is None:
         abort(404, description="Category is not found")
     wishes_response = db.get_wishlist_items_by_token(category_id)
