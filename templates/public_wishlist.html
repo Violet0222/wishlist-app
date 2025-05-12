@@ -1,0 +1,35 @@
+{% extends "public_base.html" %}
+
+{% block title %}{{ category.name }} Wishlist{% endblock %}
+
+{% block content %}
+  <h1>{{ category.name }}</h1>
+
+  {% if wishes %}
+    <ul class="wish-list">
+      {% for wish in wishes %}
+        <li class="wish-item">
+          <h3>{{ wish.title }}</h3>
+          {% if wish.image %}
+            <img src="{{ wish.image }}" alt="{{ wish.title }}" />
+          {% endif %}
+          <p>{{ wish.description }}</p>
+          {% if wish.url %}
+            <a href="{{ wish.url }}" target="_blank">View</a>
+          {% endif %}
+          {% if not wish.reserved %}
+            <form action="{{ url_for('reserve_wish', wish_id=wish.id) }}" method="POST">
+              <input type="email" name="email" placeholder="Your email" required />
+              <button type="submit">Reserve</button>
+            </form>
+          {% else %}
+            <span class="reserved">Reserved</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No wishes found in this category.</p>
+  {% endif %}
+{% endblock %}
+

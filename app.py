@@ -1,9 +1,10 @@
 import os
-from flask import Flask, render_template, request, session, flash, redirect, url_for
+from flask import Flask, render_template, request, session, flash, redirect, url_for, abort
 from flask_session import Session
 from werkzeug.utils import redirect, secure_filename
 from flask_bcrypt import Bcrypt
 import pycountry
+import uuid
 
 import database
 
@@ -123,11 +124,11 @@ def create_wishlist():
     user_id = session["user_id"]
     if request.method == "POST":
         category = request.form.get("category_name")
-        print(category)
         if not category or not category.strip():
             print("please enter a valid category")
             return render_template("create_wishlist.html", error="Please enter a valid category")
-        response = db.create_wishlist_category(category, user_id)
+        public_token = str(uuid.uuid4())
+        response = db.create_wishlist_category(category_name, public_token, user_id)
         if response is None:
             return render_template("create_wishlist.html", error="Category wasn't created")
         flash("Created!")
@@ -276,6 +277,29 @@ def private_items(category_id, item_id):
         flash("Updated!")
         return redirect(f"/wishlist/{category_id}")
     
+    
+    
+    
+# view category by token    
+@app.route("/wishlist/<int:category_id>/<token>")
+def view_wishlist(category_id, token):
+    category_response = db.get_wishlist_category_by_token(category_id, token)
+    if category_response is None:
+        abort(404, description="Category is not found")
+    wishes_response = db.get_wishlist_items_by_token(category_id)
+    if wishes_response is None:
+        abort(404, description="Wishes are not found")
+    return render_template("public_wishlist.html")
+    
+
+@app.route("/reserve/<int:wish_id>", methods=["POST"])
+def reserve_wish(wish_id):
+    email = request.form.get("email")
+    if not email:
+        flash("Введите email", "error")
+        return redirect(request.referrer)
+
+    token = str(uuid.uuid4())
     
     
 if __name__ == '__main__':

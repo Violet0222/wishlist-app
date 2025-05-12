@@ -162,14 +162,14 @@ def update_user_details (user_id, data):
         print("Failed to update a wishlist:", e)
         return None
 
-def create_wishlist_category(category, user_id):
+def create_wishlist_category(category_name, public_token, user_id):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
         return None
     try:
         cursor = conn.cursor()
-        cursor.execute("""INSERT INTO category (name, user_id) VALUES (?,?)""", (category, user_id))
+        cursor.execute("""INSERT INTO category (name, public_token, user_id) VALUES (?,?)""", (category_name, public_token, user_id))
         conn.commit()
         return True
     except sqlite3.OperationalError as e:
@@ -283,9 +283,6 @@ def get_wishlist_items(user_id, category_id):
         cursor = conn.cursor()
         wishlist_items = cursor.execute("""SELECT * FROM wish WHERE user_id=? AND category_id=?""",
                                         (user_id, category_id)).fetchall()
-
-        # Debugging: Print fetched results
-        print(f"Query result for user_id={user_id}, category_id={category_id}: {wishlist_items}")
         if not wishlist_items:
             return None
         return wishlist_items
@@ -338,6 +335,38 @@ def delete_wishlist_item(wish_id):
         print("Failed to delete a wishlist:", e)
         return None
 
+
+def get_wishlist_category_by_token(category_id, token):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        category = cursor.execute("""SELECT * FROM category WHERE id = ? AND public_token =?""",(category_id, token)).fetchone()
+        if not category:
+            return None
+        return category
+    except sqlite3.OperationalError as e:
+        print("Failed to get categories:", e)
+        return None
+    
+def get_wishlist_items_by_token(category_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE AND category_id=?""",
+                                        (category_id)).fetchall()
+        if not wishlist_items:
+            return None
+        return wishlist_items
+    except sqlite3.OperationalError as e:
+        print("Failed to get a wishlist:", e)
+        return None
+    
 
 # to delete
 def drop_table():
