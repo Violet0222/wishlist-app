@@ -291,7 +291,7 @@ def view_wishlist(category_id, public_token):
     wishes_response = db.get_wishlist_items_by_token(category_id)
     if wishes_response is None:
         abort(404, description="Wishes are not found")
-    return render_template("public_wishlist.html")
+    return render_template("public_wishlist.html", category = category_response, wishes = wishes_response)
     
 
 @app.route("/reserve/<int:wish_id>", methods=["POST"])
