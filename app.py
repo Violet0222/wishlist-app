@@ -305,14 +305,32 @@ def reserve_wish( wish_id):
     data_to_update['reserved'] = reserved
     data_to_update['reserved_token'] = reserved_token
     data_to_update
-    wish_response = db.wish_reservation(wish_id, data_to_update)
-    if wish_response is None:
+    wish_reserved = db.wish_reservation(wish_id, data_to_update)
+    if wish_reserved is None:
         abort(404, description="Wish is not reserved")
-    return render_template("reservation_message.html")
+    
+    return render_template("reservation_message.html", wish_reserved = True, reserved_token=reserved_token, wish_id = wish_id)
 
     
- 
+@app.route("/cancel_reservation/<int:wish_id>/<reserved_token>", methods=["POST"])
+def cancel_reservation(wish_id, reserved_token):
+    # Get the wish
+    wish = db.get_wish_by_id(wish_id)
+    if wish is None or wish["reserved_token"] != reserved_token:
+        abort(403, description="You are not allowed to cancel this reservation.")
     
+    # Reset reservation fields
+    data_to_update = {
+        "reserved_by_email": None,
+        "reserved": 0,
+        "reserved_token": None
+    }
+    cancel_response = db.wish_reservation(wish_id, data_to_update)
+    if cancel_response is None:
+        abort(500, description="Failed to cancel reservation.")
+    
+    flash("Reservation cancelled.")
+    return render_template("reservation_message.html", reservation_cancelled=True, )
     
     
 if __name__ == '__main__':

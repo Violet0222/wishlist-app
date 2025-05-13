@@ -393,7 +393,21 @@ def wish_reservation(record_id, data):
         print("Failed to get a wishlist:", e)
         return None
     
-  
+def get_wish_by_id(wish_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        wishes = cursor.execute("""SELECT * FROM wish WHERE id = ?""",(wish_id,)).fetchone()
+        if not wishes:
+            return None
+        return wishes
+    except sqlite3.OperationalError as e:
+        print("Failed to get categories:", e)
+        return None
+
     
     
 # to delete

@@ -1,3 +1,16 @@
-{% extends "public_base.html" %} {% block content %}
+{% extends "public_base.html" %} {% block content %} {% if reservation_cancelled
+%}
+<div>Reservation cancelled successfully.</div>
+{% elif wish_reserved %}
 <div>Reserved</div>
-{% endblock %}
+
+{% if reserved_token %}
+<form
+  action="{{ url_for('cancel_reservation', wish_id=wish_id, reserved_token=reserved_token) }}"
+  method="POST"
+>
+  <button type="submit">Cancel Reservation</button>
+</form>
+{% endif %} {% else %}
+<div>This wish is currently not reserved.</div>
+{% endif %} {% endblock %}
