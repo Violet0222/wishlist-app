@@ -188,7 +188,7 @@ def wishlist_items(category_id):
     user_id = session["user_id"]
     if not user_id:
         return redirect("/login")
-    category = db.get_category_by_id(category_id, user_id)
+    category = db.get_category_by_id(category_id)
     print(category)
     if not category:
         return None
@@ -283,8 +283,6 @@ def private_items(category_id, item_id):
 # view category by token    
 @app.route("/public/wishlist/<int:category_id>/<public_token>")
 def view_wishlist(category_id, public_token):
-    print(category_id)
-    print(public_token)
     category_response = db.get_wishlist_category_by_token(category_id, public_token)
     if category_response is None:
         abort(404, description="Category is not found")
@@ -295,13 +293,26 @@ def view_wishlist(category_id, public_token):
     
 
 @app.route("/reserve/<int:wish_id>", methods=["POST"])
-def reserve_wish(wish_id):
+def reserve_wish( wish_id):
     email = request.form.get("email")
     if not email:
         flash("Введите email", "error")
         return redirect(request.referrer)
+    reserved = 1
+    reserved_token = str(uuid.uuid4())
+    data_to_update = {}
+    data_to_update['reserved_by_email'] = email
+    data_to_update['reserved'] = reserved
+    data_to_update['reserved_token'] = reserved_token
+    data_to_update
+    wish_response = db.wish_reservation(wish_id, data_to_update)
+    if wish_response is None:
+        abort(404, description="Wish is not reserved")
+    return render_template("reservation_message.html")
 
-    token = str(uuid.uuid4())
+    
+ 
+    
     
     
 if __name__ == '__main__':

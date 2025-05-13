@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>{% block title %}Public Wishlist{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Public Wishlist{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Main stylesheet -->
-  <link rel="stylesheet" href="/static/css/styles.css" />
-  <link rel="stylesheet" href="/static/css/theme.css" />
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="/static/css/styles.css" />
 
-  <!-- Optional theme switcher -->
-  <script src="/static/theme.js"></script>
+    <!-- Optional theme switcher -->
+    <script src="/static/theme.js"></script>
 
-  {% block head %}{% endblock %}
-</head>
-<body data-theme="light">
-  <main class="public-container">
-    {% block content %}
-    <!-- Child templates insert content here -->
-    {% endblock %}
-  </main>
-</body>
+    {% block head %}{% endblock %}
+  </head>
+  <body data-theme="light">
+    <main class="public-container">
+      {% block content %}
+      <!-- Child templates insert content here -->
+      {% endblock %}
+    </main>
+  </body>
 </html>

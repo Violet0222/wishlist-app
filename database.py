@@ -194,14 +194,14 @@ def get_wishlist_categories(user_id):
         return None
 
 
-def get_category_by_id(category_id, user_id):
+def get_category_by_id(category_id):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
         return None
     try:
         cursor = conn.cursor()
-        category = cursor.execute("""SELECT * FROM category WHERE id = ? AND user_id =?""",(category_id, user_id)).fetchone()
+        category = cursor.execute("""SELECT * FROM category WHERE id = ?""",(category_id,)).fetchone()
         if not category:
             return None
         return category
@@ -231,7 +231,6 @@ def update_category(record_id, data):
         print("Database connection failed")
         return None
     try:
-        print(data)
         # Build the SET clause of the SQL query using named parameters
         set_clause = ", ".join([f"{col} = :{col}" for col in data.keys()])
 
@@ -357,7 +356,6 @@ def get_wishlist_items_by_token(category_id):
         print("Database connection failed")
         return None
     try:
-        print(f"Type of category_id: {type(category_id)}, Value: {category_id}")
         cursor = conn.cursor()
         
         wishlist_items = cursor.execute("""SELECT * FROM wish WHERE category_id=?""", (category_id,)).fetchall()
@@ -368,7 +366,36 @@ def get_wishlist_items_by_token(category_id):
         print("Failed to get a wishlist:", e)
         return None
     
+def wish_reservation(record_id, data):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        # Build the SET clause of the SQL query using named parameters
+        set_clause = ", ".join([f"{col} = :{col}" for col in data.keys()])
 
+        # Construct the SQL query
+        sql = f"""
+          UPDATE wish
+          SET {set_clause}
+          WHERE id = :record_id
+          """
+
+        # Prepare the values for the update, including the record_id
+        values = data.copy()  # Create a copy to avoid modifying the original
+        values["record_id"] = record_id
+        cursor = conn.cursor()
+        cursor.execute(sql, values)
+        conn.commit()
+        return True
+    except sqlite3.OperationalError as e:
+        print("Failed to get a wishlist:", e)
+        return None
+    
+  
+    
+    
 # to delete
 def drop_table():
     conn = get_db()
