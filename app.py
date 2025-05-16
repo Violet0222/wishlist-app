@@ -116,7 +116,27 @@ def settings():
     return render_template("settings.html", user_name=user_name, email=email)
 
 
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    current_password = request.form['current_password']
+    new_password = request.form['new_password']
+    confirm_password = request.form['confirm_password']
 
+    user_id = session.get('user_id')
+    user = db.get_user_by_id(user_id) 
+
+    if not bcrypt.check_password_hash (user['password'], current_password):
+        flash('Current password is incorrect.', 'error')
+    elif new_password != confirm_password:
+        flash('New passwords do not match.', 'error')
+    else:
+        password = bcrypt.generate_password_hash(new_password)
+        data_to_update = {}
+        data_to_update["password"] = password
+        response = db.update_user_details(user_id, data_to_update)
+        flash('Password updated successfully.', 'success')
+
+    return redirect(url_for('settings')) 
 
 
 @app.route("/create_wishlist", methods=["GET", "POST"])

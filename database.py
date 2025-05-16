@@ -132,6 +132,27 @@ def get_user(user_name, password):
         if conn:
             conn.close()  #close the connection
 
+def get_user_by_id (user_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return None
+    try:
+        cursor = conn.cursor()
+        # Query database for username
+        user = cursor.execute("""SELECT * FROM users WHERE id=?""", (user_id,)).fetchone()
+        # Ensure username exists and password is correct
+        if not user:
+            return None
+        return user
+    except sqlite3.OperationalError as e:
+        print("Failed to get user:", e)
+        return None
+
+
+    
+
+
 def update_user_details (user_id, data):
     conn = get_db()
     if conn is None:
