@@ -134,6 +134,8 @@ def change_password():
         data_to_update = {}
         data_to_update["password"] = password
         response = db.update_user_details(user_id, data_to_update)
+        if response is None:
+            return render_template("settings.html", error="User details were not updated")
         flash('Password updated successfully.', 'success')
 
     return redirect(url_for('settings')) 
