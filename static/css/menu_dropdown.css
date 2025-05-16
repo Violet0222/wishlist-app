@@ -1,11 +1,32 @@
+/* Variables for easier customization (optional but recommended) */
+:root {
+  --notion-dropdown-bg: white;
+  --notion-dropdown-border: rgba(55, 53, 47, 0.09); /* Subtle border color */
+  --notion-dropdown-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+    rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px; /* Notion-like shadow */
+  --notion-item-hover-bg: rgba(55, 53, 47, 0.08); /* Subtle hover background */
+  --notion-text-color: rgba(55, 53, 47, 0.6); /* Default text color */
+  --notion-heading-color: rgba(55, 53, 47, 0.85); /* Slightly darker for headings */
+  --notion-delete-color: #e03e3e; /* Red for delete action */
+}
+
 .dropdown-container {
   display: inline-block;
   position: relative;
+  /* Optional: Adjust vertical alignment if needed */
+  vertical-align: middle;
 }
+
+/* Tooltip (keep as is or adjust styling) */
 .dropdown-container:hover .tooltip-text {
   opacity: 1;
   visibility: visible;
+  /* Adjust tooltip position if needed */
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 .dropdown-container.dropdown-active:hover .tooltip-text {
   opacity: 0;
   visibility: hidden;
@@ -14,43 +35,188 @@
 .menu-dropdown {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  /* Reduce gap for a more compact look */
+  gap: 2px;
   position: absolute;
   right: 0;
-  top: 2.5rem;
-  background: var(--card-bg, white);
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+  /* Adjust top position to align with the toggle button */
+  top: calc(100% + 4px); /* Small gap below the button */
+  background: var(--notion-dropdown-bg);
+  border: 1px solid var(--notion-dropdown-border);
+  border-radius: 6px; /* Slightly smaller border radius */
+  box-shadow: var(--notion-dropdown-shadow);
   z-index: 10;
-
-  min-width: clamp(160px, 40vw, 240px);
-  padding: clamp(0.5rem, 1vw, 1rem);
-  max-width: 90vw;
+  min-width: 200px; /* Fixed minimum width or adjust as needed */
+  max-width: 300px; /* Optional maximum width */
+  padding: 4px 0; /* Padding on top and bottom, no horizontal padding */
+  overflow: hidden; /* Important for rounded corners with list items */
 }
 
-.menu-dropdown-btn:focus + .menu-dropdown,
-.menu-dropdown:hover {
-  display: block;
+.menu-dropdown.show {
+  display: flex; /* Use flex for consistent spacing */
 }
 
+/* Style for individual dropdown items */
+.dropdown-item {
+  display: flex; /* Use flex for layout within the item */
+  align-items: center;
+  padding: 6px 12px; /* Padding for items */
+  cursor: pointer;
+  font-size: 0.875rem; /* Slightly smaller font size */
+  color: var(--notion-text-color);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.dropdown-item:hover {
+  background-color: var(--notion-item-hover-bg);
+  color: var(--notion-heading-color); /* Darker text on hover */
+}
+
+/* Style for the dropdown button (⋮) */
 .menu-dropdown-btn {
-  width: 100%;
-  padding: clamp(0.5rem, 1vh, 0.75rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* Fixed width for the button */
+  height: 24px; /* Fixed height */
+  padding: 0; /* Remove padding */
   background: none;
   border: none;
-  text-align: left;
-  font-size: clamp(0.9rem, 1vw, 1rem); /* 👈 Scales font based on screen */
-  color: var(--text-color);
+  font-size: 1rem; /* Adjust size of the dots */
+  color: var(--notion-text-color);
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 4px; /* Smaller border radius for the button */
   transition: background 0.2s ease;
 }
 
 .menu-dropdown-btn:hover {
-  color: var(--heading-color);
+  background-color: rgba(55, 53, 47, 0.08); /* Subtle hover for the button */
 }
 
-.menu-dropdown.show {
+/* Style for the delete item to make it red */
+.dropdown-item-delete {
+  width: 100%; /* Make the button fill the container */
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0; /* Remove padding from the button itself */
+  font-size: 0.875rem;
+  color: var(--notion-delete-color);
+  cursor: pointer;
+}
+
+.dropdown-item-delete:hover {
+  color: #d43434; /* Slightly darker red on hover */
+  background-color: rgba(224, 62, 62, 0.1); /* Light red background on hover */
+}
+
+/* Style for editable fields within the dropdown */
+.editable-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.editable-field .value-display {
+  flex-grow: 1;
+  margin-right: 8px; /* Space between text and potential input/icon */
+}
+
+/* Style for form elements within the dropdown (hidden by default) */
+.editable-field form.hidden {
+  display: none;
+}
+
+/* Add specific styles for the color picker input if needed */
+.editable-field .color-input {
+  /* Style the color picker input to fit the dropdown item */
+  width: 20px; /* Smaller size for the color picker */
+  height: 20px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+/* Adjust styling for the modal if you want it to look more Notion-like */
+.modal-overlay {
+  /* Keep existing overlay styles */
+}
+
+.modal {
+  background-color: var(--notion-dropdown-bg); /* Use same background as dropdown */
+  border-radius: 8px; /* Match overall Notion styling */
+  box-shadow: var(--notion-dropdown-shadow); /* Consistent shadow */
+  /* Adjust max-width and margin as needed */
+  max-width: 500px;
+  margin: 50px auto;
+}
+
+.modal-header {
+  /* Add bottom border or shadow for separation */
+  border-bottom: 1px solid var(--notion-dropdown-border);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--notion-heading-color);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--notion-text-color);
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+.public-link-display {
+  display: flex;
+  align-items: center;
+  background-color: #f7f6f3; /* Light background for the link display */
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ebeae9;
+}
+
+.public-link-text {
+  flex-grow: 1;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for long links */
+  font-size: 0.9rem;
+  color: var(--notion-text-color);
+}
+
+.copy-to-clipboard-btn {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.copy-to-clipboard-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.modal-body small {
   display: block;
+  margin-top: 5px;
+  font-size: 0.75rem;
+  color: rgba(55, 53, 47, 0.45);
 }

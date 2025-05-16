@@ -49,7 +49,7 @@
         <span class="tooltip-text">Delete, more...</span>
         <div class="menu-dropdown" id="menu-{{ category['id'] }}">
           <! -- Edit title -- >
-          <div class="editable-field">
+          <div class="dropdown-item editable-field">
             <span class="value-display">Edit title </span>
             <form action="/wishlist" method="post" class="hidden">
               <input name="name" value="{{ category['name']}}" />
@@ -58,7 +58,7 @@
           </div>
 
           <!-- Emoji-->
-          <div class="editable-field emoji-picker-container">
+          <div class="dropdown-item editable-field emoji-picker-container">
             <span
               class="value-display emoji-display"
               data-category-id="{{ category['id'] }}"
@@ -90,7 +90,7 @@
           </div>
 
           <!-- Background -->
-          <div class="editable-field">
+          <div class="dropdown-item editable-field">
             <span class="value-display">Add background</span>
             <form
               action="/wishlist"
@@ -108,13 +108,13 @@
             </form>
           </div>
           <button
-            class="openModalBtnCopyLink"
+            class="dropdown-item openModalBtnCopyLink"
             data-category-id="{{ category['id'] }}"
             data-public-token="{{ category['public_token'] }}"
           >
             Copy Public Link
           </button>
-          <div id="delete-container-{{ category['id'] }}">
+          <div id="delete-container-{{ category['id'] }}" class="dropdown-item">
             <form action="/wishlist" method="post">
               <input value="delete" hidden name="delete" />
               <input type="hidden" name="id" value="{{category['id']}}" />

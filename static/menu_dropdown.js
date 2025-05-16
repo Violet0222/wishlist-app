@@ -2,8 +2,18 @@ function menu_dropdown() {
   const dropdown_containers = document.querySelectorAll(".dropdown-container");
   dropdown_containers.forEach((dropdown_container) => {
     const menuButton = dropdown_container.querySelector(".menu-dropdown-btn");
+    const dropdown_menu = dropdown_container.querySelector(".menu-dropdown");
+
     menuButton.addEventListener("click", (event) => {
-      const dropdown_menu = dropdown_container.querySelector(".menu-dropdown");
+      event.stopPropagation();
+      document.querySelectorAll(".menu-dropdown.show").forEach((menu) => {
+        if (menu !== dropdown_menu) {
+          menu.classList.remove("show");
+          menu
+            .closest(".dropdown-container")
+            .classList.remove("dropdown-active");
+        }
+      });
 
       dropdown_menu.classList.toggle("show");
       if (dropdown_menu.classList.contains("show")) {
@@ -11,17 +21,17 @@ function menu_dropdown() {
       } else {
         dropdown_container.classList.remove("dropdown-active");
       }
-      // Close dropdown menu if clicked outside of dropdown menu content
-      window.addEventListener("click", function (event) {
-        if (
-          !event.target.closest(".menu-dropdown-btn") &&
-          !event.target.closest(".menu-dropdown")
-        ) {
-          dropdown_menu.classList.remove("show");
-          dropdown_container.classList.remove("dropdown-active");
-        }
-      });
     });
+  });
+  // Global click listener to close dropdowns when clicking outside
+  document.addEventListener("click", (event) => {
+    // Check if the click is outside of any dropdown container
+    if (!event.target.closest(".dropdown-container")) {
+      document.querySelectorAll(".menu-dropdown.show").forEach((menu) => {
+        menu.classList.remove("show");
+        menu.closest(".dropdown-container").classList.remove("dropdown-active");
+      });
+    }
   });
 
   // const category_items = document.querySelectorAll('[id^="category-"]');
