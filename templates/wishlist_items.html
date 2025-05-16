@@ -102,14 +102,14 @@
             <img src="{{ url_for('static', filename='uploads/' ~ item['image']) }}" class="image-preview" />
           </div>
         {% endif %}
-        <button id="openModalBtnImg-{{item['id']}}" class="new-item-btn">
+        <button data-item-id="{{item['id']}}" class="new-item-btn openModalBtnImg">
           <span class="plus-icon">Add Image</span>
         </button>
         <div id="modalImg-{{item['id']}}" class="modal-overlay">
           <div class="modal">
             <div class="modal-header">
               <h2>Add Image</h2>
-              <button id="closeModalBtnImg-{{item['id']}}" class="modal-close">&times;</button>
+              <button id="{{item['id']}}" class="modal-close closeModalBtnImg">&times;</button>
             </div>
             <form action="/wishlist/{{ category_id }}" method="POST" class="modal-form" enctype="multipart/form-data">
               <input type="file" name="image" accept="image/*" />
