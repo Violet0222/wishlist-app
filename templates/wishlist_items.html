@@ -101,10 +101,15 @@
           <div class="wishlist-image">
             <img src="{{ url_for('static', filename='uploads/' ~ item['image']) }}" class="image-preview" />
           </div>
-        {% endif %}
-        <button data-item-id="{{item['id']}}" class="new-item-btn openModalBtnImg">
-          <span class="plus-icon">Add Image</span>
+          <button data-item-id="{{item['id']}}" class="new-item-btn openModalBtnImg change-image-btn">
+            <span class="plus-icon">Change Image</span>
+          </button>
+        {%else%}
+        <button class="wishlist-image-wrapper new-item-btn empty openModalBtnImg" data-item-id="{{item['id']}}"> 
+          <span class="placeholder-emoji">🖼️</span> 
+          <span class="tooltip-text">Додати картинку</span> 
         </button>
+        {% endif %}
         <div id="modalImg-{{item['id']}}" class="modal-overlay">
           <div class="modal">
             <div class="modal-header">
@@ -174,8 +179,8 @@
       <!-- URL field -->
       <div class="wishlist-cell url-cell editable-field" data-property="url">
         {% if item.url %}
-        <a href="{{ item['url'] }}" target="_blank" class="value-display"
-          >{{ item['url'] }}
+        <a href="{{ item['url'] }}" target="_blank" class="value-display">
+          {{ item['url'].split('/')[2] }}{% if item['url']|length > 20 %}...{% endif %}
         </a>
         {% else %}
         <span class="value-display muted">No link</span>
