@@ -223,21 +223,6 @@ form button[type="submit"]:hover {
   color: var(--icon-hover-color);
 }
 
-/* Selects (dropdowns) */
-/* select {
-  width: 100%;
-  padding: 0.5rem;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-}
-
-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-} */
-
 .tooltip-text {
   position: absolute;
   opacity: 0;
@@ -251,6 +236,34 @@ select:focus {
   white-space: nowrap;
   transition: opacity 0.2s ease, visibility 0.2s ease;
   z-index: 100;
+}
+.value-display {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
+  cursor: pointer;
+}
+
+.muted {
+  color: var(--text-color);
+  opacity: 0.6;
+  font-style: italic;
+}
+
+/* .value-display:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+  } */
+
+.tooltip-text:hover {
+  opacity: 1;
+  visibility: visible;
 }
 
 .tooltip-right {
@@ -314,6 +327,7 @@ select:focus {
 }
 
 .new-item-btn {
+  position: relative;
   background: #f5f5f5;
   border: 1px solid #ddd;
   padding: 0.6rem 1rem;
@@ -328,23 +342,6 @@ select:focus {
 .new-item-btn:hover {
   background: #ebebeb;
 }
-
-.new-item-btn .tooltip-text {
-  visibility: hidden;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 4px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
 .new-item-btn:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
@@ -356,145 +353,59 @@ select:focus {
 .editable-field {
   cursor: pointer;
   position: relative;
+  transition: background-color 0.2s ease;
 }
 
-.editable-field:hover {
-  background-color: #f4f4f4;
-  cursor: pointer;
+.editable-field:hover:not(.editing) {
+  background-color: var(--bg-color);
 }
 
-.muted {
-  color: #999;
-}
-
-/* .priority-label {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  display: inline-block;
-}
-
-.priority-low {
-  background-color: #e6f4ea;
-  color: #257942;
-  border: 1px solid #b7e1cd;
-}
-
-.priority-medium {
-  background-color: #fff4e5;
-  color: #c27000;
-  border: 1px solid #ffd89e;
-}
-
-.priority-high {
-  background-color: #ffe5e5;
-  color: #c00000;
-  border: 1px solid #ffb3b3;
-}
-
-.status-label {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  display: inline-block;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.status-not-reserved {
-  background-color: #f1f1f1;
-  color: #555;
-  border: 1px solid #ccc;
-}
-
-.status-reserved {
-  background-color: #d1f4d1;
-  color: #237a2c;
-  border: 1px solid #b3e6b3;
-}
-
-.private-icon {
-  margin-left: 8px;
-  color: #888;
-} */
-
-/* .settings-page {
-  display: flex;
-  height: 100vh;
-} */
-
-/* SIDEBAR */
-/* .settings-sidebar {
-  width: 250px;
-  background-color: #f9f9f9;
-  border-right: 1px solid #e2e2e2;
-  padding: 24px;
-  box-sizing: border-box;
-}
-
-.sidebar-title {
-  font-size: 1.4em;
-  margin-bottom: 24px;
-  font-weight: bold;
-} */
-
-/* .settings-nav {
+.table {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.settings-link {
-  text-decoration: none;
-  color: #555;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.settings-link:hover {
-  color: #000;
-} */
-
-/* MAIN CONTENT */
-/* .settings-content {
-  flex: 1;
-  padding: 40px;
-  overflow-y: auto;
-  box-sizing: border-box;
-}
-
-.content-title {
-  font-size: 1.8em;
-  margin-bottom: 32px;
-  font-weight: bold;
-}
-
-.settings-group {
-  margin-bottom: 24px;
-} */
-
-/* .settings-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #444;
-}
-
-.settings-input,
-.settings-select {
   width: 100%;
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.settings-input:focus,
-.settings-select:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-} */
+.table-row {
+  display: flex;
+  border-top: 1px solid var(--border-color);
+}
+
+.table-row:first-child {
+  border-top: none;
+}
+
+.table-cell {
+  flex: 1;
+  padding: 12px;
+  border-left: 1px solid var(--border-color);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-cell:first-child {
+  border-left: none;
+}
+
+.description-cell {
+  flex: 3;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.description-value {
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}

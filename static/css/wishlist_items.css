@@ -1,97 +1,9 @@
 /* Container for the table (useful for sticky header or overflow) */
 .wishlist-table-container {
   margin-top: 20px;
-  border: 1px solid var(--border-color); /* Use theme variable */
-  border-radius: 8px; /* Збільшив радіус для більш м'якого вигляду */
-  overflow: hidden; /* Це важливо, щоб бордер-радіус застосовувався до вмісту всередині */
-  box-shadow: var(--shadow); /* Додав легку тінь */
-}
-
-.wishlist-table {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
-
-  font-size: clamp(0.85rem, 0.9vw + 0.2rem, 1rem);
-  line-height: 1.6;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-}
-
-.wishlist-row {
-  display: table-row;
-  border-bottom: 1px solid var(--border-color); /* Use theme variable */
-  transition: background-color 0.2s ease; /* Додав перехід для hover */
-}
-
-.wishlist-row:last-child {
-  border-bottom: none;
-}
-
-/* Header row styling */
-.wishlist-row.wishlist-header {
-  background-color: var(--bg-color); /* Легкий фон для заголовка */
-  font-weight: 600; /* Жирніший текст */
-  color: var(--heading-color); /* Колір заголовків */
-  border-bottom: 1px solid var(--border-color); /* Чіткіший розділювач */
-  position: sticky; /* Можливо, зробимо заголовок прилипаючим */
-  top: 0;
-  z-index: 1; /* Щоб заголовок був над контентом при прокрутці */
-}
-
-/* Hover effect on rows */
-.wishlist-row:not(.wishlist-header):hover {
-  background-color: var(--bg-color); /* Злегка змінюємо фон при наведенні */
-}
-
-.wishlist-cell {
-  padding: 10px 16px; /* Зменшив вертикальний padding */
-  display: table-cell;
-  vertical-align: middle;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  /* max-width: 240px; /* Обмеження по ширині може бути проблемою, якщо вміст дуже довгий. Можливо, краще керувати цим за допомогою flexbox всередині клітинки, якщо потрібно, або залишити це. */
-}
-
-/* Спеціальні стилі для певних клітинок для кращого контролю ширини */
-.wishlist-cell.status-cell {
-  width: 120px; /* Злегка збільшив для кращого відображення статусу */
-}
-.wishlist-cell.image-cell {
-  width: 80px; /* Зменшив ширину колонки зображення */
-}
-
-.wishlist-cell.title-cell {
-  width: 200px;
-  font-weight: 500; /* Злегка жирніший заголовок */
-}
-.wishlist-cell.description-cell {
-  width: 300px; /* Збільшив ширину для опису */
-  white-space: normal; /* Дозволити переноси рядків в описі */
-  overflow: visible; /* Дозволити вмісту виходити, якщо він довший, хоча це може створити проблеми з вирівнюванням */
-}
-.wishlist-cell.url-cell {
-  width: 180px;
-}
-.wishlist-cell.price-cell {
-  width: 90px; /* Збільшив для ціни */
-  text-align: right; /* Вирівнювання ціни по правому краю */
-}
-.wishlist-cell.currency-cell {
-  width: 100px;
-}
-.wishlist-cell.priority-cell {
-  width: 100px; /* Збільшив для пріоритету */
-}
-.wishlist-cell.date-cell {
-  width: 160px; /* Збільшив для дати */
-  font-size: 0.85em; /* Злегка менший шрифт для дати */
-  color: var(--text-color); /* Можливо, більш приглушений колір */
-}
-.wishlist-cell.actions-cell {
-  width: 60px; /* Збільшив ширину для дій */
-  text-align: center;
+  box-shadow: var(--shadow);
+  overflow-x: auto;
 }
 
 /* Зображення */
@@ -102,12 +14,6 @@
   object-fit: cover;
   border-radius: 4px; /* Злегка зменшив радіус */
   /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); */ /* Легша тінь */
-}
-
-/* Allow description and title cells to grow if needed - залиште це, але врахуйте, що white-space: normal для опису може вплинути на вирівнювання всього рядка */
-.wishlist-cell.title-cell,
-.wishlist-cell.description-cell {
-  width: auto;
 }
 
 /* Visual Property Indicators (Same as before, adjust colors if needed) */
@@ -157,104 +63,11 @@
   color: #755;
 }
 
-/* Editable Field Styling within Table Cells */
-.wishlist-cell.editable-field {
-  cursor: pointer;
-  position: relative;
-  transition: background-color 0.2s ease; /* Перехід для hover */
-}
-
-.wishlist-cell.editable-field:hover:not(.editing) {
-  /* Застосовуємо hover тільки коли не в режимі редагування */
-  background-color: var(--bg-color); /* Використовуємо фоновий колір теми */
-}
-
-.wishlist-cell .value-display {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  /* Додайте padding, щоб текст не прилипав до країв */
-  padding: 0; /* Прибираємо padding тут, він вже є в .wishlist-cell */
-}
-
-.wishlist-cell .edit-form {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--card-bg); /* Фон форми редагування */
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  z-index: 2;
-}
-
-.wishlist-cell .edit-form input[type="text"],
-.wishlist-cell .edit-form input[type="url"],
-.wishlist-cell .edit-form input[type="number"],
-.wishlist-cell .edit-form select,
-.wishlist-cell .edit-form textarea {
-  border: 1px solid var(--border-color); /* Додав тонку межу для поля вводу */
-  padding: 6px 10px; /* Зменшив padding для компактності */
-  font-size: 1em;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
-  background-color: var(--card-bg); /* Фон поля вводу */
-  color: var(--text-color); /* Колір тексту в полі вводу */
-  border-radius: 4px; /* Легкий радіус */
-}
-
-.wishlist-cell .edit-form textarea {
-  resize: none;
-  height: 100%;
-  /* Додайте padding, якщо він потрібен всередині textarea */
-}
-
-.wishlist-cell .edit-form button {
-  display: none; /* Ховаємо кнопки редагування в таблиці */
-}
-
-/* Стилі для посилання в комірці URL */
-.wishlist-cell.url-cell a {
-  color: var(--text-color); /* Колір посилання як основний текст */
-  text-decoration: underline; /* Підкреслення посилання */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block; /* Щоб ellipsis працював */
-}
-
-.wishlist-cell.url-cell a:hover {
-  color: var(--heading-color); /* Зміна кольору при наведенні */
-  text-decoration: none; /* Прибрати підкреслення при наведенні, опціонально */
-}
-
-/* Стиль для відсутності даних */
-.wishlist-cell .muted {
-  color: var(
-    --text-color
-  ); /* Використовуйте колір тексту теми, але з меншою прозорістю */
-  opacity: 0.6;
-  font-style: italic; /* Курсив для позначення відсутності даних */
-}
-
 /* Приватна іконка */
 .private-icon {
   margin-right: 4px; /* Зменшив відступ */
   color: var(--text-color); /* Колір іконки як основний текст */
   opacity: 0.7;
-}
-
-/* Стилі для кнопки "Add Image" в клітинці Image */
-.wishlist-cell.image-cell {
-  width: 100px; /* Можливо, трохи збільшимо ширину клітинки для зображення */
-  position: relative; /* Важливо для позиціонування обгортки */
-  padding: 6px 10px; /* Можливо, трохи менший padding */
 }
 
 .wishlist-image-wrapper {
@@ -269,55 +82,6 @@
   border-radius: 4px; /* Легкий радіус */
   background-color: var(--border-color); /* Легкий фон для порожнього стану */
   border: 1px dashed var(--border-color); /* Пунктирна межа для порожнього стану */
-}
-
-.wishlist-image-wrapper.empty {
-  background-color: var(--bg-color);
-  border: 1px dashed var(--border-color);
-  cursor: pointer;
-  position: relative;
-  /* Вирівнювання вмісту (емодзі та підказки) - вже задано в .wishlist-image-wrapper */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.2s ease; /* Додаємо перехід для opacity */
-}
-
-.wishlist-image-wrapper.empty:hover {
-  opacity: 0.8; /* Легке затемнення при наведенні на обгортку */
-}
-
-.placeholder-emoji {
-  font-size: 30px; /* Розмір емодзі */
-  color: var(--text-color); /* Колір як у тексту теми */
-  opacity: 0.6; /* Злегка прозорий */
-  transition: opacity 0.2s ease; /* Плавний перехід */
-}
-
-.wishlist-image-wrapper.empty:hover .placeholder-emoji {
-  opacity: 1; /* Стає менш прозорим при наведенні */
-}
-
-.wishlist-image-wrapper.empty .tooltip-text {
-  /* Змінив селектор, щоб бути більш специфічним */
-  position: absolute;
-  bottom: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.7em;
-  white-space: nowrap;
-  z-index: 10;
-}
-.wishlist-image-wrapper.empty:hover .tooltip-text {
-  opacity: 1;
-  visibility: visible;
 }
 
 .wishlist-image-wrapper img.image-preview {
@@ -406,10 +170,6 @@
 
 /* Стилі для кнопки в мобільному режимі */
 @media (max-width: 768px) {
-  .wishlist-cell.image-cell {
-    justify-content: flex-start;
-    padding: 5px 0;
-  }
   .wishlist-image-wrapper {
     width: 60px;
     height: 60px;
@@ -429,16 +189,10 @@
     box-shadow: var(--shadow);
   }
 
-  .placeholder-emoji {
-    font-size: 20px; /* Менший розмір емодзі на мобільних */
-    opacity: 1; /* Завжди видимий на мобільних */
-    margin-right: 8px; /* Додаємо відступ від тексту */
-  }
-
   /* На мобільних підказка не потрібна */
-  .wishlist-image-wrapper.empty .tooltip-text {
+  /* .wishlist-image-wrapper.empty .tooltip-text {
     display: none;
-  }
+  } */
 
   /* Стилі для кнопки зміни зображення на мобільних залишаються як були */
   .openModalBtnImg.change-image-btn {
@@ -463,105 +217,5 @@
   .wishlist-table {
     display: block; /* Змінюємо display, щоб рядки стекувались */
     border: none; /* Прибираємо межі таблиці */
-  }
-
-  .wishlist-row {
-    display: block; /* Рядки стають блоками */
-    margin-bottom: 15px; /* Додаємо простір між елементами */
-    border: 1px solid var(--border-color); /* Межа навколо кожного елемента */
-    border-radius: 8px; /* Радіус для кожного елемента */
-    padding: 10px; /* Внутрішній відступ */
-    background-color: var(--card-bg); /* Фон елемента */
-    box-shadow: var(--shadow); /* Тінь для кожного елемента */
-  }
-
-  .wishlist-row.wishlist-header {
-    display: none; /* Ховаємо заголовок таблиці на мобільних */
-  }
-
-  .wishlist-cell {
-    display: flex; /* Клітинки стають flex-елементами */
-    width: auto !important; /* Відключаємо фіксовану ширину */
-    max-width: none; /* Відключаємо max-width */
-    white-space: normal; /* Дозволяємо переноси рядків */
-    overflow: visible; /* Дозволяємо вмісту виходити */
-    text-overflow: clip; /* Відключаємо ellipsis */
-    padding: 5px 0; /* Зменшуємо padding всередині клітинки */
-    border-bottom: 1px dashed #eee; /* Легка межа між полями всередині елемента */
-    align-items: center; /* Вирівнювання по центру */
-  }
-
-  .wishlist-cell:last-child {
-    border-bottom: none; /* Без межі для останнього поля */
-  }
-
-  .wishlist-cell::before {
-    /* Додаємо "заголовок" для кожного поля на мобільних */
-    content: attr(
-      data-label
-    ); /* Використовуємо атрибут data-label (потрібно додати в HTML) */
-    font-weight: 600;
-    margin-right: 10px;
-    flex-shrink: 0; /* Заголовок не стискається */
-    width: 100px; /* Фіксована ширина для заголовка поля */
-  }
-
-  /* Спеціальні стилі для певних клітинок на мобільних */
-  .wishlist-cell.image-cell {
-    justify-content: center; /* Центруємо зображення */
-  }
-  .wishlist-cell.image-cell::before {
-    content: "Image:"; /* Приклад data-label для зображення */
-  }
-
-  .wishlist-cell.status-cell::before {
-    content: "Status:";
-  }
-  .wishlist-cell.title-cell::before {
-    content: "Title:";
-  }
-  .wishlist-cell.description-cell::before {
-    content: "Description:";
-  }
-  .wishlist-cell.url-cell::before {
-    content: "URL:";
-  }
-  .wishlist-cell.price-cell::before {
-    content: "Price:";
-  }
-  .wishlist-cell.currency-cell::before {
-    content: "Currency:";
-  }
-  .wishlist-cell.priority-cell::before {
-    content: "Priority:";
-  }
-  .wishlist-cell.date-cell::before {
-    content: "Created:";
-  }
-  .wishlist-cell.actions-cell {
-    justify-content: flex-end; /* Вирівнюємо дії праворуч */
-    border-bottom: none; /* Прибираємо межу під діями */
-  }
-  .wishlist-cell.actions-cell::before {
-    content: "";
-  } /* Без заголовка для дій */
-
-  .wishlist-cell .edit-form {
-    position: static; /* Форма редагування не абсолютна на мобільних */
-    background-color: transparent; /* Прозорий фон */
-    flex-direction: column; /* Елементи форми стекуються */
-    align-items: flex-start;
-  }
-
-  .wishlist-cell .edit-form input,
-  .wishlist-cell .edit-form select,
-  .wishlist-cell .edit-form textarea {
-    width: 100%; /* Поле вводу займає всю ширину */
-    box-sizing: border-box;
-  }
-
-  .wishlist-cell .edit-form button {
-    display: block; /* Показуємо кнопки збереження/скасування на мобільних, якщо ви їх використовуєте */
-    margin-top: 10px;
   }
 }

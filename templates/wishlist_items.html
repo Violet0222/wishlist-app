@@ -14,7 +14,7 @@
 
 
 {% endblock %} {% block title %} Wishlist Items {% endblock %} {% block main %}
-
+<a href="/wishlist">🔙 Back to Wishlist</a>
 
 <div class="wishlist-wrapper">
 <header class="wishlist-header">
@@ -43,29 +43,28 @@
 
 {% if items %}
 <div class="wishlist-table-container">
-  <!-- Added a container for potential sticky header -->
-  <div class="wishlist-table">
+  <div class="table">
     <!-- Table Header -->
-    <div class="wishlist-row wishlist-header">
-      <div class="wishlist-cell status-cell">📍 Status</div>
-      <div class="wishlist-cell image-cell"> Image</div>
-      <div class="wishlist-cell title-cell">📌 Title</div>
-      <div class="wishlist-cell description-cell">📝 Description</div>
-      <div class="wishlist-cell url-cell">🔗 URL</div>
-      <div class="wishlist-cell price-cell">💰 Price</div>
-      <div class="wishlist-cell currency-cell">💱 Currency</div>
-      <div class="wishlist-cell priority-cell">⭐ Priority</div>
-      <div class="wishlist-cell date-cell">📅 Creation Date</div>
-      <div class="wishlist-cell actions-cell">⚙️</div>
+    <div class="table-row wishlist-header">
+      <div class="table-cell status-cell">📍 Status</div>
+      <div class="table-cell image-cell">🖼️ Image</div>
+      <div class="table-cell title-cell">📌 Title</div>
+      <div class="table-cell description-cell">📝 Description</div>
+      <div class="table-cell url-cell">🔗 URL</div>
+      <div class="table-cell price-cell">💰 Price</div>
+      <div class="table-cell currency-cell">💱 Currency</div>
+      <div class="table-cell priority-cell">⭐ Priority</div>
+      <div class="table-cell date-cell">📅 Creation Date</div>
+      <div class="table-cell actions-cell">⚙️</div>
     </div>
 
     <!-- Table Rows -->
     {% for item in items %}
     <div
-      class="wishlist-row {% if item.private %}private-item{% endif %}"
+      class="table-row {% if item.private %}private-item{% endif %}"
       id="item-{{ item['id'] }}"
     >
-      <div class="wishlist-cell status-cell editable-field" data-property="status">
+      <div class="table-cell status-cell editable-field" data-property="status">
         <span
           class="value-display status-label
           {% if item['reserved'] == 0 %}status-not-reserved{% endif %}
@@ -96,7 +95,7 @@
       </div>
 
       <!--Image-->
-      <div class="wishlist-cell image-cell" data-property="image">
+      <div class="table-cell image-cell" data-property="image">
         {% if item['image'] %}
           <div class="wishlist-image">
             <img src="{{ url_for('static', filename='uploads/' ~ item['image']) }}" class="image-preview" />
@@ -105,10 +104,8 @@
             <span class="plus-icon">Change Image</span>
           </button>
         {%else%}
-        <button class="wishlist-image-wrapper new-item-btn empty openModalBtnImg" data-item-id="{{item['id']}}"> 
-          <span class="placeholder-emoji">🖼️</span> 
-          <span class="tooltip-text">Додати картинку</span> 
-        </button>
+        <span class="value-display muted new-item-btn openModalBtnImg"  data-item-id="{{item['id']}}">No image</span>
+        <span class="tooltip-text">Add image</span> 
         {% endif %}
         <div id="modalImg-{{item['id']}}" class="modal-overlay">
           <div class="modal">
@@ -129,11 +126,12 @@
       
 
       <!--Title-->
-      <div class="wishlist-cell title-cell editable-field" data-property="title">
+      <div class="table-cell title-cell editable-field" data-property="title">
         {% if item.private %}
         <span class="private-icon" title="Private">🔒 </span>
         {% endif %}
         <span class="value-display">{{ item['title'] }}</span>
+        <span class="tooltip-text">Edit</span> 
         <form
           action="/wishlist/{{ category_id }}"
           method="post"
@@ -154,13 +152,15 @@
       </div>
 
       <!-- Description field -->
-      <div class="wishlist-cell description-cell editable-field" data-property="description">
+      <div class="table-cell description-cell editable-field" data-property="description">
         {% if item.description %}
-        <span class="value-display">
+        <span class="value-display description-value">
           {{ item['description'] }}
         </span>
+        <span class="tooltip-text">Edit</span> 
         {% else %}
         <span class="value-display muted">No description</span>
+        <span class="tooltip-text">Edit</span> 
         {% endif %}
         <form
           action="/wishlist/{{ category_id }}"
@@ -177,13 +177,15 @@
       </div>
 
       <!-- URL field -->
-      <div class="wishlist-cell url-cell editable-field" data-property="url">
+      <div class="table-cell url-cell editable-field" data-property="url">
         {% if item.url %}
         <a href="{{ item['url'] }}" target="_blank" class="value-display">
           {{ item['url'].split('/')[2] }}{% if item['url']|length > 20 %}...{% endif %}
         </a>
+        <span class="tooltip-text">Edit</span> 
         {% else %}
         <span class="value-display muted">No link</span>
+        <span class="tooltip-text">Edit</span> 
         {% endif %}
         <form
           action="/wishlist/{{ category_id }}"
@@ -200,11 +202,13 @@
       </div>
 
       <!-- Price field -->
-      <div class="wishlist-cell price-cell editable-field" data-property="price">
+      <div class="table-cell price-cell editable-field" data-property="price">
         {% if item.price %}
         <span class="value-display">{{ item['price'] }}</span>
+        <span class="tooltip-text">Edit</span> 
         {% else %}
-        <span class="value-display muted">-</span>
+        <span class="value-display muted">Empty</span>
+        <span class="tooltip-text">Edit</span> 
         {% endif %}
         <form
           action="/wishlist/{{ category_id }}"
@@ -221,13 +225,15 @@
       </div>
 
       <!-- Currency field -->
-      <div class="wishlist-cell currency-cell editable-field" data-property="currency">
+      <div class="table-cell currency-cell editable-field" data-property="currency">
         {% if item.currency %}
         <span id="value-currency-{{ item['id'] }}" class="value-display"
-          >💰 {{ item['currency'] }}
+          >{{ item['currency'] }}
         </span>
+        <span class="tooltip-text">Edit</span> 
         {% else %}
-        <span class="value-display muted">-</span>
+        <span class="value-display muted">Empty</span>
+        <span class="tooltip-text">Edit</span> 
         {% endif %}
         <form
           action="/wishlist/{{ category_id }}"
@@ -254,7 +260,7 @@
       </div>
 
       <!-- Priority field -->
-      <div class="wishlist-cell priority-cell editable-field" data-property="priority">
+      <div class="table-cell priority-cell editable-field" data-property="priority">
         <span
           id="value-priority-{{ item['id'] }}"
           class="priority-label
@@ -291,12 +297,12 @@
       </div>
 
       <!-- Creation date field -->
-      <div class="wishlist-cell date-cell">
+      <div class="table-cell date-cell">
         <span id="value-date-{{ item['id'] }}"> {{ item['created_at'] }}</span>
       </div>
 
       <!-- Dropdown / Menu -->
-      <div class="wishlist-cell actions-cell">
+      <div class="table-cell actions-cell">
         <div class="dropdown-container" id="dropdown-container-{{ item['id'] }}">
           <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
             ⋮
@@ -373,5 +379,5 @@
 </div>
 </div>
 
-<a href="/wishlist">🔙 Back to Wishlist</a>
+
 {% endblock %}
