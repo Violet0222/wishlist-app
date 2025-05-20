@@ -69,6 +69,16 @@
           class="table-row {% if item.private %}private-item{% endif %}"
           id="item-{{ item['id'] }}"
         >
+        <div class="table-cell received-cell editable-field" data-property="received">
+          <span
+              class="value-display">
+              {% if item['received'] == 0 %}Not received{% endif %} {% if
+              item['reserved'] == 1 %}Received{% endif %}
+            </span>
+        </div>
+  
+
+
           <div class="table-cell status-cell editable-field" data-property="status">
             <span
               class="value-display status-label
@@ -181,30 +191,7 @@
             </form>
           </div>
     
-          <!-- URL field -->
-          <div class="table-cell url-cell editable-field" data-property="url">
-            {% if item.url %}
-            <a href="{{ item['url'] }}" target="_blank" class="value-display">
-              {{ item['url'].split('/')[2] }}{% if item['url']|length > 20 %}...{% endif %}
-            </a>
-            <span class="tooltip-text">Edit</span> 
-            {% else %}
-            <span class="value-display muted">No link</span>
-            <span class="tooltip-text">Edit</span> 
-            {% endif %}
-            <form
-              action="/wishlist/{{ category_id }}"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-               data-property="url"
-            >
-              <input type="url" value="{{item['url']}}" name="url" placeholder="URL" />
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
-          </div>
+          
     
           <!-- Price field -->
           <div class="table-cell price-cell editable-field" data-property="price">
@@ -300,6 +287,105 @@
               <button type="button" class="cancel-btn hidden">Cancel</button>
             </form>
           </div>
+
+
+           <!-- list_name field -->
+           <div class="table-cell list_name-cell editable-field" data-property="list_name">
+            <span class="value-display">list_name</span>
+            <span class="tooltip-text">Edit</span> 
+            <form
+              action="/wishlist/{{ category_id }}"
+              method="post"
+              class="hidden edit-form"
+              data-item-id="{{ item['id'] }}"
+               data-property="title"
+            >
+              <input
+                type="text"
+                value="{{item['title']}}"
+                name="title"
+                placeholder="Title"
+              />
+              <input type="hidden" value="{{item['id']}}" name="id" />
+               <button type="submit" class="save-btn hidden">Save</button>
+              <button type="button" class="cancel-btn hidden">Cancel</button>
+            </form>
+          </div>
+
+          <!-- wanted_by field -->
+          <div class="table-cell wanted_by-cell editable-field" data-property="wanted_by">
+            <span class="value-display">01/01/2025</span>
+            <span class="tooltip-text">Edit</span> 
+            <form
+              action="/wishlist/{{ category_id }}"
+              method="post"
+              class="hidden edit-form"
+              data-item-id="{{ item['id'] }}"
+               data-property="title"
+            >
+              <input
+                type="text"
+                value="{{item['title']}}"
+                name="title"
+                placeholder="Title"
+              />
+              <input type="hidden" value="{{item['id']}}" name="id" />
+               <button type="submit" class="save-btn hidden">Save</button>
+              <button type="button" class="cancel-btn hidden">Cancel</button>
+            </form>
+          </div>
+
+
+           <!-- category field -->
+          <div class="table-cell category-cell editable-field" data-property="category">
+            <span class="value-display">category</span>
+            <span class="tooltip-text">Edit</span> 
+            <form
+              action="/wishlist/{{ category_id }}"
+              method="post"
+              class="hidden edit-form"
+              data-item-id="{{ item['id'] }}"
+               data-property="title"
+            >
+              <input
+                type="text"
+                value="{{item['title']}}"
+                name="title"
+                placeholder="Title"
+              />
+              <input type="hidden" value="{{item['id']}}" name="id" />
+               <button type="submit" class="save-btn hidden">Save</button>
+              <button type="button" class="cancel-btn hidden">Cancel</button>
+            </form>
+          </div>
+    
+
+          <!-- URL field -->
+          <div class="table-cell url-cell editable-field" data-property="url">
+            {% if item.url %}
+            <a href="{{ item['url'] }}" target="_blank" class="value-display">
+              {{ item['url'].split('/')[2] }}{% if item['url']|length > 20 %}...{% endif %}
+            </a>
+            <span class="tooltip-text">Edit</span> 
+            {% else %}
+            <span class="value-display muted">No link</span>
+            <span class="tooltip-text">Edit</span> 
+            {% endif %}
+            <form
+              action="/wishlist/{{ category_id }}"
+              method="post"
+              class="hidden edit-form"
+              data-item-id="{{ item['id'] }}"
+               data-property="url"
+            >
+              <input type="url" value="{{item['url']}}" name="url" placeholder="URL" />
+              <input type="hidden" value="{{item['id']}}" name="id" />
+               <button type="submit" class="save-btn hidden">Save</button>
+              <button type="button" class="cancel-btn hidden">Cancel</button>
+            </form>
+          </div>
+
+          
     
           <!-- Creation date field -->
           <div class="table-cell date-cell">
