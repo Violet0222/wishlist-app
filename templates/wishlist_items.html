@@ -1,4 +1,4 @@
-{% extends "wishlist.html" %} {% block head %}
+{% extends "layout.html" %} {% block head %}
 
 <script src="/static/wishlist-items.js"></script>
 <script src="/static/modal_window.js"></script>
@@ -46,14 +46,19 @@
   <div class="table">
     <!-- Table Header -->
     <div class="table-row wishlist-header">
+      
+      <div class="table-cell ">✅ Received</div>
       <div class="table-cell status-cell">📍 Status</div>
       <div class="table-cell image-cell">🖼️ Image</div>
       <div class="table-cell title-cell">📌 Title</div>
       <div class="table-cell description-cell">📝 Description</div>
-      <div class="table-cell url-cell">🔗 URL</div>
       <div class="table-cell price-cell">💰 Price</div>
       <div class="table-cell currency-cell">💱 Currency</div>
       <div class="table-cell priority-cell">⭐ Priority</div>
+      <div class="table-cell ">🗂️ List name</div>
+      <div class="table-cell ">⏳ Wanted by</div>
+      <div class="table-cell ">🏷️ Category</div>
+      <div class="table-cell url-cell">🔗 URL</div>
       <div class="table-cell date-cell">📅 Creation Date</div>
       <div class="table-cell actions-cell">⚙️</div>
     </div>

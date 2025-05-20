@@ -13,40 +13,49 @@ sql_statements = [
         password TEXT NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );""",
-    """CREATE TABLE IF NOT EXISTS wish (
+    """CREATE TABLE IF NOT EXISTS category (
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
-    category_id INTEGER NOT NULL,
+    name TEXT(100) NOT NULL,
+    emoji TEXT,
+    public_token TEXT UNIQUE,
+    UNIQUE(user_id, name),  
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);""",
+"""CREATE TABLE IF NOT EXISTS list_name (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    emoji TEXT,
+    public_token TEXT UNIQUE,
+    UNIQUE(user_id, name),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE      
+);
+""",
+"""CREATE TABLE IF NOT EXISTS wish (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    category_id INTEGER,
+    list_id INTEGER,
     title TEXT(150) NOT NULL,
     image TEXT,
     description TEXT,
     url TEXT(500),
     price REAL, 
-    currency TEXT(3),
+    currency TEXT(10),
     priority INTEGER DEFAULT 0,
-    public_token TEXT UNIQUE,
     reserved INTEGER DEFAULT 0,  -- 0 = false, 1 = true
     reserved_by_email TEXT,
     reserved_token TEXT,
     reserved_at DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     private BOOLEAN NOT NULL CHECK (private IN (0, 1)) DEFAULT 0,
+    received BOOLEAN DEFAULT 0,
+    wanted_by DATE, 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
-);""",
-    """CREATE TABLE IF NOT EXISTS category (
-    id INTEGER PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    name TEXT(100) NOT NULL UNIQUE,
-    emoji TEXT,
-    public_token TEXT UNIQUE,
-    card_background TEXT DEFAULT '#f5f5f5',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-""",
-
-
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL,
+    FOREIGN KEY (list_id) REFERENCES list_name(id) ON DELETE SET NULL
+);"""
 ]
 
 DATABASE = 'wishlist.db'
