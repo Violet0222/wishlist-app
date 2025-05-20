@@ -303,15 +303,15 @@ def create_wishlist_item(title, description, url, user_id, price, currency, prio
         return None
 
 
-def get_wishlist_items(user_id, category_id):
+def get_wishlist_items(user_id):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
         return None
     try:
         cursor = conn.cursor()
-        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE user_id=? AND category_id=?""",
-                                        (user_id, category_id)).fetchall()
+        wishlist_items = cursor.execute("""SELECT * FROM wish WHERE user_id=?""",
+                                        (user_id,)).fetchall()
         if not wishlist_items:
             return None
         return wishlist_items
