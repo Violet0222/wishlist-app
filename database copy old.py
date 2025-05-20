@@ -49,7 +49,7 @@ sql_statements = [
     reserved_token TEXT,
     reserved_at DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    private BOOLEAN CHECK NOT NULL (private IN (0, 1)) DEFAULT 0,
+    private BOOLEAN NOT NULL CHECK (private IN (0, 1)) DEFAULT 0,
     received BOOLEAN DEFAULT 0,
     wanted_by DATE, 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -286,7 +286,7 @@ def update_category(record_id, data):
         return None
     
 
-def create_wishlist_item(list_name_id,  category_name_id, image, title, description, url, user_id, price, currency,  priority, private, wanted_by):
+def create_wishlist_item(title, description, url, user_id, price, currency, priority, category_id):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
@@ -294,8 +294,8 @@ def create_wishlist_item(list_name_id,  category_name_id, image, title, descript
     try:
         cursor = conn.cursor()
         cursor.execute(
-            """INSERT INTO wish (user_id, category_id, list_id, title, image, description, url, price, currency, priority, wanted_by, private, reserved) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-            (user_id, category_name_id, list_name_id, title, image, description, url, price, currency, priority, wanted_by, private, 0))
+            """INSERT INTO wish (title, description, url, price, currency, priority, user_id, category_id, reserved) VALUES (?,?,?,?,?,?,?,?,?)""",
+            (title, description, url, price, currency, priority, user_id, category_id, 0))
         conn.commit()
         return True
     except sqlite3.OperationalError as e:
@@ -461,4 +461,4 @@ def drop_table():
         conn.close()
 
 if __name__ == "__main__":
-    drop_table()
+    init_db()

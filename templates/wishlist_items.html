@@ -18,12 +18,6 @@
 
 <div class="wishlist-wrapper">
 <header class="wishlist-header">
-  <h1 class="wishlist-title"> {% if category %}
-    {% if category['emoji'] %}<span class="category-emoji">{{ category['emoji'] }}</span>{% endif %}
-    {{ category['name'] }}
-  {% else %}
-    Unknown Category
-  {% endif %}</h1>
 
   <p class="text-explanation">
     Use this space to organize the wishlist and track your desired
@@ -41,7 +35,7 @@
   </button>
 </div>
 
-{% if items %}
+
 <div class="wishlist-table-container">
   <div class="table">
     <!-- Table Header -->
@@ -64,6 +58,7 @@
     </div>
 
     <!-- Table Rows -->
+    {% if items %}
     {% for item in items %}
     <div
       class="table-row {% if item.private %}private-item{% endif %}"

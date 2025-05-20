@@ -213,13 +213,14 @@ def index():
     return render_template("index.html", items=items, currencies=currencies)
 
 
-@app.route("/wishlist", methods=["GET", "POST"])
+@app.route("/new_wishlist", methods=["GET", "POST"])
 def wishlist_items():
     user_id = session["user_id"]
     if not user_id:
         return redirect("/login")
     if request.method == "POST":
-        item_id = request.form.get('id')
+        list_name_id=request.form.get('list_name_id')
+        category_name_id=request.form.get('category_name_id')
         title = request.form.get('title')
         image = request.files.get('image')
         description = request.form.get("description")
@@ -227,65 +228,25 @@ def wishlist_items():
         price = request.form.get("price")
         currency = request.form.get("currency")
         priority = request.form.get("priority")
-        hide = request.form.get("hide")
-        delete_wish=request.form.get("delete")
-        data_to_update = {}
-        if title:
-            data_to_update['title'] = title
-        if image and allowed_file(image.filename):
-            print("here")
-            filename = secure_filename(image.filename)
-            print(filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            print(filepath)
-            image.save(filepath)
-            data_to_update['image'] = filename
-        if description:
-            data_to_update['description'] = description
-        if url:
-            data_to_update['url'] = url
-        if price:
-            data_to_update['price'] = price
-        if currency:
-            data_to_update['currency'] = price
-        if priority:
-            data_to_update['priority'] = priority
-        
-        if item_id:
-            if delete_wish:
-                response = db.delete_wishlist_item(item_id)
-                if response is None:
-                    return render_template("wishlist_item.html", error="Item wasn't found")
-                flash("Deleted!")
-                return redirect(f"/wishlist")
-            else:
-                response = db.update_wishlist_item(item_id, data_to_update)
-                if response is None:
-                    return render_template("wishlist_items.html", error="Item wasn't updated")
-                flash("Updated!")
-                return redirect(f"/wishlist")
-        else:
-            if not title or not title.strip():
-                return render_template(
-                    "wishlist_items.html",
-                    error="Please enter a valid title",
-                )
-            if not description or not description.strip():
-                description = ""
+        private = request.form.get("private")
+        wanted_by = request.form.get("wanted_by")
+        if not title or not title.strip():
+            return render_template(
+                "index.html",
+                error="Please enter a valid title",
+            )
+        if not description or not description.strip():
+            description = ""
 
-            if not url or not url.strip():
-                url = ''
+        if not url or not url.strip():
+            url = ''
 
-            response = db.create_wishlist_item(title, description, url, user_id, price, currency,  priority)
-            if response is None:
-                return render_template("wishlist_items.html", error="Item wasn't created")
-            flash("Created!")
-            return redirect(f"/wishlist")
-    else:
-        items = db.get_wishlist_items(user_id)
-        if items is None:
-            items = []
-        return render_template("wishlist_items.html", items=items, currencies=currencies)
+        response = db.create_wishlist_item(list_name_id,  category_name_id, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
+        if response is None:
+            return render_template("index.html", error="Item wasn't created")
+        flash("Created!")
+        return redirect(f"/index")
+
 
 # @app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
 # def private_items(category_id, item_id):
