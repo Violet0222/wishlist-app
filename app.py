@@ -245,7 +245,7 @@ def wishlist_items():
         if response is None:
             return render_template("index.html", error="Item wasn't created")
         flash("Created!")
-        return redirect(f"/index")
+        return redirect(f"/")
 
 
 # @app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
