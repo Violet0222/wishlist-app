@@ -248,6 +248,59 @@ def wishlist_items():
         return redirect(f"/")
 
 
+@app.route("/update_wishlist_item", methods=["GET", "POST"])
+
+def wishlist_item_update():
+    user_id = session["user_id"]
+    if not user_id:
+        return redirect("/login")
+    if request.method == "POST":
+        item_id = request.form.get('id')
+        title = request.form.get('title')
+        image = request.files.get('image')
+        description = request.form.get("description")
+        url = request.form.get("url")
+        price = request.form.get("price")
+        currency = request.form.get("currency")
+        priority = request.form.get("priority")
+        hide = request.form.get("hide")
+        delete_wish=request.form.get("delete")
+        data_to_update = {}
+        if title:
+            data_to_update['title'] = title
+        if image and allowed_file(image.filename):
+            print("here")
+            filename = secure_filename(image.filename)
+            print(filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(filepath)
+            image.save(filepath)
+            data_to_update['image'] = filename
+        if description:
+            data_to_update['description'] = description
+        if url:
+            data_to_update['url'] = url
+        if price:
+            data_to_update['price'] = price
+        if currency:
+            data_to_update['currency'] = price
+        if priority:
+            data_to_update['priority'] = priority
+        
+        if item_id:
+            if delete_wish:
+                response = db.delete_wishlist_item(item_id)
+                if response is None:
+                    return render_template("index.html", error="Item wasn't found")
+                flash("Deleted!")
+                return redirect(f"/")
+            else:
+                response = db.update_wishlist_item(item_id, data_to_update)
+                if response is None:
+                    return render_template("index.html", error="Item wasn't updated")
+                flash("Updated!")
+                return redirect(f"/")
+
 # @app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
 # def private_items(category_id, item_id):
 #     if request.method == "POST":
