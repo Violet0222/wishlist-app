@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="/static/css/styles.css" />
 <link rel="stylesheet" href="/static/css/menu_dropdown.css" />
 <link rel="stylesheet" href="/static/css/modal_window.css" />
-<link rel="stylesheet" href="/static/css/wishlist_items.css" />
 {%endblock %}
 {% block title %} Home {% endblock %} 
 {% block main%}
@@ -88,11 +87,16 @@
           <div class="table-cell image-cell" data-property="image">
             {% if item['image'] %}
               <div class="wishlist-image">
-                <img src="{{ url_for('static', filename='uploads/' ~ item['image']) }}" class="image-preview" />
+                <img
+        src="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
+        class="image-preview clickable-image"
+        alt="Image"
+        data-full="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
+      />
               </div>
-              <button data-item-id="{{item['id']}}" class="new-item-btn openModalBtnImg change-image-btn">
+              <!--<button data-item-id="{{item['id']}}" class="new-item-btn openModalBtnImg change-image-btn">
                 <span class="plus-icon">Change Image</span>
-              </button>
+              </button> -->
             {%else%}
             <span class="value-display muted new-item-btn openModalBtnImg"  data-item-id="{{item['id']}}">No image</span>
             <span class="tooltip-text">Add image</span> 
@@ -114,7 +118,7 @@
            
           </div>
           
-    
+  
           <!--Title-->
           <div class="table-cell title-cell editable-field" data-property="title">
             {% if item.private %}
@@ -403,7 +407,10 @@
         {% endif %}
       </div>
     </div>
-    
+      <div id="imgModal" class="img-modal">
+      <span class="img-modal-close">&times;</span>
+      <img class="img-modal-content" id="modalImgContent" />
+    </div>
     {% include "new_wish.html" %}
     
     </div>
