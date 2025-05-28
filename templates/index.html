@@ -45,7 +45,6 @@
         <!-- Table Header -->
         <div class="table-row wishlist-header">
           
-          <div class="table-cell ">✅ Received</div>
           <div class="table-cell status-cell">📍 Status</div>
           <div class="table-cell image-cell">🖼️ Image</div>
           <div class="table-cell title-cell">📌 Title</div>
@@ -69,13 +68,7 @@
           class="table-row {% if item.private %}private-item{% endif %}"
           id="item-{{ item['id'] }}"
         >
-        <div class="table-cell received-cell editable-field" data-property="received">
-          <span
-              class="value-display">
-              {% if item['received'] == 0 %}Not received{% endif %} {% if
-              item['reserved'] == 1 %}Received{% endif %}
-            </span>
-        </div>
+    
   
 
 
@@ -88,25 +81,7 @@
               {% if item['reserved'] == 0 %}Not reserved{% endif %} {% if
               item['reserved'] == 1 %}Reserved{% endif %}
             </span>
-            <form
-              action="/wishlist/{{ category_id }}"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-              data-property="status"
-            >
-              <select name="reserved">
-                <option value="0" {% if item['reserved'] == 0 %}selected{% endif %}>
-                  Not reserved
-                </option>
-                <option value="1" {% if item['reserved'] == 1 %}selected{% endif %}>
-                  Reserved
-                </option>
-              </select>
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
+          
           </div>
     
           <!--Image-->
