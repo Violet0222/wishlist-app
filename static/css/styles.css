@@ -305,7 +305,7 @@ form button[type="submit"]:hover {
 }
 
 .wishlist-wrapper {
-  max-width: 960px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -324,6 +324,10 @@ form button[type="submit"]:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+}
+
+.wishlist-table-container {
+  width: 100%;
 }
 
 .new-item-btn {
@@ -365,7 +369,13 @@ form button[type="submit"]:hover {
   flex-direction: column;
   width: 100%;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+.table::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .table-row {
@@ -381,8 +391,8 @@ form button[type="submit"]:hover {
   flex: 1;
   padding: 12px;
   border-left: 1px solid var(--border-color);
-  min-width: 0;
-  overflow: hidden;
+  min-width: 100px;
+  /* overflow: hidden; */
   text-overflow: ellipsis;
   white-space: nowrap;
 
