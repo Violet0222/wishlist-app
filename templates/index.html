@@ -148,28 +148,42 @@
           <!-- Description field -->
           <div class="table-cell description-cell editable-field" data-property="description">
             {% if item.description %}
-            <span class="value-display description-value">
-              {{ item['description'] }}
-            </span>
-            <span class="tooltip-text">Edit</span> 
+              <span
+                class="value-display description-value openModalBtnDescription"
+                data-item-id="{{ item.id }}"
+              >
+                {{ item.description[:50] }}{% if item.description|length > 50 %}...{% endif %}
+              </span>
             {% else %}
-            <span class="value-display muted">No description</span>
-            <span class="tooltip-text">Edit</span> 
+              <span
+                class="value-display muted openModalBtnDescription"
+                data-item-id="{{ item.id }}"
+              >
+                No description
+              </span>
             {% endif %}
-            <form
-              action="/update_wishlist_item"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-               data-property="description"
-            >
-              <textarea name="description" placeholder="Description">{{ item['description'] }}</textarea>
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
+            <span class="tooltip-text">Edit</span>
           </div>
-    
+
+            <!-- Modal -->
+      <div
+        id="modalDescription-{{ item.id }}"
+        class="modal-overlay description-modal hidden"
+      >
+        <div class="modal-content">
+          <span
+            class="closeModalBtnDescription"
+            data-item-id="{{ item.id }}"
+          >&times;</span>
+          <h3>Edit Description</h3>
+          <form action="/update_wishlist_item" method="post">
+            <textarea name="description">{{ item.description }}</textarea>
+            <input type="hidden" name="id" value="{{ item.id }}" />
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeModalDescription({{ item.id }})">Cancel</button>
+          </form>
+        </div>
+      </div>
           
     
           <!-- Price field -->
@@ -411,6 +425,8 @@
       <span class="img-modal-close">&times;</span>
       <img class="img-modal-content" id="modalImgContent" />
     </div>
+
+  
     {% include "new_wish.html" %}
     
     </div>

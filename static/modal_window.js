@@ -127,6 +127,41 @@ function modalWindow() {
       });
     }
   });
+
+  const openModalBtnDescriptions = document.querySelectorAll(
+    ".openModalBtnDescription"
+  );
+  openModalBtnDescriptions.forEach((button) => {
+    button.addEventListener("click", () => {
+      const itemId = button.dataset.itemId;
+      const modal = document.getElementById(`modalDescription-${itemId}`);
+      if (modal) {
+        modal.classList.add("open");
+      }
+    });
+  });
+
+  const closeModalBtnDescriptions = document.querySelectorAll(
+    ".closeModalBtnDescription"
+  );
+  closeModalBtnDescriptions.forEach((button) => {
+    button.addEventListener("click", () => {
+      const itemId = button.dataset.itemId;
+      const modal = document.getElementById(`modalDescription-${itemId}`);
+      if (modal) {
+        modal.classList.remove("open");
+      }
+    });
+  });
+
+  // Close description modal on outside click
+  document.querySelectorAll(".description-modal").forEach((overlay) => {
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) {
+        overlay.classList.remove("open");
+      }
+    });
+  });
 }
 
 function imgModalWindow() {
