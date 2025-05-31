@@ -381,10 +381,11 @@
 
           
     
-          <!-- Creation date field -->
-          <div class="table-cell date-cell">
-            <span id="value-date-{{ item['id'] }}"> {{ item['created_at'] }}</span>
-          </div>
+        <!-- Creation date field -->
+<div class="table-cell date-cell">
+  <span id="value-date-{{ item['id'] }}"> {{ item['created_at'].split(' ')[0] }}</span>
+</div>
+
     
           <!-- Dropdown / Menu -->
           <div class="table-cell actions-cell">

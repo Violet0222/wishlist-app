@@ -149,6 +149,7 @@ def index():
     if not user_id:
         return redirect("/login")
     items = db.get_wishlist_items(user_id)
+    
     if items is None:
         items = []
     return render_template("index.html", items=items, currencies=currencies, lists=lists)
