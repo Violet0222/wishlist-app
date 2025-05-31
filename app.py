@@ -152,6 +152,8 @@ def index():
     
     if items is None:
         items = []
+        
+    lists = db.get_user_lists(user_id) 
     return render_template("index.html", items=items, currencies=currencies, lists=lists)
 
 
@@ -237,6 +239,7 @@ def wishlist_item_update():
             data_to_update['list_id'] = list_id
             data_to_update['list_name'] = list_name
             data_to_update['list_emoji'] = list_emoji
+            
         if item_id:
             if delete_wish:
                 response = db.delete_wishlist_item(item_id)

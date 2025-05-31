@@ -291,6 +291,39 @@ function modalWindow() {
       }
     });
   });
+
+  // Open the share modal
+  document.querySelectorAll(".openCopyLinkModalBtn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const listId = button.getAttribute("data-list-id");
+      const modal = document.getElementById(`modalCopyLink-${listId}`);
+      if (modal) modal.style.display = "block";
+    });
+  });
+
+  // Close the modal
+  document.querySelectorAll(".closeModalBtnCopyLink").forEach((button) => {
+    button.addEventListener("click", () => {
+      const listId = button.getAttribute("data-list-id");
+      const modal = document.getElementById(`modalCopyLink-${listId}`);
+      if (modal) modal.style.display = "none";
+    });
+  });
+
+  // Copy to clipboard logic
+  document.querySelectorAll(".copy-to-clipboard-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.getAttribute("data-link-target");
+      const linkElement = document.querySelector(target);
+      if (linkElement) {
+        const text = linkElement.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          button.textContent = "Copied!";
+          setTimeout(() => (button.textContent = "Copy"), 2000);
+        });
+      }
+    });
+  });
 }
 
 function imgModalWindow() {

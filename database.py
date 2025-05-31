@@ -1,8 +1,11 @@
 import sqlite3
 
 from flask_bcrypt import Bcrypt
+import uuid
 
 bcrypt = Bcrypt()
+
+
 
 # add reservation table
 sql_statements = [
@@ -341,6 +344,8 @@ def get_wish_by_id(wish_id):
     
 
 
+
+
 def get_or_create_list_name(user_id, list_name, emoji):
     print(list_name)
     conn = get_db()
@@ -365,10 +370,13 @@ def get_or_create_list_name(user_id, list_name, emoji):
                 conn.commit()
             return list_id
 
-        # Insert new list_name with emoji
+        # Generate a unique public token
+        public_token = str(uuid.uuid4())[:8]
+        print(public_token)
+        # Insert new list_name with emoji and token
         cursor.execute(
-            "INSERT INTO list_name (user_id, name, emoji) VALUES (?, ?, ?)",
-            (user_id, list_name, emoji)
+            "INSERT INTO list_name (user_id, name, emoji, public_token) VALUES (?, ?, ?, ?)",
+            (user_id, list_name, emoji, public_token)
         )
         conn.commit()
         return cursor.lastrowid
@@ -376,6 +384,25 @@ def get_or_create_list_name(user_id, list_name, emoji):
         print("Failed to get or create list_name:", e)
         return None
 
+
+def get_user_lists(user_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return []
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT id, name, emoji, public_token
+            FROM list_name
+            WHERE user_id = ?
+            ORDER BY id DESC
+        """, (user_id,))
+        rows = cursor.fetchall()
+        return [dict(row) for row in rows]
+    except sqlite3.OperationalError as e:
+        print("Failed to fetch user lists:", e)
+        return []
 
 
     

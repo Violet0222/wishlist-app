@@ -393,20 +393,8 @@
               <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
                 ⋮
               </button>
-              <div class="menu-dropdown" id="menu-{{ item['id'] }}">
-                <div class="dropdown-item">
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="private"
-                      value="{{ item['private'] }}"
-                      {% if item['private'] == 1 %}checked{% endif %}
-                      onchange="togglePrivate(event, {{category_id}}, {{item['id']}})"
-                    />
-                    Private
-                  </label>
-                </div>
-    
+
+
                 <!-- Delete wish button -->
                 <div class="dropdown-item delete-item">
                   <form action="/update_wishlist_item" method="post">
@@ -427,6 +415,8 @@
       <span class="img-modal-close">&times;</span>
       <img class="img-modal-content" id="modalImgContent" />
     </div>
+
+  
 
   
     {% include "new_wish.html" %}
