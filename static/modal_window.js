@@ -146,8 +146,8 @@ function modalWindow() {
   );
   closeModalBtnDescriptions.forEach((button) => {
     button.addEventListener("click", () => {
-      const itemId = button.dataset.itemId;
-      const modal = document.getElementById(`modalDescription-${itemId}`);
+      // Find the closest ancestor with the class 'description-modal'
+      const modal = button.closest(".description-modal");
       if (modal) {
         modal.classList.remove("open");
       }

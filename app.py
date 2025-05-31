@@ -5,6 +5,7 @@ from werkzeug.utils import redirect, secure_filename
 from flask_bcrypt import Bcrypt
 import pycountry
 import uuid
+import json
 
 import database
 
@@ -300,6 +301,15 @@ def wishlist_item_update():
                     return render_template("index.html", error="Item wasn't updated")
                 flash("Updated!")
                 return redirect(f"/")
+
+# @app.route("/wishlist/<int:category_id>")
+# def wishlist(category_id):
+#     with open("examples.json", "r", encoding="utf-8") as f:
+#         examples = json.load(f)
+
+#     items = get_items_for_category(category_id)  # your DB query
+#     return render_template("wishlist.html", items=items, category_id=category_id, examples=examples)
+
 
 # @app.route("/wishlist/<int:category_id>/private_<int:item_id>", methods=["GET","POST"])
 # def private_items(category_id, item_id):

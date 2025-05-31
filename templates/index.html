@@ -180,7 +180,7 @@
             <textarea name="description">{{ item.description }}</textarea>
             <input type="hidden" name="id" value="{{ item.id }}" />
             <button type="submit">Save</button>
-            <button type="button" onclick="closeModalDescription({{ item.id }})">Cancel</button>
+            <button type="button" class ="closeModalBtnDescription" data-item-id="{{ item.id }}">Cancel</button>
           </form>
         </div>
       </div>
@@ -287,7 +287,7 @@
             <span class="value-display">list_name</span>
             <span class="tooltip-text">Edit</span> 
             <form
-              action="/wishlist/{{ category_id }}"
+              action="/update_wishlist_item"
               method="post"
               class="hidden edit-form"
               data-item-id="{{ item['id'] }}"
