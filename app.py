@@ -9,6 +9,8 @@ import json
 
 import database
 
+from data import lists
+
 currencies = list(pycountry.currencies)
 
 app = Flask(__name__)
@@ -140,68 +142,6 @@ def change_password():
     return redirect(url_for('settings')) 
 
 
-# @app.route("/create_wishlist", methods=["GET", "POST"])
-# def create_wishlist():
-#     user_id = session["user_id"]
-#     if request.method == "POST":
-#         category_name = request.form.get("category_name")
-#         if not category_name or not category_name.strip():
-#             print("please enter a valid category")
-#             return render_template("create_wishlist.html", error="Please enter a valid category")
-#         public_token = str(uuid.uuid4())
-#         response = db.create_wishlist_category(category_name, public_token, user_id)
-#         if response is None:
-#             return render_template("create_wishlist.html", error="Category wasn't created")
-#         flash("Created!")
-#         return redirect("/wishlist")
-#     return render_template("create_wishlist.html")
-
-
-# @app.route("/wishlist", methods=["GET", "POST"])
-# def wishlist():
-#     user_id = session["user_id"]
-#     if not user_id:
-#         return redirect("/login")
-#     if request.method == "POST":
-#         category_id = request.form.get('id')
-       
-#         delete_category=request.form.get("delete")
-#         card_background= request.form.get("card_color")
-#         name = request.form.get("name", "").strip()
-#         emoji = request.form.get("emoji", "").strip()
-#         data_to_update = {}
-       
-#         if category_id:
-#             if delete_category:
-#                 response = db.delete_category(category_id)
-#                 if response is None:
-#                     return render_template("wishlist_item.html", error="Category wasn't found")
-#                 flash("Deleted!")
-#                 return redirect(f"/wishlist")
-#             if card_background:
-#                 data_to_update['card_background'] = card_background
-#                 response = db.update_category(category_id, data_to_update)                            
-#                 if response is None:
-#                     return render_template("wishlist_item.html", error="Category wasn't found")
-#                 return redirect(f"/wishlist")
-#             if name:
-#                 data_to_update['name'] = name
-#                 response = db.update_category(category_id, data_to_update)                            
-#                 if response is None:
-#                     return render_template("wishlist_item.html", error="Category wasn't found")
-#                 return redirect(f"/wishlist")
-#             if emoji:
-#                 data_to_update['emoji'] = emoji
-#                 response = db.update_category(category_id, data_to_update)                            
-#                 if response is None:
-#                     return render_template("wishlist_item.html", error="Category wasn't found")
-#                 return redirect(f"/wishlist")
-#     else:
-#         wishlist_categories = db.get_wishlist_categories(user_id)
-#         if wishlist_categories is None:
-#             return render_template("wishlist.html", error="Categories weren't found")
-#         return render_template("wishlist.html", wishlist_categories=wishlist_categories)
-
 
 @app.route("/")
 def index():
@@ -211,7 +151,7 @@ def index():
     items = db.get_wishlist_items(user_id)
     if items is None:
         items = []
-    return render_template("index.html", items=items, currencies=currencies)
+    return render_template("index.html", items=items, currencies=currencies, lists=lists)
 
 
 @app.route("/new_wishlist", methods=["GET", "POST"])
@@ -221,7 +161,8 @@ def wishlist_items():
         return redirect("/login")
     if request.method == "POST":
         list_name_id=request.form.get('list_name_id')
-        category_name_id=request.form.get('category_name_id')
+        list_name=request.form.get('list_name')
+        list_emoji=request.form.get('list_emoji')
         title = request.form.get('title')
         image = request.files.get('image')
         description = request.form.get("description")
@@ -242,7 +183,7 @@ def wishlist_items():
         if not url or not url.strip():
             url = ''
 
-        response = db.create_wishlist_item(list_name_id,  category_name_id, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
+        response = db.create_wishlist_item(list_name_id, list_name,  list_emoji, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
         if response is None:
             return render_template("index.html", error="Item wasn't created")
         flash("Created!")
@@ -266,6 +207,9 @@ def wishlist_item_update():
         priority = request.form.get("priority")
         hide = request.form.get("hide")
         delete_wish=request.form.get("delete")
+        list_name = request.form.get("list_name")
+        list_emoji = request.form.get("emoji")
+     
         data_to_update = {}
         if title:
             data_to_update['title'] = title
@@ -287,7 +231,11 @@ def wishlist_item_update():
             data_to_update['currency'] = currency
         if priority:
             data_to_update['priority'] = priority
-        
+        if list_name:
+            list_id = db.get_or_create_list_name(user_id, list_name, list_emoji)
+            data_to_update['list_id'] = list_id
+            data_to_update['list_name'] = list_name
+            data_to_update['list_emoji'] = list_emoji
         if item_id:
             if delete_wish:
                 response = db.delete_wishlist_item(item_id)

@@ -217,6 +217,80 @@ function modalWindow() {
           "none";
       });
     });
+
+  // Open List Name Modal
+  document.querySelectorAll(".openModalBtnListName").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const itemId = btn.getAttribute("data-item-id");
+      const modal = document.getElementById(`modalListName-${itemId}`);
+      if (modal) {
+        modal.classList.add("open");
+      }
+    });
+  });
+
+  // Close List Name Modal
+  document
+    .querySelectorAll(".closeModalBtnListName, .cancelListNameBtn")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const itemId = btn.getAttribute("data-item-id");
+        const modal = document.getElementById(`modalListName-${itemId}`);
+        if (modal) {
+          modal.classList.remove("open");
+        }
+      });
+    });
+
+  // Open Category Modal
+  document.querySelectorAll(".openModalBtnCategoryName").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const itemId = btn.getAttribute("data-item-id");
+      const modal = document.getElementById(`modalCategoryName-${itemId}`);
+      if (modal) {
+        modal.classList.add("open");
+      }
+    });
+  });
+
+  document.querySelectorAll(".list-name-form").forEach((form) => {
+    form.addEventListener("submit", function (e) {
+      const select = form.querySelector('select[name="list_name"]');
+      const selectedOption = select.options[select.selectedIndex];
+      const emoji = selectedOption.getAttribute("data-emoji");
+
+      const emojiInput = form.querySelector('input[name="emoji"]');
+      if (emojiInput) {
+        emojiInput.value = emoji;
+      }
+    });
+  });
+
+  // Close Category Modal
+  document
+    .querySelectorAll(".closeModalBtnCategoryName, .cancelCategoryNameBtn")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const itemId = btn.getAttribute("data-item-id");
+        const modal = document.getElementById(`modalCategoryName-${itemId}`);
+        if (modal) {
+          modal.classList.remove("open");
+        }
+      });
+    });
+
+  document.querySelectorAll(".category-form").forEach((form) => {
+    form.addEventListener("submit", function (e) {
+      const select = form.querySelector('select[name="category_name"]');
+      const selectedOption = select.options[select.selectedIndex];
+      const emoji = selectedOption.getAttribute("data-emoji");
+
+      const emojiInput = form.querySelector('input[name="category_emoji"]');
+      if (emojiInput) {
+        emojiInput.value = emoji;
+      }
+    });
+  });
 }
 
 function imgModalWindow() {
