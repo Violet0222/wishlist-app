@@ -2,14 +2,26 @@ function initWishListItems() {
   const items = document.querySelectorAll('[id^="item-"]');
 
   const setCursorToEnd = (input) => {
-    if (input.tagName === "INPUT" || input.tagName === "TEXTAREA") {
+    // Check if the input type supports setSelectionRange
+    if (
+      (input.tagName === "INPUT" &&
+        (input.type === "text" ||
+          input.type === "search" ||
+          input.type === "url" ||
+          input.type === "tel" ||
+          input.type === "password")) ||
+      input.tagName === "TEXTAREA"
+    ) {
       const length = input.value.length;
       input.setSelectionRange(length, length);
     }
   };
 
   for (const item of items) {
-    const editableFields = item.querySelectorAll(".editable-field");
+    // Select editable fields, but exclude currency cells
+    const editableFields = item.querySelectorAll(
+      ".editable-field:not(.currency-cell)"
+    ); // <--- Added exclusion here
     editableFields.forEach((field) => {
       const valueElement = field.querySelector(".value-display");
       const form = field.querySelector("form");
@@ -23,9 +35,11 @@ function initWishListItems() {
 
       // Click handler to open the input form
       field.addEventListener("click", (event) => {
+        // Add condition to not interfere with the currency span click
         if (
           event.target.closest(".dropdown-container") ||
-          event.target.tagName === "A"
+          event.target.tagName === "A" ||
+          event.target.classList.contains("openModalBtnCurrency") // <--- Added check here
         ) {
           return;
         }
@@ -80,7 +94,15 @@ function initWishListItems() {
   }
 
   // Click outside to close all
-  document.addEventListener("click", () => {
+  document.addEventListener("click", (event) => {
+    // Add condition to not close the currency modal on outside click
+    if (
+      event.target.closest(".modal-overlay") &&
+      event.target.id.startsWith("modalCurrency-")
+    ) {
+      return;
+    }
+
     document
       .querySelectorAll(".editable-field form:not(.hidden)")
       .forEach((openForm) => {

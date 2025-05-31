@@ -284,7 +284,7 @@ def wishlist_item_update():
         if price:
             data_to_update['price'] = price
         if currency:
-            data_to_update['currency'] = price
+            data_to_update['currency'] = currency
         if priority:
             data_to_update['priority'] = priority
         

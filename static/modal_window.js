@@ -162,6 +162,61 @@ function modalWindow() {
       }
     });
   });
+  // Open Currency Modal
+  document.querySelectorAll(".openModalBtnCurrency").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const itemId = btn.dataset.itemId;
+      const modal = document.getElementById(`modalCurrency-${itemId}`);
+      if (modal) {
+        modal.classList.add("open");
+      }
+    });
+  });
+
+  // Close Currency Modal
+  document
+    .querySelectorAll(".closeModalBtnCurrency, .cancelCurrencyBtn")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const itemId = btn.dataset.itemId;
+        const modal = document.getElementById(`modalCurrency-${itemId}`);
+        if (modal) {
+          modal.classList.remove("open");
+        }
+      });
+    });
+
+  // Close description modal on outside click
+  document.querySelectorAll(".currency-modal").forEach((overlay) => {
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) {
+        overlay.classList.remove("open");
+      }
+    });
+  });
+
+  // Open Priority Modal
+  document.querySelectorAll(".openModalBtnPriority").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const itemId = btn.getAttribute("data-item-id");
+      const modal = document.getElementById(`modalPriority-${itemId}`);
+      console.log(modal);
+      if (modal) {
+        modal.classList.add("open");
+      }
+    });
+  });
+
+  // Close Priority Modal
+  document
+    .querySelectorAll(".closeModalBtnPriority, .cancelPriorityBtn")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const itemId = btn.getAttribute("data-item-id");
+        document.getElementById(`modalPriority-${itemId}`).style.display =
+          "none";
+      });
+    });
 }
 
 function imgModalWindow() {
