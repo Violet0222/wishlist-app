@@ -82,8 +82,10 @@
     
           <!--Image-->
           <div class="table-cell image-cell" data-property="image">
+            
             {% if item['image'] %}
-              <div class="wishlist-image">
+               <div class="tooltip-wrapper">
+            <div class="wishlist-image">
                 <img
         src="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
         class="image-preview clickable-image"
@@ -91,12 +93,13 @@
         data-full="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
       />
               </div>
-              <!--<button data-item-id="{{item['id']}}" class="new-item-btn openModalBtnImg change-image-btn">
-                <span class="plus-icon">Change Image</span>
-              </button> -->
+               <span class="tooltip-text">Change Image</span>
+              </div>
             {%else%}
+            <div class="tooltip-wrapper">
             <span class="value-display muted new-item-btn openModalBtnImg"  data-item-id="{{item['id']}}">No image</span>
             <span class="tooltip-text">Add image</span> 
+            </div>
             {% endif %}
             <div id="modalImg-{{item['id']}}" class="modal-overlay">
               <div class="modal">

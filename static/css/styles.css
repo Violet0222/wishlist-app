@@ -253,19 +253,6 @@ form button[type="submit"]:hover {
   font-style: italic;
 }
 
-/* .value-display:hover .tooltip-text {
-    opacity: 1;
-    visibility: visible;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-  } */
-
-.tooltip-text:hover {
-  opacity: 1;
-  visibility: visible;
-}
-
 .tooltip-right {
   top: 50%;
   left: 100%;
@@ -331,14 +318,14 @@ form button[type="submit"]:hover {
 }
 
 .new-item-btn {
-  position: relative;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .new-item-btn .plus-icon {
   margin-right: 5px;
 }
@@ -346,7 +333,14 @@ form button[type="submit"]:hover {
 .new-item-btn:hover {
   background: #ebebeb;
 }
-.new-item-btn:hover .tooltip-text {
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip-wrapper:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
 }
