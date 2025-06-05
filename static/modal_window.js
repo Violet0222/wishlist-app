@@ -109,10 +109,9 @@ function modalWindow() {
   const closeModalBtnImg = document.querySelectorAll(".closeModalBtnImg");
   closeModalBtnImg.forEach((button) => {
     button.addEventListener("click", () => {
-      const itemId = button.dataset.itemId;
-      const modalImg = document.getElementById(`modalImg-${itemId}`);
-      if (modalImg) {
-        modalImg.classList.remove("open");
+      const modal = button.closest(".modal-overlay");
+      if (modal) {
+        modal.classList.remove("open");
       }
     });
   });
@@ -126,6 +125,17 @@ function modalWindow() {
         }
       });
     }
+  });
+
+  const cancelButtons = document.querySelectorAll(".cancel-btn");
+
+  cancelButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const modal = button.closest(".modal-overlay");
+      if (modal) {
+        modal.classList.remove("open");
+      }
+    });
   });
 
   const openModalBtnDescriptions = document.querySelectorAll(
@@ -326,30 +336,29 @@ function modalWindow() {
   });
 }
 
-function imgModalWindow() {
-  const modal = document.getElementById("imgModal");
-  const modalImg = document.getElementById("modalImgContent");
-  const closeBtn = document.querySelector(".img-modal-close");
+// function imgModalWindow() {
+//   const modal = document.getElementById("imgModal");
+//   const modalImg = document.getElementById("modalImgContent");
+//   const closeBtn = document.querySelector(".img-modal-close");
 
-  document.querySelectorAll(".clickable-image").forEach((img) => {
-    img.addEventListener("click", () => {
-      modal.style.display = "block";
-      modalImg.src = img.dataset.full;
-    });
-  });
+//   document.querySelectorAll(".clickable-image").forEach((img) => {
+//     img.addEventListener("click", () => {
+//       modal.style.display = "block";
+//       modalImg.src = img.dataset.full;
+//     });
+//   });
 
-  closeBtn.onclick = () => {
-    modal.style.display = "none";
-  };
+//   closeBtn.onclick = () => {
+//     modal.style.display = "none";
+//   };
 
-  window.onclick = (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  };
-}
+//   window.onclick = (event) => {
+//     if (event.target === modal) {
+//       modal.style.display = "none";
+//     }
+//   };
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   modalWindow();
-  imgModalWindow();
 });
