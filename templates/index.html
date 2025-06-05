@@ -67,18 +67,17 @@
     
   
 
-
-          <div class="table-cell status-cell editable-field" data-property="status">
-            <span
-              class="value-display status-label
-              {% if item['reserved'] == 0 %}status-not-reserved{% endif %}
-              {% if item['reserved'] == 1 %}status-reserved{% endif %}"
-            >
-              {% if item['reserved'] == 0 %}Not reserved{% endif %} {% if
-              item['reserved'] == 1 %}Reserved{% endif %}
-            </span>
-          
-          </div>
+<div class="table-cell status-cell editable-field
+  {% if item['reserved'] == 1 %}non-editable{% endif %}"
+  data-property="status">
+  <span
+    class="value-display status-label
+      {% if item['reserved'] == 0 %}status-not-reserved{% endif %}
+      {% if item['reserved'] == 1 %}status-reserved{% endif %}">
+    {% if item['reserved'] == 0 %}Not reserved{% endif %}
+    {% if item['reserved'] == 1 %}Reserved{% endif %}
+  </span>
+</div>
     
           <!--Image-->
           <div class="table-cell image-cell" data-property="image">
