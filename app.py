@@ -289,7 +289,7 @@ def view_wishlist(list_id):
         abort(404, description="List is not found")
         
     print("Wishes:", wishes_by_list)
-    return render_template("public_wishlist.html",  wishes = wishes_by_list)
+    return render_template("public_wishlist.html",  wishes = wishes_by_list, public_token=token)
     
 
 @app.route("/reserve/<int:wish_id>", methods=["POST"])
@@ -312,25 +312,25 @@ def reserve_wish( wish_id):
     return render_template("reservation_message.html", wish_reserved = True, reserved_token=reserved_token, wish_id = wish_id)
 
     
-# @app.route("/cancel_reservation/<int:wish_id>/<reserved_token>", methods=["POST"])
-# def cancel_reservation(wish_id, reserved_token):
-#     # Get the wish
-#     wish = db.get_wish_by_id(wish_id)
-#     if wish is None or wish["reserved_token"] != reserved_token:
-#         abort(403, description="You are not allowed to cancel this reservation.")
+@app.route("/cancel_reservation/<int:wish_id>/<reserved_token>", methods=["POST"])
+def cancel_reservation(wish_id, reserved_token):
+    # Get the wish
+    wish = db.get_wish_by_id(wish_id)
+    if wish is None or wish["reserved_token"] != reserved_token:
+        abort(403, description="You are not allowed to cancel this reservation.")
     
-#     # Reset reservation fields
-#     data_to_update = {
-#         "reserved_by_email": None,
-#         "reserved": 0,
-#         "reserved_token": None
-#     }
-#     cancel_response = db.wish_reservation(wish_id, data_to_update)
-#     if cancel_response is None:
-#         abort(500, description="Failed to cancel reservation.")
+    # Reset reservation fields
+    data_to_update = {
+        "reserved_by_email": None,
+        "reserved": 0,
+        "reserved_token": None
+    }
+    cancel_response = db.wish_reservation(wish_id, data_to_update)
+    if cancel_response is None:
+        abort(500, description="Failed to cancel reservation.")
     
-#     flash("Reservation cancelled.")
-#     return render_template("reservation_message.html", reservation_cancelled=True, )
+    flash("Reservation cancelled.")
+    return render_template("reservation_message.html", reservation_cancelled=True, )
     
     
 if __name__ == '__main__':

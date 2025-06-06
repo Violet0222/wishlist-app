@@ -34,7 +34,76 @@ block head %} <link rel="stylesheet" href="/static/css/styles.css" /> {#
   .public-wishlist-table .status-not-reserved {
     color: orange;
   }
+
+  .reserve-form-container {
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    display: none; /* Скрыто по умолчанию */
+  }
+
+  .reserve-email-input {
+    width: calc(100% - 70px); /* Ширина поля для ввода email */
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .reserve-button {
+    padding: 5px 10px;
+    background-color: #4caf50; /* Зеленая кнопка */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .reserve-button:hover {
+    background-color: #45a049;
+  }
 </style>
+<link rel="stylesheet" href="/static/css/modal_window.css" />
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Логика для модального окна резервирования
+    const openReserveModals = document.querySelectorAll(".openModalBtnReserve");
+
+    openReserveModals.forEach((button) => {
+      button.addEventListener("click", () => {
+        const wishId = button.dataset.wishId; // Получаем ID желания из data-wish-id
+        const modal = document.getElementById(`modalReserve-${wishId}`); // Находим соответствующую модалку
+        if (modal) {
+          modal.classList.add("open"); // Открываем модалку
+        }
+      });
+    });
+
+    // Закрытие модальных окон резервирования по кнопке закрытия
+    document.querySelectorAll(".closeModalBtnReserve").forEach((button) => {
+      button.addEventListener("click", () => {
+        const modal = button.closest(".modal-overlay"); // Находим ближайший родительский элемент с классом modal-overlay
+        if (modal) {
+          modal.classList.remove("open"); // Закрываем модалку
+        }
+      });
+    });
+
+    // Закрытие модальных окон резервирования по клику снаружи
+    document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+      // Убедитесь, что это модалка резервирования, если у вас несколько типов модалок
+      if (overlay.id.startsWith("modalReserve-")) {
+        overlay.addEventListener("click", (event) => {
+          if (event.target === overlay) {
+            // Если клик был по самому оверлею, а не по его дочерним элементам
+            overlay.classList.remove("open"); // Закрываем модалку
+          }
+        });
+      }
+    });
+  });
+</script>
 {% endblock %} {% block content %}
 <div class="wishlist-wrapper">
   {# Используйте тот же контейнер, если хотите сохранить общие стили #}
@@ -42,6 +111,10 @@ block head %} <link rel="stylesheet" href="/static/css/styles.css" /> {#
     <h1>{{ list_name }}'s Wishlist 🎁</h1>
     {# Предполагается, что list_name передается из вашего Flask роута #}
     <p>Take a look at what {{ list_owner }} is wishing for!</p>
+    <p>
+      If you'd like to reserve an item, click on its "Not reserved" status,
+      enter your email, and confirm your reservation.
+    </p>
     {# Если у вас есть владелец списка #}
   </header>
 
@@ -64,31 +137,16 @@ block head %} <link rel="stylesheet" href="/static/css/styles.css" /> {#
       <!-- Table Rows -->
       {% for wish in wishes %}
       <div class="table-row">
-        <!-- Status -->
         <div class="table-cell status-cell">
-          <span
-            class="status-label {% if wish['reserved'] == 0 or wish['reserved'] is none %}status-not-reserved{% endif %} {% if wish['reserved'] == 1 %}status-reserved{% endif %}"
+          {% if wish['reserved'] == 0 or wish['reserved'] is none %}
+          <button
+            class="status-label status-not-reserved reserve-btn-in-table openModalBtnReserve"
+            data-wish-id="{{ wish.id }}"
           >
-            {% if wish['reserved'] == 0 or wish['reserved'] is none %}Not
-            reserved{% endif %} {% if wish['reserved'] == 1 %}Reserved!{% endif
-            %}
-          </span>
-          {# Если вы хотите позволить резервировать публично #} {% if not
-          wish.reserved %}
-          <form
-            action="{{ url_for('reserve_wish', wish_id=wish.id) }}"
-            method="POST"
-            class="reserve-form"
-          >
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              required
-              class="reserve-email-input"
-            />
-            <button type="submit" class="reserve-button">Reserve</button>
-          </form>
+            Not reserved
+          </button>
+          {% else %}
+          <span class="status-label status-reserved">Reserved!</span>
           {% endif %}
         </div>
 
@@ -154,4 +212,29 @@ block head %} <link rel="stylesheet" href="/static/css/styles.css" /> {#
   <p>No wishes found in this list.</p>
   {% endif %}
 </div>
-{% endblock %}
+{% for wish in wishes %} {% if not wish.reserved %}
+<div id="modalReserve-{{ wish.id }}" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Reserve "{{ wish.title }}"</h2>
+      <button class="closeModalBtnReserve modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Please enter your email to reserve this item:</p>
+      <form
+        action="{{ url_for('reserve_wish', wish_id=wish.id) }}"
+        method="POST"
+      >
+        <input
+          type="email"
+          name="email"
+          placeholder="Your email"
+          required
+          class="reserve-email-input"
+        />
+        <button type="submit" class="reserve-button">Reserve</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %} {% endfor %} {% endblock %}

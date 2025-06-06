@@ -136,7 +136,6 @@ function modalWindow() {
     btn.addEventListener("click", () => {
       const itemId = btn.getAttribute("data-item-id");
       const modal = document.getElementById(`modalPriority-${itemId}`);
-      console.log(modal);
       if (modal) {
         modal.classList.add("open");
       }
@@ -192,7 +191,7 @@ function modalWindow() {
   });
 
   const openModalBtnCopyLink = document.querySelector(".openModalBtnCopyLink");
-  console.log(openModalBtnCopyLink);
+
   const modalCopyLink = document.getElementById("modalCopyLink");
   const closeModalBtnCopyLink = document.querySelector(
     ".closeModalBtnCopyLink"
@@ -203,7 +202,6 @@ function modalWindow() {
 
   // Открытие модалки
   openModalBtnCopyLink.addEventListener("click", () => {
-    console.log(modalCopyLink);
     if (modalCopyLink) {
       modalCopyLink.classList.add("open");
     }
@@ -246,6 +244,8 @@ function modalWindow() {
     copyBtn.textContent = "Copied!";
     setTimeout(() => (copyBtn.textContent = "Copy"), 2000);
   });
+
+ 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
