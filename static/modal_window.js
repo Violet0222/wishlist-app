@@ -20,80 +20,6 @@ function modalWindow() {
     });
   }
 
-  // Modals for Copying Public Link
-  const openModalBtnCopyLinks = document.querySelectorAll(
-    ".openModalBtnCopyLink"
-  );
-
-  openModalBtnCopyLinks.forEach((button) => {
-    button.addEventListener("click", () => {
-      const categoryId = button.dataset.categoryId;
-      const modalCopyLink = document.getElementById(
-        `modalCopyLink-${categoryId}`
-      );
-      if (modalCopyLink) {
-        modalCopyLink.classList.add("open");
-      }
-    });
-  });
-
-  const closeModalBtnCopyLinks = document.querySelectorAll(
-    ".closeModalBtnCopyLink"
-  );
-
-  closeModalBtnCopyLinks.forEach((button) => {
-    button.addEventListener("click", () => {
-      const categoryId = button.dataset.categoryId;
-      const modalCopyLink = document.getElementById(
-        `modalCopyLink-${categoryId}`
-      );
-      if (modalCopyLink) {
-        modalCopyLink.classList.remove("open");
-      }
-    });
-  });
-
-  // Close copy link modal on outside click
-  document.querySelectorAll(".modal-overlay").forEach((overlay) => {
-    if (overlay.id.startsWith("modalCopyLink-")) {
-      overlay.addEventListener("click", (event) => {
-        if (event.target === overlay) {
-          overlay.classList.remove("open");
-        }
-      });
-    }
-  });
-
-  // Functionality for the "Copy" button within the modal
-  const copyToClipboardButtons = document.querySelectorAll(
-    ".copy-to-clipboard-btn"
-  );
-
-  copyToClipboardButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const targetSelector = button.dataset.linkTarget;
-      const linkElement = document.querySelector(targetSelector);
-
-      if (linkElement) {
-        const linkText = linkElement.textContent.trim();
-
-        navigator.clipboard
-          .copy(linkText)
-          .then(() => {
-            // Optional: Provide feedback (e.g., change button text temporarily)
-            button.textContent = "Copied!";
-            setTimeout(() => {
-              button.textContent = "Copy";
-            }, 2000);
-          })
-          .catch((err) => {
-            console.error("Failed to copy link: ", err);
-            alert("Failed to copy link."); // Basic error feedback
-          });
-      }
-    });
-  });
-
   // Modals for Image
   const openModalBtnImgs = document.querySelectorAll(".openModalBtnImg");
 
@@ -252,17 +178,6 @@ function modalWindow() {
       });
     });
 
-  // Open Category Modal
-  document.querySelectorAll(".openModalBtnCategoryName").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const itemId = btn.getAttribute("data-item-id");
-      const modal = document.getElementById(`modalCategoryName-${itemId}`);
-      if (modal) {
-        modal.classList.add("open");
-      }
-    });
-  });
-
   document.querySelectorAll(".list-name-form").forEach((form) => {
     form.addEventListener("submit", function (e) {
       const select = form.querySelector('select[name="list_name"]');
@@ -276,67 +191,62 @@ function modalWindow() {
     });
   });
 
-  // Close Category Modal
-  document
-    .querySelectorAll(".closeModalBtnCategoryName, .cancelCategoryNameBtn")
-    .forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const itemId = btn.getAttribute("data-item-id");
-        const modal = document.getElementById(`modalCategoryName-${itemId}`);
-        if (modal) {
-          modal.classList.remove("open");
-        }
-      });
-    });
+  const openModalBtnCopyLink = document.querySelector(".openModalBtnCopyLink");
+  console.log(openModalBtnCopyLink);
+  const modalCopyLink = document.getElementById("modalCopyLink");
+  const closeModalBtnCopyLink = document.querySelector(
+    ".closeModalBtnCopyLink"
+  );
+  const wishlistSelector = document.getElementById("wishlistSelector");
+  const generatedLink = document.getElementById("generatedPublicLink");
+  const copyBtn = document.getElementById("copyLinkBtn");
 
-  document.querySelectorAll(".category-form").forEach((form) => {
-    form.addEventListener("submit", function (e) {
-      const select = form.querySelector('select[name="category_name"]');
-      const selectedOption = select.options[select.selectedIndex];
-      const emoji = selectedOption.getAttribute("data-emoji");
-
-      const emojiInput = form.querySelector('input[name="category_emoji"]');
-      if (emojiInput) {
-        emojiInput.value = emoji;
-      }
-    });
+  // Открытие модалки
+  openModalBtnCopyLink.addEventListener("click", () => {
+    console.log(modalCopyLink);
+    if (modalCopyLink) {
+      modalCopyLink.classList.add("open");
+    }
+    updatePublicLink(); // показать ссылку для первого по умолчанию
   });
 
-  // Open the share modal
-  document.querySelectorAll(".openCopyLinkModalBtn").forEach((button) => {
-    button.addEventListener("click", () => {
-      const listId = button.getAttribute("data-list-id");
-      const modal = document.getElementById(`modalCopyLink-${listId}`);
-      if (modal) modal.style.display = "block";
-    });
+  // Закрытие по кнопке
+  closeModalBtnCopyLink.addEventListener("click", () => {
+    modalCopyLink.classList.remove("open");
   });
 
-  // Close the modal
-  document.querySelectorAll(".closeModalBtnCopyLink").forEach((button) => {
-    button.addEventListener("click", () => {
-      const listId = button.getAttribute("data-list-id");
-      const modal = document.getElementById(`modalCopyLink-${listId}`);
-      if (modal) modal.style.display = "none";
-    });
+  // Закрытие по клику снаружи
+  modalCopyLink.addEventListener("click", (event) => {
+    if (event.target === modalCopyLink) {
+      modalCopyLink.classList.remove("open");
+    }
   });
 
-  // Copy to clipboard logic
-  document.querySelectorAll(".copy-to-clipboard-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-      const target = button.getAttribute("data-link-target");
-      const linkElement = document.querySelector(target);
-      if (linkElement) {
-        const text = linkElement.textContent;
-        navigator.clipboard.writeText(text).then(() => {
-          button.textContent = "Copied!";
-          setTimeout(() => (button.textContent = "Copy"), 2000);
-        });
-      }
-    });
+  // Обновление ссылки при выборе другого списка
+  wishlistSelector.addEventListener("change", updatePublicLink);
+
+  function updatePublicLink() {
+    const selectedOption =
+      wishlistSelector.options[wishlistSelector.selectedIndex];
+    const listId = selectedOption.value;
+    const token = selectedOption.dataset.token;
+    const baseUrl = window.location.origin; // например, https://example.com
+    const link = `${baseUrl}/wishlist/${listId}?token=${token}`;
+    generatedLink.textContent = link;
+  }
+
+  // Копировать ссылку
+  copyBtn.addEventListener("click", () => {
+    const tempInput = document.createElement("input");
+    tempInput.value = generatedLink.textContent;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => (copyBtn.textContent = "Copy"), 2000);
   });
 }
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   modalWindow();

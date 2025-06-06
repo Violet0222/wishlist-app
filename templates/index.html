@@ -16,32 +16,70 @@
 
 <div class="wishlist-wrapper">
     <header class="wishlist-header">
-    
       <p class="text-explanation">
           <h1>Welcome to Your Wishlist! 🎁</h1>
-          <p>All your wishes, beautifully organized in one place.</p>
-          <p>Add items, share with friends, and track what you’re dreaming of!</p>
-        Use this space to organize the wishlist and track your desired
-        items. Click <strong>+ New</strong> to create a new wish or click an
-        existing one to manage it.
+          All your wishes, beautifully organized in one place.
+          Add items, share with friends, and track what you’re dreaming of!
+          Use this space to organize the wishlist and track your desired
+          items. Click <strong>+ New</strong> to create a new wish or click an
+          existing one to manage it.
       </p>
-      
     </header>
     
     <div class="wishlist-controls">
-      {% include "sort_wishlist_items.html" %} {% include "filter_items.html" %}
-     <button id="openModalBtnNewItem" class="new-item-btn">
+      <div id="sortInfo" class="sort-info-text"></div> 
+      {% include "sort_wishlist_items.html" %} 
+      {% include "filter_items.html" %}
+      
+
+        <!-- Кнопка, открывающая модалку -->
+      <button class="openModalBtnCopyLink">
+        Share a wishlist
+      </button>
+
+            <!-- Универсальная модалка для выбора списка и копирования ссылки -->
+      <div id="modalCopyLink" class="modal-overlay">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Share Wishlist</h2>
+            <button class="closeModalBtnCopyLink modal-close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Select a wishlist to share:</p>-
+            <select id="wishlistSelector">
+              {% for list in lists %}
+              <option
+                value="{{ list['id'] }}"
+                data-token="{{ list['public_token'] }}"
+              >
+                {{ list['name'] }}
+              </option>
+              {% endfor %}
+            </select>
+
+            <div class="public-link-display" style="margin-top: 1rem;">
+              <span class="public-link-text" id="generatedPublicLink"></span>
+              <button class="copy-to-clipboard-btn" id="copyLinkBtn">Copy</button>
+            </div>
+
+            <p><small>This link allows anyone to view this wishlist without logging in.</small></p>
+          </div>
+        </div>
+      </div>
+
+
+
+      <button id="openModalBtnNewItem" class="new-item-btn">
         <span class="plus-icon">+ New</span>
         <span class="tooltip-text">Create new wish</span>
       </button>
     </div>
-    
-    
+  
     <div class="wishlist-table-container">
       <div class="table">
+
         <!-- Table Header -->
         <div class="table-row wishlist-header">
-          
           <div class="table-cell status-cell">📍 Status</div>
           <div class="table-cell image-cell">🖼️ Image</div>
           <div class="table-cell title-cell">📌 Title</div>
@@ -60,369 +98,354 @@
         {% if items %}
         <!-- Table Rows -->
         {% for item in items %}
-        <div
-          class="table-row {% if item.private %}private-item{% endif %}"
-          id="item-{{ item['id'] }}"
-        >
-    
-  
-
-<div class="table-cell status-cell editable-field
-  {% if item['reserved'] == 1 %}non-editable{% endif %}"
-  data-property="status">
-  <span
-    class="value-display status-label
-      {% if item['reserved'] == 0 %}status-not-reserved{% endif %}
-      {% if item['reserved'] == 1 %}status-reserved{% endif %}">
-    {% if item['reserved'] == 0 %}Not reserved{% endif %}
-    {% if item['reserved'] == 1 %}Reserved{% endif %}
-  </span>
-</div>
-    
-          <!--Image-->
-          <div class="table-cell image-cell" data-property="image">
-            
-            {% if item['image'] %}
-               <div class="tooltip-wrapper">
-            <div class="wishlist-image">
-                <img
-        src="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
-        class="image-preview clickable-image"
-        alt="Image"
-        data-full="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
-      />
-              </div>
-               <span class="tooltip-text">Change Image</span>
-              </div>
-            {%else%}
-            <div class="tooltip-wrapper">
-            <span class="value-display muted new-item-btn openModalBtnImg"  data-item-id="{{item['id']}}">No image</span>
-            <span class="tooltip-text">Add image</span> 
+          <div class="table-row {% if item.private %}private-item{% endif %}" id="item-{{ item['id'] }}">
+            <!-- Status -->
+            <div class="table-cell status-cell editable-field
+            {% if item['reserved'] == 1 %}non-editable{% endif %}"
+            data-property="status">
+              <span
+                class="value-display status-label
+                {% if item['reserved'] == 0 %}status-not-reserved{% endif %}
+                  {% if item['reserved'] == 1 %}status-reserved{% endif %}
+                  {% if item['reserved'] is none %}status-not-reserved{% endif %}"
+                id="value-status-{{ item['id'] }}" data-status-value="{{ item['reserved'] }}">
+                {% if item['reserved'] == 0 %}Not reserved{% endif %}
+                {% if item['reserved'] == 1 %}Reserved{% endif %}
+                {% if item['reserved'] is none %}<span class="muted">Not reserved</span>{% endif %}
+              </span>
             </div>
-            {% endif %}
-            <div id="modalImg-{{item['id']}}" class="modal-overlay">
-              <div class="modal">
-                <div class="modal-header">
-                  <h2>Add Image</h2>
-                  <button id="{{item['id']}}" class="modal-close closeModalBtnImg">&times;</button>
+      
+            <!--Image-->
+            <div class="table-cell image-cell" data-property="image">
+              {% if item['image'] %}
+              <div class="tooltip-wrapper">
+                <div class="wishlist-image">
+                  <img
+                    src="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
+                    class="image-preview clickable-image"
+                    alt="Image"
+                    data-full="{{ url_for('static', filename='uploads/' ~ item['image']) }}"
+                  />
                 </div>
-                <form action="/update_wishlist_item" method="POST" class="modal-form" enctype="multipart/form-data">
-                  <input type="file" name="image" accept="image/*" />
-                  <input type="hidden" name="id" value="{{ item['id'] }}" />
-                  <button type="submit" class="modal-submit">Save</button>
-                  <button type="button" class="cancel-btn">Cancel</button>
-                </form>
+                <span class="tooltip-text">Change Image</span>
               </div>
-            </div>
-           
-          </div>
-          
-  
-          <!--Title-->
-          <div class="table-cell title-cell editable-field" data-property="title">
-            {% if item.private %}
-            <span class="private-icon" title="Private">🔒 </span>
-            {% endif %}
-            <span class="value-display">{{ item['title'] }}</span>
-            <span class="tooltip-text">Edit</span> 
-            <form
-              action="/update_wishlist_item"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-               data-property="title"
-            >
-              <input
-                type="text"
-                value="{{item['title']}}"
-                name="title"
-                placeholder="Title"
-              />
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
-          </div>
-    
-          <!-- Description field -->
-          <div class="table-cell description-cell editable-field" data-property="description">
-            {% if item.description %}
-              <span
-                class="value-display description-value openModalBtnDescription"
-                data-item-id="{{ item.id }}"
-              >
-                {{ item.description[:50] }}{% if item.description|length > 50 %}...{% endif %}
-              </span>
-            {% else %}
-              <span
-                class="value-display muted openModalBtnDescription"
-                data-item-id="{{ item.id }}"
-              >
-                No description
-              </span>
-            {% endif %}
-            <span class="tooltip-text">Edit</span>
-          </div>
-
-            <!-- Modal -->
-      <div
-        id="modalDescription-{{ item.id }}"
-        class="modal-overlay description-modal hidden"
-      >
-        <div class="modal-content">
-          <span
-            class="closeModalBtnDescription"
-            data-item-id="{{ item.id }}"
-          >&times;</span>
-          <h3>Edit Description</h3>
-          <form action="/update_wishlist_item" method="post">
-            <textarea name="description">{{ item.description }}</textarea>
-            <input type="hidden" name="id" value="{{ item.id }}" />
-            <button type="submit">Save</button>
-            <button type="button" class ="closeModalBtnDescription" data-item-id="{{ item.id }}">Cancel</button>
-          </form>
-        </div>
-      </div>
-          
-    
-          <!-- Price field -->
-          <div class="table-cell price-cell editable-field" data-property="price">
-            {% if item.price %}
-            <span class="value-display">{{ item['price'] }}</span>
-            <span class="tooltip-text">Edit</span> 
-            {% else %}
-            <span class="value-display muted">Empty</span>
-            <span class="tooltip-text">Edit</span> 
-            {% endif %}
-            <form
-              action="/update_wishlist_item"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-               data-property="price"
-            >
-              <input type="number" step="0.01" value="{{item['price']}}" name="price" placeholder="Price" />
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
-          </div>
-    
-      <div class="table-cell currency-cell editable-field" data-property="currency">
-          {% if item.currency %}
-            <span
-              class="value-display openModalBtnCurrency"
-              data-item-id="{{ item.id }}"
-            >
-              {{ item.currency }}
-            </span>
-          {% else %}
-            <span
-              class="value-display muted openModalBtnCurrency"
-              data-item-id="{{ item.id }}"
-            >
-              Empty
-            </span>
-          {% endif %}
-          <span class="tooltip-text">Edit</span>
-      </div>
-
-<!-- Currency Modal -->
-<div id="modalCurrency-{{ item.id }}" class="modal-overlay currency-modal">
-  <div class="modal-content">
-    <span class="closeModalBtnCurrency" data-item-id="{{ item.id }}">&times;</span>
-    <h3>Edit Currency</h3>
-    <form action="/update_wishlist_item" method="post" class="currency-form">
-      <select name="currency">
-        <option value="">Select currency</option>
-        {% for currency in currencies %}
-        <option value="{{ currency.alpha_3 }}"
-          {% if item.currency == currency.alpha_3 %}selected{% endif %}>
-          {{ currency.name }} ({{ currency.alpha_3 }})
-        </option>
-        {% endfor %}
-      </select>
-      <input type="hidden" name="id" value="{{ item.id }}" />
-      <button type="submit">Save</button>
-      <button type="button" class="cancelCurrencyBtn" data-item-id="{{ item.id }}">Cancel</button>
-    </form>
-  </div>
-</div>
-
-    
-          <!-- Priority field -->
-          <div class="table-cell priority-cell editable-field" data-property="priority">
-  <span
-    class="value-display openModalBtnPriority
-    {% if item['priority'] == 0 %}priority-low{% endif %}
-    {% if item['priority'] == 1 %}priority-medium{% endif %}
-    {% if item['priority'] == 2 %}priority-high{% endif %}"
-    data-item-id="{{ item.id }}"
-  >
-    {% if item['priority'] == 0 %}Low{% endif %}
-    {% if item['priority'] == 1 %}Medium{% endif %}
-    {% if item['priority'] == 2 %}High{% endif %}
-    {% if item['priority'] is not defined %}<span class="muted">Empty</span>{% endif %}
-  </span>
-  <span class="tooltip-text">Edit</span>
-</div>
-
-<!-- Priority Modal -->
-<div id="modalPriority-{{ item.id }}" class="modal-overlay priority-modal">
-  <div class="modal-content">
-    <span class="closeModalBtnPriority" data-item-id="{{ item.id }}">&times;</span>
-    <h3>Edit Priority</h3>
-    <form action="/update_wishlist_item" method="post" class="priority-form">
-      <select name="priority">
-        <option value="">Select priority</option>
-        <option value="0" {% if item.priority == 0 %}selected{% endif %}>Low</option>
-        <option value="1" {% if item.priority == 1 %}selected{% endif %}>Medium</option>
-        <option value="2" {% if item.priority == 2 %}selected{% endif %}>High</option>
-      </select>
-      <input type="hidden" name="id" value="{{ item.id }}" />
-      <button type="submit">Save</button>
-      <button type="button" class="cancelPriorityBtn" data-item-id="{{ item.id }}">Cancel</button>
-    </form>
-  </div>
-</div>
-
-
-<!-- List Name field -->
-<div class="table-cell list_name-cell editable-field" data-property="list_name">
-  <span class="value-display openModalBtnListName" data-item-id="{{ item.id }}">
-    {{ item.list_name or "Select a list" }}
-  </span>
-  <span class="tooltip-text">Edit</span>
-</div>
-
-<!-- List Name Modal -->
-<div id="modalListName-{{ item.id }}" class="modal-overlay list-name-modal">
-  <div class="modal-content">
-    <span class="closeModalBtnListName" data-item-id="{{ item.id }}">&times;</span>
-    <h3>Edit List</h3>
-    <form action="/update_wishlist_item" method="post" class="list-name-form">
-      <select name="list_name" id="listSelect-{{ item.id }}">
-  <option value="">Select a list</option>
-  {% for lst in lists %}
-    <option 
-      value="{{ lst.name }}" 
-      data-emoji="{{ lst.emoji }}"
-      {% if item.list_name == lst.name %}selected{% endif %}
-    >
-      {{ lst.emoji }} {{ lst.name }}
-    </option>
-  {% endfor %}
-</select>
-<input type="hidden" name="emoji" id="emojiInput-{{ item.id }}">
-      <input type="hidden" name="id" value="{{ item.id }}" />
-      <button type="submit">Save</button>
-      <button type="button" class="cancelListNameBtn" data-item-id="{{ item.id }}">Cancel</button>
-    </form>
-  </div>
-</div>
-
-
-          <!-- wanted_by field -->
-          <div class="table-cell wanted_by-cell editable-field" data-property="wanted_by">
-            <span class="value-display">01/01/2025</span>
-            <span class="tooltip-text">Edit</span> 
-            <form
-              action="/wishlist/{{ category_id }}"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-               data-property="title"
-            >
-              <input
-                type="text"
-                value="{{item['title']}}"
-                name="title"
-                placeholder="Title"
-              />
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
-          </div>
-
-
-
-
-
-
-
-
-    
-
-          <!-- URL field -->
-          <div class="table-cell url-cell editable-field" data-property="url">
-            {% if item.url %}
-            <a href="{{ item['url'] }}" target="_blank" class="value-display">
-              {{ item['url'].split('/')[2] }}{% if item['url']|length > 20 %}...{% endif %}
-            </a>
-            <span class="tooltip-text">Edit</span> 
-            {% else %}
-            <span class="value-display muted">No link</span>
-            <span class="tooltip-text">Edit</span> 
-            {% endif %}
-            <form
-              action="/update_wishlist_item"
-              method="post"
-              class="hidden edit-form"
-              data-item-id="{{ item['id'] }}"
-               data-property="url"
-            >
-              <input type="url" value="{{item['url']}}" name="url" placeholder="URL" />
-              <input type="hidden" value="{{item['id']}}" name="id" />
-               <button type="submit" class="save-btn hidden">Save</button>
-              <button type="button" class="cancel-btn hidden">Cancel</button>
-            </form>
-          </div>
-
-          
-    
-        <!-- Creation date field -->
-<div class="table-cell date-cell">
-  <span id="value-date-{{ item['id'] }}"> {{ item['created_at'].split(' ')[0] }}</span>
-</div>
-
-    
-          <!-- Dropdown / Menu -->
-          <div class="table-cell actions-cell">
-            <div class="dropdown-container" id="dropdown-container-{{ item['id'] }}">
-              <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
-                ⋮
-              </button>
-
-
-                <!-- Delete wish button -->
-                <div class="dropdown-item delete-item">
-                  <form action="/update_wishlist_item" method="post">
-                    <input value="delete" hidden name="delete" />
-                    <input type="hidden" name="id" value="{{item['id']}}" />
-                    <button type="submit">Delete</button>
+              {%else%}
+              <div class="tooltip-wrapper">
+                <span class="value-display muted new-item-btn openModalBtnImg"  data-item-id="{{item['id']}}">No image</span>
+                <span class="tooltip-text">Add image</span> 
+              </div>
+              {% endif %}
+              <div id="modalImg-{{item['id']}}" class="modal-overlay">
+                <div class="modal">
+                  <div class="modal-header">
+                    <h2>Add Image</h2>
+                    <button id="{{item['id']}}" class="modal-close closeModalBtnImg">&times;</button>
+                  </div>
+                  <form action="/update_wishlist_item" method="POST" class="modal-form" enctype="multipart/form-data">
+                    <input type="file" name="image" accept="image/*" />
+                    <input type="hidden" name="id" value="{{ item['id'] }}" />
+                    <button type="submit" class="modal-submit">Save</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
                   </form>
                 </div>
               </div>
             </div>
+            
+            <!--Title-->
+            <div class="table-cell title-cell editable-field" data-property="title">
+              {% if item.private %}
+              <span class="private-icon" title="Private">🔒 </span>
+              {% endif %}
+              <span class="value-display" id="value-title-{{ item['id'] }}">{{ item['title'] }}</span>
+              <span class="tooltip-text">Edit</span> 
+              <form
+                action="/update_wishlist_item"
+                method="post"
+                class="hidden edit-form"
+                data-item-id="{{ item['id'] }}"
+                data-property="title"
+              >
+                <input
+                    type="text"
+                    value="{{item['title']}}"
+                    name="title"
+                    placeholder="Title"
+                />
+                <input type="hidden" value="{{item['id']}}" name="id" />
+                  <button type="submit" class="save-btn hidden">Save</button>
+                <button type="button" class="cancel-btn hidden">Cancel</button>
+              </form>
+            </div>
+      
+            <!-- Description field -->
+            <div class="table-cell description-cell editable-field" data-property="description">
+              {% if item.description %}
+              <span
+                class="value-display description-value openModalBtnDescription"
+                data-item-id="{{ item.id }}"
+                id="value-description-{{ item['id'] }}"
+              >
+                {{ item.description[:50] }}{% if item.description|length > 50 %}...{% endif %}
+              </span>
+              {% else %}
+              <span
+                class="value-display muted openModalBtnDescription"
+                data-item-id="{{ item.id }}"
+                id="value-description-{{ item['id'] }}"
+              >
+                No description
+              </span>
+              {% endif %}
+              <span class="tooltip-text">Edit</span>
+            </div>
+
+              <!-- Description Modal -->
+            <div
+              id="modalDescription-{{ item.id }}"
+              class="modal-overlay description-modal hidden"
+            >
+              <div class="modal-content">
+                <span
+                  class="closeModalBtnDescription"
+                  data-item-id="{{ item.id }}"
+                >&times;</span>
+                <h3>Edit Description</h3>
+                <form action="/update_wishlist_item" method="post">
+                  <textarea name="description">{{ item.description }}</textarea>
+                  <input type="hidden" name="id" value="{{ item.id }}" />
+                  <button type="submit">Save</button>
+                  <button type="button" class ="closeModalBtnDescription" data-item-id="{{ item.id }}">Cancel</button>
+                </form>
+              </div>
+            </div>
+            
+      
+            <!-- Price field -->
+            <div class="table-cell price-cell editable-field" data-property="price">
+              {% if item.price %}
+              <span class="value-display" id="value-price-{{ item['id'] }}">{{ item['price'] }}</span>
+              <span class="tooltip-text">Edit</span> 
+              {% else %}
+              <span class="value-display muted" id="value-price-{{ item['id'] }}">Empty</span>
+              <span class="tooltip-text">Edit</span> 
+              {% endif %}
+              <form
+                action="/update_wishlist_item"
+                method="post"
+                class="hidden edit-form"
+                data-item-id="{{ item['id'] }}"
+                data-property="price"
+              >
+                <input type="number" step="0.01" value="{{item['price']}}" name="price" placeholder="Price" />
+                <input type="hidden" value="{{item['id']}}" name="id" />
+                <button type="submit" class="save-btn hidden">Save</button>
+                <button type="button" class="cancel-btn hidden">Cancel</button>
+              </form>
+            </div>
+      
+            <!-- Currency field -->
+            <div class="table-cell currency-cell editable-field" data-property="currency">
+                {% if item.currency %}
+                <span
+                  class="value-display openModalBtnCurrency"
+                  data-item-id="{{ item.id }}"
+                  id="value-currency-{{ item['id'] }}"
+                >
+                  {{ item.currency }}
+                </span>
+                {% else %}
+                <span
+                  class="value-display muted openModalBtnCurrency"
+                  data-item-id="{{ item.id }}"
+                  id="value-currency-{{ item['id'] }}"
+                >
+                  Empty
+                </span>
+                {% endif %}
+                <span class="tooltip-text">Edit</span>
+            </div>
+
+            <!-- Currency Modal -->
+            <div id="modalCurrency-{{ item.id }}" class="modal-overlay currency-modal">
+              <div class="modal-content">
+                <span class="closeModalBtnCurrency" data-item-id="{{ item.id }}">&times;</span>
+                <h3>Edit Currency</h3>
+                <form action="/update_wishlist_item" method="post" class="currency-form">
+                  <select name="currency">
+                    <option value="">Select currency</option>
+                    {% for currency in currencies %}
+                    <option value="{{ currency.alpha_3 }}"
+                      {% if item.currency == currency.alpha_3 %}selected{% endif %}>
+                      {{ currency.name }} ({{ currency.alpha_3 }})
+                    </option>
+                    {% endfor %}
+                  </select>
+                  <input type="hidden" name="id" value="{{ item.id }}" />
+                  <button type="submit">Save</button>
+                  <button type="button" class="cancelCurrencyBtn" data-item-id="{{ item.id }}">Cancel</button>
+                </form>
+              </div>
+            </div>
+
+      
+            <!-- Priority field -->
+            <div class="table-cell priority-cell editable-field" data-property="priority">
+              <span
+                class="value-display openModalBtnPriority
+                {% if item['priority'] == 0 %}priority-low{% endif %}
+                {% if item['priority'] == 1 %}priority-medium{% endif %}
+                {% if item['priority'] == 2 %}priority-high{% endif %}"
+                data-item-id="{{ item.id }}"
+                id="value-priority-{{ item['id'] }}" data-priority-value="{{ item['priority'] }}"
+              >
+                {% if item['priority'] == 0 %}Low{% endif %}
+                {% if item['priority'] == 1 %}Medium{% endif %}
+                {% if item['priority'] == 2 %}High{% endif %}
+                {% if item['priority'] is not defined %}<span class="muted">Empty</span>{% endif %}
+              </span>
+              <span class="tooltip-text">Edit</span>
+            </div>
+
+            <!-- Priority Modal -->
+            <div id="modalPriority-{{ item.id }}" class="modal-overlay priority-modal">
+              <div class="modal-content">
+                <span class="closeModalBtnPriority" data-item-id="{{ item.id }}">&times;</span>
+                <h3>Edit Priority</h3>
+                <form action="/update_wishlist_item" method="post" class="priority-form">
+                  <select name="priority">
+                    <option value="">Select priority</option>
+                    <option value="0" {% if item.priority == 0 %}selected{% endif %}>Low</option>
+                    <option value="1" {% if item.priority == 1 %}selected{% endif %}>Medium</option>
+                    <option value="2" {% if item.priority == 2 %}selected{% endif %}>High</option>
+                  </select>
+                  <input type="hidden" name="id" value="{{ item.id }}" />
+                  <button type="submit">Save</button>
+                  <button type="button" class="cancelPriorityBtn" data-item-id="{{ item.id }}">Cancel</button>
+                </form>
+              </div>
+            </div>
+
+
+            <!-- List Name field -->
+            <div class="table-cell list_name-cell editable-field" data-property="list_name">
+              <span class="value-display openModalBtnListName" data-item-id="{{ item.id }}" id="value-list_name-{{ item['id'] }}">
+                {{ item.list_name or "Select a list" }}
+              </span>
+              <span class="tooltip-text">Edit</span>
+            </div>
+
+            <!-- List Name Modal -->
+            <div id="modalListName-{{ item.id }}" class="modal-overlay list-name-modal">
+              <div class="modal-content">
+                <span class="closeModalBtnListName" data-item-id="{{ item.id }}">&times;</span>
+                <h3>Edit List</h3>
+                <form action="/update_wishlist_item" method="post" class="list-name-form">
+                  <select name="list_name" id="listSelect-{{ item.id }}">
+              <option value="">Select a list</option>
+              {% for lst in lists %}
+                <option 
+                  value="{{ lst.name }}" 
+                  data-emoji="{{ lst.emoji }}"
+                  {% if item.list_name == lst.name %}selected{% endif %}
+                >
+                  {{ lst.emoji }} {{ lst.name }}
+                </option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="emoji" id="emojiInput-{{ item.id }}">
+                  <input type="hidden" name="id" value="{{ item.id }}" />
+                  <button type="submit">Save</button>
+                  <button type="button" class="cancelListNameBtn" data-item-id="{{ item.id }}">Cancel</button>
+                </form>
+              </div>
+            </div>
+
+
+            <!-- wanted_by field -->
+            <div class="table-cell wanted_by-cell editable-field" data-property="wanted_by">
+              <span class="value-display" id="value-wanted_by-{{ item['id'] }}">01/01/2025</span> {# Update this with actual item.wanted_by #}
+              <span class="tooltip-text">Edit</span> 
+              <form
+                action="/wishlist/{{ category_id }}"
+                method="post"
+                class="hidden edit-form"
+                data-item-id="{{ item['id'] }}"
+                data-property="title"
+              >
+                <input
+                  type="text"
+                  value="{{item['title']}}"
+                  name="title"
+                  placeholder="Title"
+                />
+                <input type="hidden" value="{{item['id']}}" name="id" />
+                <button type="submit" class="save-btn hidden">Save</button>
+                <button type="button" class="cancel-btn hidden">Cancel</button>
+              </form>
+            </div>
+
+            <!-- URL field -->
+            <div class="table-cell url-cell editable-field" data-property="url">
+              {% if item.url %}
+              <a href="{{ item['url'] }}" target="_blank" class="value-display" id="value-url-{{ item['id'] }}">
+                {{ item['url'].split('/')[2] }}{% if item['url']|length > 20 %}...{% endif %}
+              </a>
+              <span class="tooltip-text">Edit</span> 
+              {% else %}
+              <span class="value-display muted" id="value-url-{{ item['id'] }}">No link</span>
+              <span class="tooltip-text">Edit</span> 
+              {% endif %}
+              <form
+                action="/update_wishlist_item"
+                method="post"
+                class="hidden edit-form"
+                data-item-id="{{ item['id'] }}"
+                data-property="url"
+              >
+                <input type="url" value="{{item['url']}}" name="url" placeholder="URL" />
+                <input type="hidden" value="{{item['id']}}" name="id" />
+                <button type="submit" class="save-btn hidden">Save</button>
+                <button type="button" class="cancel-btn hidden">Cancel</button>
+              </form>
+            </div>
+      
+            <!-- Creation date field -->
+            <div class="table-cell date-cell">
+              <span id="value-date-{{ item['id'] }}"> {{ item['created_at'].split(' ')[0] }}</span>
+            </div>
+      
+            <!-- Dropdown / Menu -->
+            <div class="table-cell actions-cell">
+              <div class="dropdown-container" id="dropdown-container-{{ item['id'] }}">
+                <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
+                  ⋮
+                </button>
+
+          
+                  
+                  <!-- Delete wish button -->
+                  <div class="dropdown-item delete-item">
+                    <form action="/update_wishlist_item" method="post">
+                      <input value="delete" hidden name="delete" />
+                      <input type="hidden" name="id" value="{{item['id']}}" />
+                      <button type="submit">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
         {% endfor %}
         {% endif %}
       </div>
     </div>
-      <div id="imgModal" class="img-modal">
-      <span class="img-modal-close">&times;</span>
-      <img class="img-modal-content" id="modalImgContent" />
-    </div>
-
-  
-
-  
-    {% include "new_wish.html" %}
     
+    <div id="imgModal" class="img-modal">
+        <span class="img-modal-close">&times;</span>
+        <img class="img-modal-content" id="modalImgContent" />
     </div>
-      
 
-   
+    
+    {% include "new_wish.html" %}
+</div>
 {%endblock %}
