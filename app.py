@@ -278,36 +278,38 @@ def wishlist_item_update():
     
     
     
-# view category by token    
-# @app.route("/public/wishlist/<int:category_id>/<public_token>")
-# def view_wishlist(category_id, public_token):
-#     category_response = db.get_wishlist_category_by_token(category_id, public_token)
-#     if category_response is None:
-#         abort(404, description="Category is not found")
-#     wishes_response = db.get_wishlist_items_by_token(category_id)
-#     if wishes_response is None:
-#         abort(404, description="Wishes are not found")
-#     return render_template("public_wishlist.html", category = category_response, wishes = wishes_response)
+# view list by token    
+@app.route("/public/wishlist/<int:list_id>")
+def view_wishlist(list_id):
+    token = request.args.get("token")
+    if not token:
+        abort(400, description="Token is missing")
+    wishes_by_list = db.get_wishlist_by_token(token)
+    if wishes_by_list is None:
+        abort(404, description="List is not found")
+        
+    print("Wishes:", wishes_by_list)
+    return render_template("public_wishlist.html",  wishes = wishes_by_list)
     
 
-# @app.route("/reserve/<int:wish_id>", methods=["POST"])
-# def reserve_wish( wish_id):
-#     email = request.form.get("email")
-#     if not email:
-#         flash("Введите email", "error")
-#         return redirect(request.referrer)
-#     reserved = 1
-#     reserved_token = str(uuid.uuid4())
-#     data_to_update = {}
-#     data_to_update['reserved_by_email'] = email
-#     data_to_update['reserved'] = reserved
-#     data_to_update['reserved_token'] = reserved_token
-#     data_to_update
-#     wish_reserved = db.wish_reservation(wish_id, data_to_update)
-#     if wish_reserved is None:
-#         abort(404, description="Wish is not reserved")
+@app.route("/reserve/<int:wish_id>", methods=["POST"])
+def reserve_wish( wish_id):
+    email = request.form.get("email")
+    if not email:
+        flash("Введите email", "error")
+        return redirect(request.referrer)
+    reserved = 1
+    reserved_token = str(uuid.uuid4())
+    data_to_update = {}
+    data_to_update['reserved_by_email'] = email
+    data_to_update['reserved'] = reserved
+    data_to_update['reserved_token'] = reserved_token
+    data_to_update
+    wish_reserved = db.wish_reservation(wish_id, data_to_update)
+    if wish_reserved is None:
+        abort(404, description="Wish is not reserved")
     
-#     return render_template("reservation_message.html", wish_reserved = True, reserved_token=reserved_token, wish_id = wish_id)
+    return render_template("reservation_message.html", wish_reserved = True, reserved_token=reserved_token, wish_id = wish_id)
 
     
 # @app.route("/cancel_reservation/<int:wish_id>/<reserved_token>", methods=["POST"])

@@ -231,7 +231,7 @@ function modalWindow() {
     const listId = selectedOption.value;
     const token = selectedOption.dataset.token;
     const baseUrl = window.location.origin; // например, https://example.com
-    const link = `${baseUrl}/wishlist/${listId}?token=${token}`;
+    const link = `${baseUrl}/public/wishlist/${listId}?token=${token}`;
     generatedLink.textContent = link;
   }
 

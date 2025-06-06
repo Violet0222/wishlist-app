@@ -268,17 +268,36 @@ def delete_wishlist_item(wish_id):
         return None
 
 
-def get_wishlist_category_by_token(category_id, token):
+def get_wishlist_by_token(public_token):
     conn = get_db()
     if conn is None:
         print("Database connection failed")
         return None
     try:
         cursor = conn.cursor()
-        category = cursor.execute("""SELECT * FROM category WHERE id = ? AND public_token =?""",(category_id, token)).fetchone()
-        if not category:
+
+        # Step 1: Get list_id using the public_token
+        cursor.execute("SELECT id FROM list_name WHERE public_token = ?", (public_token,))
+        list_info = cursor.fetchone()
+
+        if not list_info:
+            print("No list found with that token")
             return None
-        return category
+
+        list_id = list_info["id"]
+
+        # Step 2: Fetch all wishes that belong to that list
+        cursor.execute("""
+            SELECT *
+            FROM wish
+            WHERE list_id = ? AND private = 0
+            ORDER BY priority DESC, created_at DESC;
+        """, (list_id,))
+
+        wishes = cursor.fetchall()
+        wishes = [dict(row) for row in wishes]
+
+        return  wishes  
     except sqlite3.OperationalError as e:
         print("Failed to get categories:", e)
         return None

@@ -1,35 +1,157 @@
-{% extends "public_base.html" %}
+{% extends "public_base.html" %} {% block title %} Wishlist{% endblock %} {%
+block head %} <link rel="stylesheet" href="/static/css/styles.css" /> {#
+Убедитесь, что стили для таблицы доступны публично #}
+<style>
+  /* Добавьте сюда или в styles.css стили, специфичные для публичной таблицы */
+  .public-wishlist-table .table-cell {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    text-align: left;
+  }
 
-{% block title %}{{ category.name }} Wishlist{% endblock %}
+  .public-wishlist-table .table-row:last-child .table-cell {
+    border-bottom: none;
+  }
 
-{% block content %}
-  <h1>{{ category.name }}</h1>
+  .public-wishlist-table .table-header {
+    font-weight: bold;
+    background-color: #f9f9f9;
+  }
+
+  .public-wishlist-table .image-cell img {
+    max-width: 80px; /* Уменьшите размер изображений для публичного просмотра */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Центрирование изображения */
+  }
+
+  .public-wishlist-table .status-reserved {
+    color: green;
+    font-weight: bold;
+  }
+
+  .public-wishlist-table .status-not-reserved {
+    color: orange;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="wishlist-wrapper">
+  {# Используйте тот же контейнер, если хотите сохранить общие стили #}
+  <header class="wishlist-header">
+    <h1>{{ list_name }}'s Wishlist 🎁</h1>
+    {# Предполагается, что list_name передается из вашего Flask роута #}
+    <p>Take a look at what {{ list_owner }} is wishing for!</p>
+    {# Если у вас есть владелец списка #}
+  </header>
 
   {% if wishes %}
-    <ul class="wish-list">
-      {% for wish in wishes %}
-        <li class="wish-item">
-          <h3>{{ wish.title }}</h3>
-          {% if wish.image %}
-            <img src="{{ wish.image }}" alt="{{ wish.title }}" />
-          {% endif %}
-          <p>{{ wish.description }}</p>
-          {% if wish.url %}
-            <a href="{{ wish.url }}" target="_blank">View</a>
-          {% endif %}
-          {% if not wish.reserved %}
-            <form action="{{ url_for('reserve_wish', wish_id=wish.id) }}" method="POST">
-              <input type="email" name="email" placeholder="Your email" required />
-              <button type="submit">Reserve</button>
-            </form>
-          {% else %}
-            <span class="reserved">Reserved</span>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No wishes found in this category.</p>
-  {% endif %}
-{% endblock %}
+  <div class="wishlist-table-container">
+    <div class="table public-wishlist-table">
+      <!-- Table Header for Public View -->
+      <div class="table-row wishlist-header">
+        <div class="table-cell status-cell">📍 Status</div>
+        <div class="table-cell image-cell">🖼️ Image</div>
+        <div class="table-cell title-cell">📌 Title</div>
+        <div class="table-cell description-cell">📝 Description</div>
+        <div class="table-cell price-cell">💰 Price</div>
+        <div class="table-cell currency-cell">💱 Currency</div>
+        <div class="table-cell priority-cell">⭐ Priority</div>
+        <div class="table-cell">⏳ Wanted by</div>
+        <div class="table-cell url-cell">🔗 Link</div>
+      </div>
 
+      <!-- Table Rows -->
+      {% for wish in wishes %}
+      <div class="table-row">
+        <!-- Status -->
+        <div class="table-cell status-cell">
+          <span
+            class="status-label {% if wish['reserved'] == 0 or wish['reserved'] is none %}status-not-reserved{% endif %} {% if wish['reserved'] == 1 %}status-reserved{% endif %}"
+          >
+            {% if wish['reserved'] == 0 or wish['reserved'] is none %}Not
+            reserved{% endif %} {% if wish['reserved'] == 1 %}Reserved!{% endif
+            %}
+          </span>
+          {# Если вы хотите позволить резервировать публично #} {% if not
+          wish.reserved %}
+          <form
+            action="{{ url_for('reserve_wish', wish_id=wish.id) }}"
+            method="POST"
+            class="reserve-form"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              required
+              class="reserve-email-input"
+            />
+            <button type="submit" class="reserve-button">Reserve</button>
+          </form>
+          {% endif %}
+        </div>
+
+        <!-- Image -->
+        <div class="table-cell image-cell">
+          {% if wish['image'] %}
+          <img
+            src="{{ url_for('static', filename='uploads/' ~ wish['image']) }}"
+            alt="{{ wish['title'] }}"
+          />
+          {% else %}
+          <span class="muted">No image</span>
+          {% endif %}
+        </div>
+
+        <!-- Title -->
+        <div class="table-cell title-cell">{{ wish['title'] }}</div>
+
+        <!-- Description -->
+        <div class="table-cell description-cell">
+          {{ wish.description or '<span class="muted">No description</span>' |
+          safe }}
+        </div>
+
+        <!-- Price -->
+        <div class="table-cell price-cell">
+          {{ wish.price or '<span class="muted">N/A</span>' | safe }}
+        </div>
+
+        <!-- Currency -->
+        <div class="table-cell currency-cell">
+          {{ wish.currency or '<span class="muted">N/A</span>' | safe }}
+        </div>
+
+        <!-- Priority -->
+        <div class="table-cell priority-cell">
+          {% if wish['priority'] == 0 %}Low{% endif %} {% if wish['priority'] ==
+          1 %}Medium{% endif %} {% if wish['priority'] == 2 %}High{% endif %} {%
+          if wish['priority'] is not defined or wish['priority'] is none %}<span
+            class="muted"
+            >N/A</span
+          >{% endif %}
+        </div>
+
+        <!-- Wanted by -->
+        <div class="table-cell wanted_by-cell">
+          {{ wish.wanted_by or '<span class="muted">N/A</span>' | safe }}
+        </div>
+
+        <!-- URL -->
+        <div class="table-cell url-cell">
+          {% if wish.url %}
+          <a href="{{ wish['url'] }}" target="_blank">View Link</a>
+          {% else %}
+          <span class="muted">No link</span>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <p>No wishes found in this list.</p>
+  {% endif %}
+</div>
+{% endblock %}
