@@ -1,36 +1,53 @@
-function sort() {
-  const sort_filter = document.getElementById("sortSelect");
-  sort_filter.addEventListener("change", () => {
-    const sort_field = sort_filter.value.split("-")[0];
-    const sort_order = sort_filter.value.split("-")[1];
+function applySort() {
+  const sortSelect = document.getElementById("sortSelect");
+  if (!sortSelect) {
+    return;
+  }
 
-    // Select all actual item rows, excluding the header
-    const rows = Array.from(
-      document.querySelectorAll(".table-row:not(.wishlist-header)")
-    );
-    console.log(rows);
-    rows.sort((a, b) => {
-      const aId = a.id.replace("item-", "");
-      const bId = b.id.replace("item-", "");
-      let aValue, bValue;
+  const sortValue = sortSelect.value;
+  const sortField = sortValue.split("-")[0];
+  const sortOrder = sortValue.split("-")[1];
 
-      if (sort_field === "date") {
-        aValue = new Date(
-          document.querySelector(`#value-date-${aId}`)?.textContent
-        );
-        bValue = new Date(
-          document.querySelector(`#value-date-${bId}`)?.textContent
-        );
-      } else if (sort_field === "status") {
-        // Get the data-status-value attribute for sorting (0 or 1)
+  const rows = Array.from(
+    document.querySelectorAll(".table-row:not(.wishlist-header)")
+  );
+
+  rows.sort((a, b) => {
+    // Handle "Default Order"
+    if (sortField === "default") {
+      // Sort by the numerical ID of the item to restore original order
+      const aIdNum = parseInt(a.id.replace("item-", ""));
+      const bIdNum = parseInt(b.id.replace("item-", ""));
+      return aIdNum - bIdNum;
+    }
+
+    // Existing sorting logic for other fields (same as before)
+    const aId = a.id.replace("item-", "");
+    const bId = b.id.replace("item-", "");
+    let aValue, bValue;
+
+    switch (sortField) {
+      case "date":
+        const aDateText =
+          document.querySelector(`#value-date-${aId}`)?.textContent || "";
+        const bDateText =
+          document.querySelector(`#value-date-${bId}`)?.textContent || "";
+        aValue = new Date(aDateText);
+        bValue = new Date(bDateText);
+        if (isNaN(aValue)) aValue = new Date(0);
+        if (isNaN(bValue)) bValue = new Date(0);
+        break;
+      case "status":
         aValue = parseInt(
           document.querySelector(`#value-status-${aId}`)?.dataset.statusValue
         );
         bValue = parseInt(
           document.querySelector(`#value-status-${bId}`)?.dataset.statusValue
         );
-      } else if (sort_field === "priority") {
-        // Get the data-priority-value attribute for sorting (0, 1, 2)
+        aValue = isNaN(aValue) ? 0 : aValue;
+        bValue = isNaN(bValue) ? 0 : bValue;
+        break;
+      case "priority":
         aValue = parseInt(
           document.querySelector(`#value-priority-${aId}`)?.dataset
             .priorityValue
@@ -39,56 +56,101 @@ function sort() {
           document.querySelector(`#value-priority-${bId}`)?.dataset
             .priorityValue
         );
-      } else if (sort_field === "price") {
+        aValue = isNaN(aValue) ? -1 : aValue;
+        bValue = isNaN(bValue) ? -1 : bValue;
+        break;
+      case "price":
         aValue = parseFloat(
           document.querySelector(`#value-price-${aId}`)?.textContent
         );
         bValue = parseFloat(
           document.querySelector(`#value-price-${bId}`)?.textContent
         );
-        // Handle cases where price might be "Empty" or null
-        aValue = isNaN(aValue) ? -Infinity : aValue; // Put empty prices at the bottom for asc
-        bValue = isNaN(bValue) ? -Infinity : bValue;
-      } else {
-        // For other text fields (title, description, currency, list_name, url, wanted_by)
+        if (sortOrder === "asc") {
+          aValue = isNaN(aValue) ? Infinity : aValue;
+          bValue = isNaN(bValue) ? Infinity : bValue;
+        } else {
+          aValue = isNaN(aValue) ? -Infinity : aValue;
+          bValue = isNaN(bValue) ? -Infinity : bValue;
+        }
+        break;
+      case "title":
+      case "description":
+      case "currency":
+      case "list_name":
+      case "url":
+      case "wanted_by":
         aValue =
-          document.querySelector(`#value-${sort_field}-${aId}`)?.textContent ||
+          document.querySelector(`#value-${sortField}-${aId}`)?.textContent ||
           "";
         bValue =
-          document.querySelector(`#value-${sort_field}-${bId}`)?.textContent ||
+          document.querySelector(`#value-${sortField}-${bId}`)?.textContent ||
           "";
-      }
+        aValue = String(aValue).toLowerCase();
+        bValue = String(bValue).toLowerCase();
+        break;
+      default:
+        aValue = 0;
+        bValue = 0;
+    }
 
-      // Convert to lowercase for case-insensitive string comparison
-      if (typeof aValue === "string") {
-        aValue = aValue.toLowerCase();
-      }
-      if (typeof bValue === "string") {
-        bValue = bValue.toLowerCase();
-      }
-
-      if (sort_order === "asc") {
-        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-      } else {
-        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-      }
-    });
-
-    const container = document.querySelector(".table"); // Target the inner .table container
-    rows.forEach((row) => container.appendChild(row));
+    if (sortOrder === "asc") {
+      return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+    } else {
+      return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+    }
   });
 
-  // Close dropdown after sorting
-  const dropdown = sort_filter.closest(".dropdown-container");
-  dropdown.querySelector(".menu-dropdown").classList.remove("show");
-  dropdown.classList.remove("dropdown-active");
+  const tableContainer = document.querySelector(".table");
+  const currentRows = Array.from(
+    tableContainer.querySelectorAll(".table-row:not(.wishlist-header)")
+  );
+  currentRows.forEach((row) => row.remove());
 
-  // to check: Show a visual cue
-  const tooltip = dropdown.querySelector(".tooltip-text");
-  if (tooltip) {
-    const selectedOption = sort_filter.options[sort_filter.selectedIndex].text;
-    tooltip.textContent = `Sorted: ${selectedOption}`;
+  rows.forEach((row) => tableContainer.appendChild(row));
+
+  const sortInfo = document.getElementById("sortInfo");
+  if (sortInfo) {
+    // Check if an option is actually selected before trying to read its text
+    if (sortSelect.selectedIndex !== -1) {
+      const selectedOptionText =
+        sortSelect.options[sortSelect.selectedIndex].text;
+      sortInfo.textContent = `Sorted by: ${selectedOptionText}`;
+    } else {
+      // Fallback if no option is selected (shouldn't happen with default option)
+      sortInfo.textContent = `Sorted by: Default Order`;
+    }
   }
 }
 
-document.addEventListener("DOMContentLoaded", sort);
+document.addEventListener("DOMContentLoaded", () => {
+  const sortSelect = document.getElementById("sortSelect");
+  const clearSortBtn = document.getElementById("clearSortBtn");
+
+  if (sortSelect) {
+    // Ensure "Default Order" is selected on initial load if no other option is chosen
+    // Or, ensure your HTML has a 'selected' attribute on one option.
+    // Example: <option value="default" selected>Default Order</option>
+    // If not explicitly set, this ensures it starts in a known state.
+    if (sortSelect.selectedIndex === -1) {
+      sortSelect.value = "default";
+    }
+
+    applySort(); // Apply sort on load based on initial selection
+
+    sortSelect.addEventListener("change", applySort); // Sort when select changes
+  }
+
+  if (clearSortBtn && sortSelect) {
+    clearSortBtn.addEventListener("click", () => {
+      sortSelect.value = "default"; // Set the select value to "default"
+      applySort(); // Trigger sort with the default option
+      // Optionally, close the dropdown after clearing sort
+      const dropdown = clearSortBtn.closest(".dropdown-container");
+      if (dropdown) {
+        dropdown.querySelector(".menu-dropdown").classList.remove("show");
+        dropdown.classList.remove("dropdown-active");
+      }
+    });
+  }
+});
