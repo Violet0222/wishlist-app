@@ -1,7 +1,7 @@
 
 
 
-lists = [
+PREDEFINED_LISTS = [
     {"id": 1, "name": "Birthday", "emoji": "🎉"},
     {"id": 2, "name": "New Year", "emoji": "🎄"},
     {"id": 3, "name": "Graduation Gifts", "emoji": "🎓"},

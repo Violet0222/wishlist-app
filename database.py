@@ -437,7 +437,7 @@ def drop_table():
         cursor = conn.cursor()
 
 
-        cursor.execute("DROP TABLE IF EXISTS category")
+        cursor.execute("DROP TABLE IF EXISTS list_name")
         conn.commit()
         print("Table 'wish' has been deleted.")
 

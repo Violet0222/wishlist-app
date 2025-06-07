@@ -9,7 +9,7 @@ import json
 
 import database
 
-from data import lists
+from data import PREDEFINED_LISTS
 
 currencies = list(pycountry.currencies)
 
@@ -154,7 +154,8 @@ def index():
         items = []
         
     lists = db.get_user_lists(user_id) 
-    return render_template("index.html", items=items, currencies=currencies, lists=lists)
+    predefined_lists = PREDEFINED_LISTS
+    return render_template("index.html", items=items, currencies=currencies, lists=lists, predefined_lists = predefined_lists)
 
 
 @app.route("/new_wishlist", methods=["GET", "POST"])

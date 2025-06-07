@@ -347,7 +347,7 @@
                 <form action="/update_wishlist_item" method="post" class="list-name-form">
                   <select name="list_name" id="listSelect-{{ item.id }}">
               <option value="">Select a list</option>
-              {% for lst in lists %}
+              {% for lst in predefined_lists %}
                 <option
                   value="{{ lst.name }}"
                   data-emoji="{{ lst.emoji }}"
