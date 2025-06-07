@@ -38,6 +38,16 @@
         <option value="2">High</option>
       </select>
 
+      <label for="list_name">List Name:</label>
+      <select name="list_name" id="list_name">
+        <option value="">Select a list</option>
+        {% for lst in predefined_lists %}
+        <option value="{{ lst.name }}" data-emoji="{{ lst.emoji }}">
+          {{ lst.emoji }} {{ lst.name }}
+        </option>
+        {% endfor %}
+      </select>
+
       <div class="form-group-checkbox">
         <input type="checkbox" name="private" id="private" value="1" />
         <label for="private">Private Wish</label>

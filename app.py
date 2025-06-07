@@ -164,7 +164,6 @@ def wishlist_items():
     if not user_id:
         return redirect("/login")
     if request.method == "POST":
-        list_name_id=request.form.get('list_name_id')
         list_name=request.form.get('list_name')
         list_emoji=request.form.get('list_emoji')
         title = request.form.get('title')
@@ -186,6 +185,11 @@ def wishlist_items():
 
         if not url or not url.strip():
             url = ''
+        if list_name:
+            list_name_id = db.get_or_create_list_name(user_id, list_name, list_emoji)
+            if list_name_id is None:
+                return render_template("index.html", error="Item wasn't created")
+            
 
         response = db.create_wishlist_item(list_name_id, list_name,  list_emoji, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
         if response is None:
