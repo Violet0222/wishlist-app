@@ -173,7 +173,7 @@ def wishlist_items():
         price = request.form.get("price")
         currency = request.form.get("currency")
         priority = request.form.get("priority")
-        private = request.form.get("private")
+        private = 1 if request.form.get("private") else 0
         wanted_by = request.form.get("wanted_by")
         if not title or not title.strip():
             return render_template(

@@ -38,8 +38,16 @@
         <option value="2">High</option>
       </select>
 
-      <label for="private">Private</label>
-      <input type="text" name="private" id="private" />
+      <div class="form-group-checkbox">
+        <input type="checkbox" name="private" id="private" value="1" />
+        <label for="private">Private Wish</label>
+        <span
+          class="explanation-icon"
+          title="Private wishes are not visible to others when sharing your list. You can change this setting later."
+        >
+          ℹ️
+        </span>
+      </div>
 
       <button type="submit" class="modal-submit">Add</button>
     </form>

@@ -295,7 +295,6 @@ form button[type="submit"]:hover {
   max-width: 100%;
   margin: 0 auto;
   padding: 2rem 1rem;
-  
 }
 
 .wishlist-header {
@@ -471,4 +470,43 @@ form button[type="submit"]:hover {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* In your /static/css/styles.css or a dedicated modal CSS */
+
+.form-group-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  /* Add some padding if the checkbox is very close to the edge */
+  padding-left: 0;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px; /* Space between checkbox and its label */
+  /* Vertically align it more precisely if needed */
+  flex-shrink: 0; /* Prevent checkbox from shrinking on small screens */
+}
+
+.form-group-checkbox label {
+  margin-bottom: 0; /* Remove default label margin */
+  flex-grow: 1; /* Allow label to take up available space */
+}
+
+.explanation-icon {
+  margin-left: 10px; /* Space between label and icon */
+  font-size: 0.9em; /* Make the icon slightly smaller */
+  cursor: help; /* Change cursor to indicate hoverable info */
+  color: #888; /* A subtle color */
+}
+
+/* If you use the explanation-text alternative */
+.explanation-text {
+  font-size: 0.85em; /* Smaller font for explanation */
+  color: #666; /* Muted color */
+  margin-top: 5px; /* Space from the checkbox/label above */
+  margin-left: 24px; /* Indent to align with the label, if needed */
+  display: block; /* Ensures it takes its own line */
 }
