@@ -180,21 +180,27 @@
             <!-- Description field -->
             <div class="table-cell description-cell editable-field" data-property="description">
               {% if item.description %}
-              <span
-                class="value-display description-value openModalBtnDescription"
-                data-item-id="{{ item.id }}"
-                id="value-description-{{ item['id'] }}"
-              >
-                {{ item.description[:50] }}{% if item.description|length > 50 %}...{% endif %}
-              </span>
+              <div class="tooltip-wrapper">
+                <span
+                  class="value-display description-value openModalBtnDescription"
+                  data-item-id="{{ item.id }}"
+                  id="value-description-{{ item['id'] }}"
+                >
+                  {{ item.description[:50] }}{% if item.description|length > 50 %}...{% endif %}
+                </span>
+                <span class="tooltip-text">Edit Description</span>
+            </div>
               {% else %}
-              <span
-                class="value-display muted openModalBtnDescription"
-                data-item-id="{{ item.id }}"
-                id="value-description-{{ item['id'] }}"
-              >
-                No description
-              </span>
+              <div class="tooltip-wrapper">
+                <span
+                  class="value-display muted openModalBtnDescription"
+                  data-item-id="{{ item.id }}"
+                  id="value-description-{{ item['id'] }}"
+                >
+                  No description
+                </span>
+                <span class="tooltip-text">Add Description</span>
+            </div>
               {% endif %}
               <span class="tooltip-text">Edit</span>
             </div>
@@ -202,14 +208,13 @@
               <!-- Description Modal -->
             <div
               id="modalDescription-{{ item.id }}"
-              class="modal-overlay description-modal hidden"
-            >
-              <div class="modal-content">
-                <span
-                  class="closeModalBtnDescription"
-                  data-item-id="{{ item.id }}"
-                >&times;</span>
-                <h3>Edit Description</h3>
+              class="modal-overlay">
+              <div class="modal">
+                <div class="modal-header">
+                    <h2>Description</h2>
+                    <button id="{{item['id']}}" class="modal-close closeModalBtnDescription">&times;</button>
+                </div>
+              
                 <form action="/update_wishlist_item" method="post">
                   <textarea name="description">{{ item.description }}</textarea>
                   <input type="hidden" name="id" value="{{ item.id }}" />
@@ -219,6 +224,8 @@
               </div>
             </div>
 
+
+           
 
             <!-- Price field -->
             <div class="table-cell price-cell editable-field" data-property="price">

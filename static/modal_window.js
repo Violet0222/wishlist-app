@@ -83,7 +83,7 @@ function modalWindow() {
   closeModalBtnDescriptions.forEach((button) => {
     button.addEventListener("click", () => {
       // Find the closest ancestor with the class 'description-modal'
-      const modal = button.closest(".description-modal");
+      const modal = button.closest(".modal-overlay");
       if (modal) {
         modal.classList.remove("open");
       }
@@ -91,12 +91,14 @@ function modalWindow() {
   });
 
   // Close description modal on outside click
-  document.querySelectorAll(".description-modal").forEach((overlay) => {
-    overlay.addEventListener("click", (event) => {
-      if (event.target === overlay) {
-        overlay.classList.remove("open");
-      }
-    });
+  document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+    if (overlay.id.startsWith("modalDescription-")) {
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+          overlay.classList.remove("open");
+        }
+      });
+    }
   });
   // Open Currency Modal
   document.querySelectorAll(".openModalBtnCurrency").forEach((btn) => {
@@ -244,8 +246,6 @@ function modalWindow() {
     copyBtn.textContent = "Copied!";
     setTimeout(() => (copyBtn.textContent = "Copy"), 2000);
   });
-
- 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
