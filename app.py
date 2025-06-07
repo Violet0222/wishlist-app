@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 import pycountry
 import uuid
 import json
+from datetime import datetime
 
 import database
 
@@ -189,7 +190,12 @@ def wishlist_items():
             list_name_id = db.get_or_create_list_name(user_id, list_name, list_emoji)
             if list_name_id is None:
                 return render_template("index.html", error="Item wasn't created")
-            
+        if wanted_by:
+            try:
+                wanted_by = datetime.strptime(wanted_by, "%Y-%m-%d").date()
+            except ValueError:
+                # можна записати помилку або просто ігнорувати
+                pass 
 
         response = db.create_wishlist_item(list_name_id, list_name,  list_emoji, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
         if response is None:
@@ -217,7 +223,7 @@ def wishlist_item_update():
         delete_wish=request.form.get("delete")
         list_name = request.form.get("list_name")
         list_emoji = request.form.get("emoji")
-     
+        wanted_by = request.form.get("wanted_by")
         data_to_update = {}
         if title:
             data_to_update['title'] = title
@@ -244,6 +250,13 @@ def wishlist_item_update():
             data_to_update['list_id'] = list_id
             data_to_update['list_name'] = list_name
             data_to_update['list_emoji'] = list_emoji
+        if wanted_by:
+            try:
+                wanted_by = datetime.strptime(wanted_by, "%Y-%m-%d").date()
+                data_to_update['wanted_by'] = wanted_by
+            except ValueError:
+                # можна записати помилку або просто ігнорувати
+                pass 
             
         if item_id:
             if delete_wish:

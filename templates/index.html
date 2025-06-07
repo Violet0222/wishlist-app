@@ -364,29 +364,34 @@
                 </form>
               </div>
             </div>
+<!-- wanted_by field -->
+<div class="table-cell wanted_by-cell editable-field" data-property="wanted_by">
 
-            <!-- wanted_by field -->
-            <div class="table-cell wanted_by-cell editable-field" data-property="wanted_by">
-              <span class="value-display" id="value-wanted_by-{{ item['id'] }}">01/01/2025</span> {# Update this with actual item.wanted_by #}
-              <span class="tooltip-text">Edit</span>
-              <form
-                action="/wishlist/{{ category_id }}"
-                method="post"
-                class="hidden edit-form"
-                data-item-id="{{ item['id'] }}"
-                data-property="title"
-              >
-                <input
-                  type="text"
-                  value="{{item['title']}}"
-                  name="title"
-                  placeholder="Title"
-                />
-                <input type="hidden" value="{{item['id']}}" name="id" />
-                <button type="submit" class="save-btn hidden">Save</button>
-                <button type="button" class="cancel-btn hidden">Cancel</button>
-              </form>
-            </div>
+
+  <span class="value-display" id="value-wanted_by-{{ item['id'] }}" data-property="wanted_by">
+    {% if item.wanted_by %}
+      {{ item.wanted_by }}
+    {% else %}
+      No specific date
+    {% endif %}
+  </span>
+
+
+
+  <form
+    action="/update_wishlist_item"
+    method="post"
+    class="hidden edit-form"
+    data-item-id="{{ item['id'] }}"
+    data-property="wanted_by"
+  >
+    <input type="date" name="wanted_by" id="wanted_by"
+      {% if item.wanted_by %}value="{{ item.wanted_by }}"{% endif %} />
+    <input type="hidden" value="{{ item['id'] }}" name="id" />
+    <button type="submit" class="save-btn hidden">Save</button>
+    <button type="button" class="cancel-btn hidden">Cancel</button>
+  </form>
+</div>
 
             <!-- URL field -->
             <div class="table-cell url-cell editable-field" data-property="url">
