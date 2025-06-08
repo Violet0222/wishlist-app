@@ -293,9 +293,11 @@
 
             <!-- Currency Modal -->
             <div id="modalCurrency-{{ item.id }}" class="modal-overlay currency-modal">
-              <div class="modal-content">
-                <span class="closeModalBtnCurrency" data-item-id="{{ item.id }}">&times;</span>
-                <h3>Edit Currency</h3>
+              <div class="modal">
+                <div class="modal-header">
+                  <h2>Currency</h2>
+                  <span class="closeModalBtnCurrency" data-item-id="{{ item.id }}">&times;</span>
+                </div>
                 <form action="/update_wishlist_item" method="post" class="currency-form">
                   <select name="currency">
                     <option value="">Select currency</option>
@@ -333,9 +335,11 @@
 
             <!-- Priority Modal -->
             <div id="modalPriority-{{ item.id }}" class="modal-overlay priority-modal">
-              <div class="modal-content">
-                <span class="closeModalBtnPriority" data-item-id="{{ item.id }}">&times;</span>
-                <h3>Edit Priority</h3>
+              <div class="modal">
+                <div class="modal-header">
+                  <h2>Priority</h2>
+                  <span class="closeModalBtnPriority" data-item-id="{{ item.id }}">&times;</span>
+                </div>
                 <form action="/update_wishlist_item" method="post" class="priority-form">
                   <select name="priority">
                     <option value="">Select priority</option>
