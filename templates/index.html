@@ -360,9 +360,12 @@
 
             <!-- List Name Modal -->
             <div id="modalListName-{{ item.id }}" class="modal-overlay list-name-modal">
-              <div class="modal-content">
-                <span class="closeModalBtnListName" data-item-id="{{ item.id }}">&times;</span>
-                <h3>Edit List</h3>
+              <div class="modal">
+                 <div class="modal-header">
+                  <h2>List Name</h2>
+                  <span class="closeModalBtnListName" data-item-id="{{ item.id }}">&times;</span>
+                 </div>
+            
                 <form action="/update_wishlist_item" method="post" class="list-name-form">
                   <select name="list_name" id="listSelect-{{ item.id }}">
               <option value="">Select a list</option>
@@ -383,6 +386,10 @@
                 </form>
               </div>
             </div>
+
+           
+
+
 <!-- wanted_by field -->
 <div class="table-cell wanted_by-cell editable-field" data-property="wanted_by">
 
