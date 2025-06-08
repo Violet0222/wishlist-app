@@ -390,8 +390,7 @@ def get_or_create_list_name(user_id, list_name, emoji):
             return list_id
 
         # Generate a unique public token
-        public_token = str(uuid.uuid4())[:8]
-        print(public_token)
+        public_token = str(uuid.uuid4())
         # Insert new list_name with emoji and token
         cursor.execute(
             "INSERT INTO list_name (user_id, name, emoji, public_token) VALUES (?, ?, ?, ?)",
@@ -423,6 +422,41 @@ def get_user_lists(user_id):
         print("Failed to fetch user lists:", e)
         return []
 
+def get_shareable_lists(user_id):
+    conn = get_db()
+    if conn is None:
+        print("Database connection failed")
+        return []
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT
+                ln.id,
+                ln.name,
+                ln.emoji,
+                ln.public_token
+            FROM
+                list_name ln
+            JOIN
+                wish w ON ln.id = w.list_id
+            WHERE
+                ln.user_id = ? AND ln.public_token IS NOT NULL AND
+                w.private = 0
+            GROUP BY
+                ln.id, ln.name, ln.emoji, ln.public_token
+            HAVING
+                COUNT(w.id) > 0
+            ORDER BY
+                ln.name ASC; 
+        """, (user_id,))
+        lists = cursor.fetchall()
+        return [dict(row) for row in lists]
+    except sqlite3.OperationalError as e:
+        print(f"Error fetching shareable lists for user {user_id}: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
 
     
     

@@ -33,11 +33,24 @@
 
 
         <!-- Кнопка, открывающая модалку -->
-      <button class="openModalBtnCopyLink">
-        Share a wishlist
-      </button>
+      {% if has_shareable_lists %}
+        <button class="openModalBtnCopyLink">
+          Share a wishlist
+        </button>
+      {% else %}
+      <div class="tooltip-wrapper" style="display: inline-block;"> {# Wrapper for the tooltip #}
+        <button class="openModalBtnCopyLink" disabled>
+          Share a wishlist
+        </button>
+        <span class="tooltip-text">
+          Create a wish and assign it to a list to share your wishlist.
+        </span>
+      </div>
+      
+      {% endif %}
 
-            <!-- Универсальная модалка для выбора списка и копирования ссылки -->
+           
+      <!-- Универсальная модалка для выбора списка и копирования ссылки -->
       <div id="modalCopyLink" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">
@@ -45,24 +58,30 @@
             <button class="closeModalBtnCopyLink modal-close">&times;</button>
           </div>
           <div class="modal-body">
-            <p>Select a wishlist to share:</p>
-            <select id="wishlistSelector">
-              {% for list in lists %}
-              <option
-                value="{{ list['id'] }}"
-                data-token="{{ list['public_token'] }}"
-              >
-                {{ list['name'] }}
-              </option>
-              {% endfor %}
-            </select>
+           
+            {% if has_shareable_lists %}
+              <p>Select a wishlist to share:</p>
+              <select id="wishlistSelector">
+                {% for list in shareable_lists %}
+                <option
+                  value="{{ list['id'] }}"
+                  data-token="{{ list['public_token'] }}"
+                >
+                  {{ list['name'] }}
+                </option>
+                {% endfor %}
+              </select>
 
-            <div class="public-link-display" style="margin-top: 1rem;">
-              <span class="public-link-text" id="generatedPublicLink"></span>
-              <button class="copy-to-clipboard-btn" id="copyLinkBtn">Copy</button>
-            </div>
+              <div class="public-link-display" style="margin-top: 1rem;">
+                <span class="public-link-text" id="generatedPublicLink"></span>
+                <button class="copy-to-clipboard-btn" id="copyLinkBtn">Copy</button>
+              </div>
 
-            <p><small>This link allows anyone to view this wishlist without logging in.</small></p>
+              <p><small>This link allows anyone to view this wishlist without logging in.</small></p>
+            {% else %}
+              <p class="text-info">You don't have any shareable wishlists yet.</p>
+              <p class="text-muted">To share a wishlist, create at least one wish and assign it to a list that is not private. Private wishes are not visible when sharing.</p>
+            {% endif %} 
           </div>
         </div>
       </div>

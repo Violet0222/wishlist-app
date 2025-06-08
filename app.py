@@ -154,9 +154,16 @@ def index():
     if items is None:
         items = []
         
-    lists = db.get_user_lists(user_id) 
+    all_user_lists = db.get_user_lists(user_id)
+    if all_user_lists is None:
+        all_user_lists = []
+    
+    shareable_lists = db.get_shareable_lists(user_id)
+    if shareable_lists is None:
+        shareable_lists = []
+    has_shareable_lists = bool(shareable_lists)
     predefined_lists = PREDEFINED_LISTS
-    return render_template("index.html", items=items, currencies=currencies, lists=lists, predefined_lists = predefined_lists)
+    return render_template("index.html", items=items, currencies=currencies, lists=all_user_lists, shareable_lists=shareable_lists, has_shareable_lists=has_shareable_lists, predefined_lists = predefined_lists)
 
 
 @app.route("/new_wishlist", methods=["GET", "POST"])
