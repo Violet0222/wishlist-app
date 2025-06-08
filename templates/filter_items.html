@@ -1,11 +1,18 @@
 <div class="dropdown-container">
-  <button class="menu-dropdown-btn" aria-haspopup="true" aria-expanded="false">
-    <span class="icon"> {% include "icons/filter.svg" %} </span>
+  <div class="tooltip-wrapper">
+    <button
+      class="menu-dropdown-btn"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <span class="icon"> {% include "icons/filter.svg" %} </span>
+    </button>
     <span class="tooltip-text">Filter</span>
-  </button>
+  </div>
   <div class="menu-dropdown">
     <label for="filterSelect">Filter by:</label>
     <select id="filterSelect" aria-label="Filter options">
+      <option value="all" selected>All Items</option>
       <option value="reserved">Reserved</option>
       <option value="not-reserved">Not Reserved</option>
       <option value="priority-low">Priority: Low</option>
@@ -14,5 +21,8 @@
       <option value="private">Private</option>
       <option value="not-private">Not Private</option>
     </select>
+    <button id="clearFilterBtn" class="clear-filter-btn" style="display: none">
+      Clear Filter
+    </button>
   </div>
 </div>
