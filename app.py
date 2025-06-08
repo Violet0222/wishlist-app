@@ -238,7 +238,7 @@ def wishlist_item_update():
         price = request.form.get("price")
         currency = request.form.get("currency")
         priority = request.form.get("priority")
-        hide = request.form.get("hide")
+        private = request.form.get("private")
         delete_wish=request.form.get("delete")
         list_name = request.form.get("list_name")
         list_emoji = request.form.get("emoji")
@@ -264,6 +264,10 @@ def wishlist_item_update():
             data_to_update['currency'] = currency
         if priority:
             data_to_update['priority'] = priority
+        if private is not None:
+            data_to_update['private'] = True
+        else:
+            data_to_update['private'] = False
         if list_name:
             list_id = db.get_or_create_list_name(user_id, list_name, list_emoji)
             data_to_update['list_id'] = list_id

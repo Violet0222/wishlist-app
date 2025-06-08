@@ -455,20 +455,45 @@
 
             <!-- Dropdown / Menu -->
            <div class="table-cell actions-cell">
-  <div class="dropdown-container" id="dropdown-container-{{ item['id'] }}">
-    <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
-      ⋮
-    </button>
-    <div class="menu-dropdown"> {# <--- ЗМІНЕНО НА menu-dropdown #}
-      <!-- Delete wish button -->
-      <div class="dropdown-item delete-item">
-        <form action="/update_wishlist_item" method="post">
-          <input value="delete" hidden name="delete" />
-          <input type="hidden" name="id" value="{{item['id']}}" />
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    </div> 
+                <div class="dropdown-container" id="dropdown-container-{{ item['id'] }}">
+                  <button class="menu-dropdown-btn" id="toggle-{{ item['id'] }}">
+                    ⋮
+                  </button>
+                  <div class="menu-dropdown"> 
+                  <div class="dropdown-item private-item">
+                    <form action="/update_wishlist_item" method="post">
+                      <div class="form-group-checkbox">
+                        <input type="hidden" name="id" value="{{ item['id'] }}" />
+                        <input type="hidden" name="update" value="private" />
+                        <input 
+                        type="checkbox" 
+                        name="private" 
+                        id="private-{{ item['id'] }}" 
+                        value="1"
+                        {% if item['private'] %}checked{% endif %}
+                        onchange="this.form.submit()"
+                      />
+                      <label for="private-{{ item['id'] }}">Private Wish</label>
+
+                        <span
+                          class="explanation-icon"
+                          title="Private wishes are not visible to others when sharing your list. You can change this setting later."
+                        >
+                          ℹ️
+                        </span>
+                      </div>
+                    </form>
+                  </div>
+
+
+                  <div class="dropdown-item delete-item">
+                    <form action="/update_wishlist_item" method="post">
+                      <input value="delete" hidden name="delete" />
+                      <input type="hidden" name="id" value="{{item['id']}}" />
+                      <button type="submit">Delete</button>
+                    </form>
+                  </div>
+            </div> 
   </div> 
 </div>
           </div> 
