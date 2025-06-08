@@ -165,8 +165,7 @@ def wishlist_items():
     if not user_id:
         return redirect("/login")
     if request.method == "POST":
-        list_name=request.form.get('list_name')
-        list_emoji=request.form.get('list_emoji')
+       
         title = request.form.get('title')
         image = request.files.get('image')
         description = request.form.get("description")
@@ -176,6 +175,15 @@ def wishlist_items():
         priority = request.form.get("priority")
         private = 1 if request.form.get("private") else 0
         wanted_by = request.form.get("wanted_by")
+        
+        list_name_form = request.form.get('list_name')
+        list_emoji_form = request.form.get('emoji')
+        
+        
+        list_name_id_to_pass = None
+        list_name_to_pass = None
+        list_emoji_to_pass = None
+        
         if not title or not title.strip():
             return render_template(
                 "index.html",
@@ -186,10 +194,14 @@ def wishlist_items():
 
         if not url or not url.strip():
             url = ''
-        if list_name:
-            list_name_id = db.get_or_create_list_name(user_id, list_name, list_emoji)
-            if list_name_id is None:
-                return render_template("index.html", error="Item wasn't created")
+        if list_name_form:
+            list_name_id_to_pass = db.get_or_create_list_name(user_id, list_name_form, list_emoji_form)
+            list_name_to_pass = list_name_form
+            list_emoji_to_pass = list_emoji_form    
+            if list_name_id_to_pass is None:
+                flash("Could not associate with a list. Item not created.", "error")
+                return redirect(url_for('index'))
+            
         if wanted_by:
             try:
                 wanted_by = datetime.strptime(wanted_by, "%Y-%m-%d").date()
@@ -197,7 +209,7 @@ def wishlist_items():
                 # можна записати помилку або просто ігнорувати
                 pass 
 
-        response = db.create_wishlist_item(list_name_id, list_name,  list_emoji, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
+        response = db.create_wishlist_item(list_name_id_to_pass, list_name_to_pass,  list_emoji_to_pass, image, title, description, url, user_id, price, currency,  priority, private, wanted_by)
         if response is None:
             return render_template("index.html", error="Item wasn't created")
         flash("Created!")
