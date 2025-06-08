@@ -2,7 +2,13 @@
 
 #### Video Demo: <[URL HERE](https://youtu.be/rMg8nTHZ8Ns)>
 
-#### Description: Welcome to the Wishlist Web App! This app lets you create, organize, and share your personal wishlist items in a beautifully designed and easy-to-use interface.
+#### The Wishlist Web App is a powerful and intuitive tool designed to help users effortlessly create and manage personal wishlists for various occasions like birthdays, holidays, or special events. Whether you want to keep track of items you wish to buy, gifts you want to receive, or things you plan to save for, this app provides a user-friendly and visually appealing platform to organize your wishes in one place.
+
+Users can add detailed information to each wishlist item, including title, description, price, currency, priority, due date, and even upload images to visualize their wishes better. The app also supports marking items as reserved or not reserved, which makes it ideal for sharing wishlists with friends and family without worrying about duplicate gifts.
+
+With features like inline editing using modals, sorting, filtering, and responsive design, the Wishlist Web App ensures a smooth and enjoyable user experience across devices. Built using Flask on the backend and enhanced with JavaScript for dynamic interactions, this app is perfect for anyone looking to organize their wishlist digitally in a customizable way.
+
+
 
 Features
 Create, edit, and delete wishlist items
