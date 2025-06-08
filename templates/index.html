@@ -27,12 +27,11 @@
     </header>
 
     <div class="wishlist-controls">
-      <div id="sortInfo" class="sort-info-text"></div>
+      
       {% include "sort_wishlist_items.html" %}
       {% include "filter_items.html" %}
 
-
-        <!-- Кнопка, открывающая модалку -->
+     
       {% if has_shareable_lists %}
         <button class="openModalBtnCopyLink">
           Share a wishlist
@@ -48,9 +47,7 @@
       </div>
       
       {% endif %}
-
-           
-      <!-- Универсальная модалка для выбора списка и копирования ссылки -->
+    
       <div id="modalCopyLink" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">

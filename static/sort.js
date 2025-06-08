@@ -1,16 +1,12 @@
 function applySort() {
   const sortSelect = document.getElementById("sortSelect");
-  const sortInfo = document.getElementById("sortInfo"); // Отримуємо sortInfo тут
-  const hasItems =
-    document.querySelectorAll(".table-row:not(.wishlist-header)").length > 0;
-
   if (!sortSelect) {
     return;
   }
 
   const sortValue = sortSelect.value;
   const sortField = sortValue.split("-")[0];
-  // const sortOrder = sortValue.split("-")[1]; // Змінна більше не потрібна тут, якщо вона не використовується далі
+  const sortOrder = sortValue.split("-")[1];
 
   const rows = Array.from(
     document.querySelectorAll(".table-row:not(.wishlist-header)")
@@ -70,9 +66,7 @@ function applySort() {
         bValue = parseFloat(
           document.querySelector(`#value-price-${bId}`)?.textContent
         );
-        // Залишаємо logic з Infinity/ -Infinity
-        if (sortValue.endsWith("-asc")) {
-          // Використовуємо sortValue для визначення порядку
+        if (sortOrder === "asc") {
           aValue = isNaN(aValue) ? Infinity : aValue;
           bValue = isNaN(bValue) ? Infinity : bValue;
         } else {
@@ -100,8 +94,7 @@ function applySort() {
         bValue = 0;
     }
 
-    if (sortValue.endsWith("-asc")) {
-      // Використовуємо sortValue для визначення порядку
+    if (sortOrder === "asc") {
       return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
     } else {
       return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
@@ -116,42 +109,17 @@ function applySort() {
 
   rows.forEach((row) => tableContainer.appendChild(row));
 
-  // --- НОВА ЛОГІКА ДЛЯ sortInfo та кнопки сортування ---
-  const sortButton = document.querySelector(".menu-dropdown-btn");
-
-  if (sortSelect.value === "default") {
-    // Якщо вибрано "Default Order", очищаємо sortInfo
-    if (sortInfo) {
-      sortInfo.textContent = "";
-    }
-    // Кнопка "Clear Sort" прихована/неактивна, коли вже обраний Default
-    if (document.getElementById("clearSortBtn")) {
-      document.getElementById("clearSortBtn").style.display = "none";
-    }
+  const sortInfo = document.getElementById("sortInfo");
+  if (sortField === "default" || !sortField) {
+    if (sortInfo) sortInfo.style.display = "none";
   } else {
-    // Якщо вибрано інший порядок, показуємо sortInfo
-    if (sortInfo) {
+    if (sortSelect.selectedIndex !== -1) {
       const selectedOptionText =
         sortSelect.options[sortSelect.selectedIndex].text;
       sortInfo.textContent = `Sorted by: ${selectedOptionText}`;
-    }
-    // Кнопка "Clear Sort" видима
-    if (document.getElementById("clearSortBtn")) {
-      document.getElementById("clearSortBtn").style.display = "inline-block"; // Або 'block', в залежності від стилів
+      sortInfo.style.display = "block";
     }
   }
-
-  // Деактивуємо кнопку сортування, якщо немає бажань
-  if (sortButton) {
-    if (!hasItems) {
-      sortButton.disabled = true;
-      sortButton.title = "Add wishes to enable sorting."; // Підказка
-    } else {
-      sortButton.disabled = false;
-      sortButton.title = "Sort"; // Повертаємо стандартну підказку
-    }
-  }
-  // --- КІНЕЦЬ НОВОЇ ЛОГІКИ ---
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -159,26 +127,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const clearSortBtn = document.getElementById("clearSortBtn");
 
   if (sortSelect) {
-    // Переконайтеся, що "Default Order" вибрано на початку
-    // Це вже зроблено в HTML, але дублюємо для надійності, якщо JS завантажиться раніше
-    if (sortSelect.selectedIndex === -1 || sortSelect.value === "") {
-      // Додав перевірку на пусте значення
+    if (sortSelect.selectedIndex === -1) {
       sortSelect.value = "default";
     }
 
-    applySort(); // Застосувати сортування при завантаженні сторінки
+    applySort(); // Apply sort on load based on initial selection
 
-    sortSelect.addEventListener("change", applySort); // Сортувати при зміні вибору
+    sortSelect.addEventListener("change", applySort); // Sort when select changes
   }
 
   if (clearSortBtn && sortSelect) {
     clearSortBtn.addEventListener("click", () => {
-      if (sortSelect.value !== "default") {
-        // Тільки якщо не "Default Order" вже вибрано
-        sortSelect.value = "default"; // Встановлюємо "Default Order"
-        applySort(); // Застосовуємо сортування
-      }
-      // Додатково: Закриваємо випадаюче меню сортування
+      sortSelect.value = "default"; // Set the select value to "default"
+      applySort(); // Trigger sort with the default option
+
       const dropdown = clearSortBtn.closest(".dropdown-container");
       if (dropdown) {
         dropdown.querySelector(".menu-dropdown").classList.remove("show");

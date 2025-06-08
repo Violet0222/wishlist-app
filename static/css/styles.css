@@ -308,9 +308,12 @@ form button[type="submit"]:hover {
 
 .wishlist-controls {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+  padding-right: 20px;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
 }
 
 .wishlist-table-container {

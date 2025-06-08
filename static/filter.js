@@ -9,16 +9,19 @@ function applyFilter() {
     filterButton?.querySelector("span");
 
   if (!filterSelect) {
+    console.error("Filter select element not found.");
     return;
   }
 
   const filterValue = filterSelect.value;
+  console.log("Applying filter:", filterValue);
 
   const items = Array.from(
     document.querySelectorAll(".table-row:not(.wishlist-header)")
   );
 
   if (items.length === 0) {
+    console.log("No wishlist items to filter.");
     // Приховати кнопку очищення фільтра, якщо немає елементів
     if (clearFilterBtn) {
       clearFilterBtn.style.display = "none";
