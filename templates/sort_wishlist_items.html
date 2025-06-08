@@ -1,8 +1,10 @@
 <div class="dropdown-container">
-  <button class="menu-dropdown-btn">
-    <span class="icon"> {% include "icons/arrow-up-down.svg" %}</span>
+  <div class="tooltip-wrapper">
+    <button class="menu-dropdown-btn">
+      <span class="icon"> {% include "icons/arrow-up-down.svg" %}</span>
+    </button>
     <span class="tooltip-text">Sort</span>
-  </button>
+  </div>
   <div class="menu-dropdown">
     <label for="sortSelect">Sort by:</label>
     <select id="sortSelect">
@@ -16,6 +18,11 @@
       <option value="date-desc">Date ↓</option>
       <option value="date-asc">Date ↑</option>
     </select>
-    <button id="clearSortBtn" class="clear-sort-btn">Clear Sort</button>
+    {# Важливо: якщо ви хочете, щоб кнопка Clear Sort була завжди активна, тоді
+    її display: none потрібно змінити на disabled в JS #}
+    <button id="clearSortBtn" class="clear-sort-btn" style="display: none">
+      Clear Sort
+    </button>
+    {# Початково прихована #}
   </div>
 </div>
